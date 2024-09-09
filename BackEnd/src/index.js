@@ -40,18 +40,8 @@ module.exports = {
 };
 
 // // routes
-// //Postes Ocupados
 // app.use(require('./routes/PostesOcupados'));
-// //Cultivos
-// app.use(require('./routes/Cultivos'));
-// //RegistroGerminacion
-// app.use(require('./routes/RegistroGerminacion'));
-// //Actualización de area
-// app.use(require('./routes/ActualizacionDeArea'));
-// //Actualiza el estado de la mudanza
-// app.use(require('./routes/Mudanzas'));
-// //Variedades GET
-// app.use(require('./routes/Variedad'));
+
 
 //Start Server
 app.listen(app.get('port'), () => {
