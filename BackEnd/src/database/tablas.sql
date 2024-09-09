@@ -39,7 +39,7 @@ fk_id_categorias int not null,
 foreign key (fk_id_categorias) references categorias (id_categoria),
 foreign key (fk_id_vendedor) references usuario_vendedor(pk_id_vendedor));
 
-create table tamaño (
+create table tamano (
 pk_id_tamaño int primary key auto_increment,
 fk_id_producto int not null,
 nombre_size varchar(255) not null,
