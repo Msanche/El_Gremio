@@ -20,5 +20,27 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Como fusionar la branch con la branch de desarrollo
+
+### Crea una nueva rama  
+```
+git checkout -b nombre-de-la-rama
+```
+
+### Para cambiar de rama 
+```
+git checkout nombre-de-la-rama
+```
+
+### Visualizar las Ramas Existentes 
+
+```
+git branch
+```
+
+### Fusionar (Merge) Ramas 
+
+```
+git checkout nombre-de-la-rama-principal
+git merge nombre-de-la-rama
+```
