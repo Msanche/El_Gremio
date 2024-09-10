@@ -26,6 +26,7 @@ create table usuario_vendedor (
 pk_id_vendedor int primary key auto_increment,
 fk_id_usuario int not null,
 nombre_marca varchar(100) not null,
+mano_card varchar(12) null,
 foreign key (fk_id_usuario) references usuario (pk_id_usuario)
 );
 

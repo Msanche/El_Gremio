@@ -20,6 +20,10 @@ const UsuarioVendedor = sequelize.define('UsuarioVendedor', {
   nombre_marca: {
     type: DataTypes.STRING(100),
     allowNull: false
+  },
+  mano_card: {
+    type: DataTypes.STRING(12), 
+    allowNull: true
   }
 }, {
   tableName: 'usuario_vendedor',
