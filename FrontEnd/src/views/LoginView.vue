@@ -91,10 +91,20 @@ export default {
     },
     Iniciar_sesion() {
       console.log("Iniciando sesión ");
-    },
-    Registro() {
+      let payload = "inicio de sesión"
+      this.$store.commit('LoginRegistro', payload);
+      this.ModalExito();
 
-      const modalElement = document.getElementById("RegistroExitoso");
+    },
+    Registro(){
+      console.log("Registro ");
+      let payload = "Registro"
+      this.$store.commit('LoginRegistro', payload);
+      this.ModalExito();
+    },
+    ModalExito() {
+
+      const modalElement = document.getElementById("Registro/Login_Exitoso");
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
     },

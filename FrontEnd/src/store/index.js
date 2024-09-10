@@ -11,7 +11,9 @@ export default createStore({
     }
   },
   mutations: {
-    
+    LoginRegistro(state,payload){
+      state.Actividad = payload;
+    }
   },
   actions: {
   },

@@ -18,7 +18,7 @@
                             </svg>
                         </div>
                         <div class="modal-body d-flex justify-content-center">
-                            <h2 class="modal-title">¡{{ Actividad }} Exitoso!</h2>
+                            <h2 class="modal-title">¡{{ this.$store.getters.LoginRegistro }} Exitoso!</h2>
                         </div>
 
                     </div>
@@ -41,17 +41,20 @@ export default {
     },
     methods: {
         closeModal() {
-            const modalElement = document.getElementById("RegistroExitoso");
+            const modalElement = document.getElementById("Registro/Login_Exitoso");
             const modal = bootstrap.Modal.getInstance(modalElement);
             modal.hide();
+
+            if (this.$store.getters.LoginRegistro == 'inicio de sesión') {
+                console.log("inicio de sesión")
+                //Con esto cambio de view por código 
+                this.$router.push("/carrito")
+            }else{
+                console.log("registro")
+            }
         }
     },
-    computed:{
-        
-    },
-    watch:{
-
-    }
+    
 }
 </script>
 
