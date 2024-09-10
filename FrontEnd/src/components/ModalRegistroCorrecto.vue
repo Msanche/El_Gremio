@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="RegistroExitoso" tabindex="-1" aria-labelledby="RegistroExitosoLabel"
+    <div class="modal fade" id="Registro/Login_Exitoso" tabindex="-1" aria-labelledby="RegistroExitosoLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -18,7 +18,7 @@
                             </svg>
                         </div>
                         <div class="modal-body d-flex justify-content-center">
-                            <h2 class="modal-title">¡Registro Exitoso!</h2>
+                            <h2 class="modal-title">¡{{ Actividad }} Exitoso!</h2>
                         </div>
 
                     </div>
@@ -36,7 +36,7 @@ import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 export default {
     data() {
         return {
-
+            Actividad:null
         }
     },
     methods: {
@@ -45,6 +45,12 @@ export default {
             const modal = bootstrap.Modal.getInstance(modalElement);
             modal.hide();
         }
+    },
+    computed:{
+        
+    },
+    watch:{
+
     }
 }
 </script>
