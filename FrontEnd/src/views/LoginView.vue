@@ -1,37 +1,59 @@
 <template>
+
+  <!-- Modales import-->
+  <ModalRegistroCorrecto />
+
   <header class="header">
     <img src="@/images/logo.jpg" alt="El Gremio Logo - A shield with wings and a central emblem" class="logo">
     <h1>El Gremio</h1>
     <p class="subtitle">Llevando la Tradición al Mundo Digital</p>
   </header>
 
-  
+
 
   <div class="container">
     <div class="form-container" id="formContainer">
       <transition name="fade" @before-enter="beforeEnter" @enter="enter" @leave="leave">
         <div v-if="login" class="login-form" key="login">
           <h2>Iniciar Sesión</h2>
-          <form @submit.prevent = "Iniciar_sesion" needs-validation>
+          <form @submit.prevent="Iniciar_sesion" needs-validation>
             <input type="email" name="email" placeholder="Correo electrónico" required>
             <input type="password" name="password" placeholder="Contraseña" required>
             <button type="submit">Iniciar Sesión</button>
           </form>
           <p class="toggle-form" id="showRegister" @click="Toggle_form">¿No tienes cuenta? Regístrate aquí</p>
-          <p class="toggle-form" id="forgot_password" >Olvidé mi contraseña</p>
+          <p class="toggle-form" id="forgot_password">Olvidé mi contraseña</p>
 
         </div>
       </transition>
       <transition name="fade" @before-enter="beforeEnter" @enter="enter" @leave="leave">
         <div v-if="!login" class="register-form" key="register">
           <h2>Registrarse</h2>
-          <form action="/register">
+          <form @submit.prevent="Registro" needs-validation>
             <input type="text" name="nombre" placeholder="Nombre" required>
             <input type="text" name="apellidos" placeholder="Apellidos" required>
             <input type="email" name="email" placeholder="Correo electrónico" required>
-            <input type="tel" name="telefono" placeholder="Teléfono" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
-            <input type="password" name="confirm_password" placeholder="Repetir Contraseña" required>
+            <input type="number" name="telefono" placeholder="Teléfono" required>
+
+            <div class="input-group">
+              <input :type="mostrarContrasena ? 'text' : 'password'" name="password" placeholder="Contraseña"
+                v-model="password" required>
+              <!-- Ícono para mostrar/ocultar contraseña -->
+              <!-- <i :class="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'" class="toggle-icon"
+                @click="toggleMostrarContrasena"></i> -->
+                <i class="fas fa-eye-slash" 
+                @click="toggleMostrarContrasena"></i>
+            </div>
+
+            <div class="input-group">
+              <input :type="mostrarContrasena ? 'text' : 'password'" name="confirm_password"
+                placeholder="Repetir Contraseña" v-model="confirm_password" required>
+              <input :type="mostrarContrasena ? 'text' : 'password'" name="password" placeholder="Contraseña"
+                v-model="password" required>
+              <!-- Ícono para mostrar/ocultar contraseña -->
+              <i :class="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'" class="toggle-icon"
+                @click="toggleMostrarContrasena"></i>
+            </div>
             <button type="submit">Registrarse</button>
           </form>
           <p class="toggle-form" id="showLogin" @click="Toggle_form()">¿Ya tienes cuenta? Inicia sesión aquí</p>
@@ -47,17 +69,34 @@
 </template>
 
 <script>
+import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
+import ModalRegistroCorrecto from "@/components/ModalRegistroCorrecto.vue";
 
 export default {
   name: 'LoginView',
   data() {
     return {
-      login: true
+      login: true,
+      contrasena: '',          // Variable para almacenar la contraseña
+      mostrarContrasena: false // Estado para controlar si se muestra u oculta la contraseña
     }
   },
+  components: {
+    ModalRegistroCorrecto
+  },
   methods: {
-    Iniciar_sesion(){
-    console.log("Iniciando sesión ");
+    toggleMostrarContrasena() {
+      // Alternar el estado de mostrarContrasena
+      this.mostrarContrasena = !this.mostrarContrasena;
+    },
+    Iniciar_sesion() {
+      console.log("Iniciando sesión ");
+    },
+    Registro() {
+
+      const modalElement = document.getElementById("RegistroExitoso");
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
     },
     Toggle_form() {
       this.login = !this.login;
@@ -247,5 +286,30 @@ button:hover {
   {
   opacity: 0;
   transform: translateY(10px);
+}
+
+.input-group {
+  position: relative; /* Necesario para posicionar el ícono dentro del input */
+  display: flex;
+  align-items: center;
+}
+
+input {
+  padding: 8px 35px 8px 8px; /* Espacio adicional para el ícono */
+  font-size: 14px;
+  border: 1px solid  #ddd;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.toggle-icon {
+  position: absolute; /* Posiciona el ícono dentro del input */
+  right: 10px; /* Ajusta la posición del ícono a la derecha */
+  cursor: pointer;
+  color: #888;
+}
+
+.toggle-icon:hover {
+  color: #555;
 }
 </style>
