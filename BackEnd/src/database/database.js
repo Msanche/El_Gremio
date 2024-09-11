@@ -1,7 +1,10 @@
 const { Sequelize } = require('sequelize');
-
+// Llamado a datos en archivo .env
+const dbName = process.env.DATABASE_NAME;
+const dbUser = process.env.DATABASE_USER;
+const dbPswd = process.env.DATABASE_PSWD;
 // Configuración de la base de datos con Sequelize
-const sequelize = new Sequelize('gremio', 'root', '12345', {
+const sequelize = new Sequelize(dbName, dbUser, dbPswd, {
   host: 'localhost',
   dialect: 'mysql',
 });
