@@ -25,7 +25,7 @@ const Tamano = require('../models/tamano');
 const Encargo = require('../models/encargo');
 const Direcciones = require('../models/direcciones');
 const DetalleUsuarioDirecciones = require('../models/detalle_usuarios_direcciones');
-const PaginaVendedor = require('../models/PaginaVendedor');
+const PaginaVendedor = require('../models/pagina_vendedor');
 const Review = require('../models/review');
 
 // Definir relaciones entre los modelos
