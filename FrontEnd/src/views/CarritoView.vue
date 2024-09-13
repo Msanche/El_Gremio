@@ -7,7 +7,8 @@
     <div style="display: flex; align-items: center; gap: 1rem;">
     <button>Categorías</button>
     <button class="active-nav">🛒 Carrito</button>
-</div>
+    <button class="" @click="About()"> Conocenos </button>
+    </div>
     <input type="search" placeholder="Buscar productos artesanales..." style="flex-grow: 1; max-width: 400px;">
     <div style="display: flex; align-items: center; gap: 1rem;">
     <span style="font-weight: bold; color: #f0e0c8; background-color:  #a0522d; padding: 0.5rem 1rem; border-radius: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; font-size: 0.9rem;">Miguel Ureña</span>
@@ -60,10 +61,16 @@
 </template>
 
 <script>
+import router from '@/router';
 export default {
     data(){
         return{
 
+        }
+    },
+    methods:{
+        About(){
+            router.push('/about')
         }
     }
 
@@ -96,7 +103,6 @@ export default {
         left: 0;
         right: 0;
         bottom: 0;
-        background: url('https://elgremio.com/images/texture.png') repeat;
         opacity: 0.1;
         z-index: 0;
     }
