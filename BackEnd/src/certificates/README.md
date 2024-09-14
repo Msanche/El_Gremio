@@ -13,3 +13,8 @@ openssl x509 -req -days 365 -in solicitud-certificado.csr -signkey clave-privada
 
 # Notas importantes
 certificado-autofirmado.crt es solo para DESARROLLO
+
+# Depencias instaladas para esto:
+```bash
+npm install https
+```
