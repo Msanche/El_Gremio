@@ -1,35 +1,5 @@
 <template>
-  <header>
-        <h1>Acerca de Nosotros</h1>
-        <div class="craft-icon"></div>
-    </header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid ">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-      <div class="collapse navbar-collapse " id="navbarNav">
-      <ul class="navbar-nav ">
-       
-        <li class="nav-item">
-          <a class="nav-link" href="#" style="margin-right: 20px;">Categorías</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" @click="Carrito()" style="margin-right: 20px;">🛒 Carrito</a>
-        </li>
-        <li class="nav-item" style="margin-right: 20px;">
-          <a class="nav-link disabled active-nav" aria-disabled="true" >Conocenos</a>
-        </li>
-        <li class="nav-item">
-          <input type="search" placeholder="Buscar productos artesanales..." style="flex-grow: 1; max-width: 400px;">
-        </li>
-      </ul>
-    </div>
-   
-
-  </div>
-
-</nav>
+ <NavBar isActiveA="True"/>
     <div class="container">
         <div class="content">
             <section class="section">
@@ -71,8 +41,7 @@
 </template>
 
 <script>
-import router from '@/router';
-
+import NavBar from '@/components/NavBar.vue';
 export default {
   data(){
     return{
@@ -80,10 +49,10 @@ export default {
     }
   },
   methods:{
-    Carrito(){
-      router.push('/carrito')
-
-    }
+   
+  },
+  components:{
+    NavBar
   }
 }
 </script>

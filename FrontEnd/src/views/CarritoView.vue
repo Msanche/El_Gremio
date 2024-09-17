@@ -1,19 +1,5 @@
 <template>
- <header>
-    <h1>El Gremio</h1>
-    <p>Llevando la Tradición al Mundo Digital</p>
-</header>
-    <nav>
-    <div style="display: flex; align-items: center; gap: 1rem;">
-    <button>Categorías</button>
-    <button class="active-nav">🛒 Carrito</button>
-    <button class="" @click="About()"> Conocenos </button>
-    </div>
-    <input type="search" placeholder="Buscar productos artesanales..." style="flex-grow: 1; max-width: 400px;">
-    <div style="display: flex; align-items: center; gap: 1rem;">
-    <span style="font-weight: bold; color: #f0e0c8; background-color:  #a0522d; padding: 0.5rem 1rem; border-radius: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; font-size: 0.9rem;">Miguel Ureña</span>
-</div>
-</nav>
+ <NavBar isActiveC="True"/>
     <div class="cart-container">
         <h2 class="cart-title">Tu Carrito de Artesanías</h2>
         <div class="cart-item">
@@ -61,7 +47,7 @@
 </template>
 
 <script>
-import router from '@/router';
+import NavBar from '@/components/NavBar.vue';
 export default {
     data(){
         return{
@@ -69,9 +55,10 @@ export default {
         }
     },
     methods:{
-        About(){
-            router.push('/about')
-        }
+       
+    },
+    components:{
+        NavBar
     }
 
 }
@@ -85,107 +72,6 @@ export default {
         padding: 0;
         background-color:  #f5e6d3;
         color:  #3c2415;
-    }
-
-    header {
-        background: linear-gradient(135deg, #c69c6d 0%, #8b4513 100%);
-        color: #f0e0c8;
-        padding: 2rem;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        opacity: 0.1;
-        z-index: 0;
-    }
-
-    h1, h2, h3 {
-        font-family: 'Cormorant Garamond', serif;
-    }
-
-    header h1 {
-        margin: 0;
-        font-size: 3rem;
-        position: relative;
-        z-index: 1;
-    }
-
-    header p {
-        font-style: italic;
-        margin-top: 0.5rem;
-        position: relative;
-        z-index: 1;
-    }
-
-    nav {
-        background-color:  #c69c6d;
-        padding: 1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    nav button, nav input {
-        background-color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        font-family: 'Montserrat', sans-serif;
-        transition: all 0.3s ease;
-    }
-
-    nav .active-nav {
-        background-color:  #a0522d;
-        color: white;
-        font-weight: bold;
-        transform: scale(1.05);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    nav button:hover {
-        background-color:  #a0522d;
-        color: white;
-    }
-
-    nav input {
-        width: 250px;
-        box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .breadcrumb {
-        padding: 1rem 2rem;
-        background-color:  #c69c6d;
-        color: #8b4513;
-        font-size: 0.9rem;
-    }
-
-    .breadcrumb a {
-        color:  #a0522d;
-        text-decoration: none;
-    }
-
-    .breadcrumb a:hover {
-        text-decoration: underline;
-    }
-
-    .logo {
-        width: 80px;
-        height: 80px;
-        transition: transform 0.3s ease;
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-
-    .logo:hover {
-        transform: scale(1.1) rotate(5deg);
     }
 
     .cart-container {
@@ -376,4 +262,14 @@ export default {
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
+    /* Add media queries for responsive design */
+    @media (max-width: 768px) {
+        .cart-item {
+            flex-direction: column;
+        }
+        .item-actions{
+            flex-direction: column;
+        }
+    }
+
 </style>
