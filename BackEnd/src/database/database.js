@@ -22,13 +22,13 @@ const Usuario = require('../models/usuario');
 const UsuarioCliente = require('../models/usuario_cliente');
 const UsuarioVendedor = require('../models/usuario_vendedor');
 const Carrito = require('../models/carrito');
-const Categoria = require('../models/categoria');
-const Producto = require('../models/producto');
+const Categoria = require('../models/categorias');
+const Producto = require('../models/productos');
 const Tamano = require('../models/tamano');
 const Encargo = require('../models/encargo');
 const Direcciones = require('../models/direcciones');
 const DetalleUsuarioDirecciones = require('../models/detalle_usuarios_direcciones');
-const PaginaVendedor = require('../models/PaginaVendedor');
+const PaginaVendedor = require('../models/pagina_vendedor');
 const Review = require('../models/review');
 
 // Definir relaciones entre los modelos
