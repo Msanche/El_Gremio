@@ -4,6 +4,7 @@ import LoginView from '@/views/LoginView.vue'
 import NotFound from '@/views/NotFound.vue'
 import CarritoView from '@/views/CarritoView.vue'
 import HomeView from '@/views/HomeView.vue'
+import CategoriasView from '@/views/CategoriasView.vue'
 const routes = [
   {
     path: '/',
@@ -24,6 +25,11 @@ const routes = [
     path: '/carrito',
     name: 'carrito',
     component: CarritoView
+  },
+  {
+    path: '/categorias',
+    name: 'categorias',
+    component: CategoriasView
   },
   {
     path: '/:catchAll(.*)',  // Ruta para manejar 404
