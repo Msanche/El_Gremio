@@ -2,7 +2,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database'); // Ajusta la ruta según tu configuración
 
-const Usuario = sequelize.define('Usuario', {
+const Usuario = sequelize.define('Usuarios', {
   pk_id_usuario: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -29,7 +29,7 @@ const Usuario = sequelize.define('Usuario', {
     allowNull: false
   }
 }, {
-  tableName: 'usuario',
+  tableName: 'Usuarios',
   timestamps: false
 });
 

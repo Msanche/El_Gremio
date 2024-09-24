@@ -4,7 +4,7 @@ const sequelize = require('../database/database');
 const Carrito = require('./carrito');
 const Tamano = require('./tamano');
 
-const DetalleCarritoProducto = sequelize.define('DetalleCarritoProducto', {
+const DetalleCarritoProducto = sequelize.define('DetalleCarritoProductos', {
   pk_fk_id_carrito: {
     type: DataTypes.INTEGER,
     references: {

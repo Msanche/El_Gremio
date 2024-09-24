@@ -26,21 +26,14 @@ sequelize.authenticate()
 app.use(morgan('dev'));
 app.use(express.json());
 
-// tablas
-
-
-// const { initModels } = require('./routes/tablas');
-// const models = initModels(sequelize);
-
 
 module.exports = {
     sequelize,
     Sequelize,
-    // models
 };
 
-// // routes
-// app.use(require('./routes/PostesOcupados'));
+ // routes
+ app.use(require('./routes/routes'));
 
 
 //Start Server
