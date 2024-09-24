@@ -22,6 +22,8 @@ sequelize.authenticate()
         console.log('Error en la conexión: '+ error)
     })
 
+ 
+
 //middlewears
 app.use(morgan('dev'));
 app.use(express.json());

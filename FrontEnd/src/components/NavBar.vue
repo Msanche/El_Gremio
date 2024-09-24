@@ -53,6 +53,7 @@ export default {
         isActiveC: Boolean,
         isActiveA: Boolean,
         isActiveH: Boolean,
+
     },
     methods:{
         About(){

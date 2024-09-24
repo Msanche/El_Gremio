@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+
 // Llamado a datos en archivo .env
 const dbName = process.env.DATABASE_NAME;
 const dbUser = process.env.DATABASE_USER;

@@ -1,5 +1,5 @@
 <template>
-    <NavBar/>
+    <NavBar isActiveCtg="True"/>
     <h2>Explora Nuestras Artesanías</h2>
         <div class="category-grid">
             <div class="category-card">
