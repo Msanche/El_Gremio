@@ -63,6 +63,9 @@ export default {
         },
         Home(){
             router.push('/home')
+        },
+        Category(){
+            router.push('/categorias')
         }
 
     }
