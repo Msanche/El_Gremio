@@ -3,12 +3,17 @@ import AboutView from '@/views/AboutView.vue'
 import LoginView from '@/views/LoginView.vue'
 import NotFound from '@/views/NotFound.vue'
 import CarritoView from '@/views/CarritoView.vue'
-
+import HomeView from '@/views/HomeView.vue'
 const routes = [
   {
     path: '/',
-    name: 'Login',
+    name: 'login',
     component: LoginView
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: HomeView
   },
   {
     path: '/about',
