@@ -1,5 +1,5 @@
 // controllers/detalleUsuarioDireccionesController.js
-const DetalleUsuarioDirecciones = require('../models/detalle_usuario_direcciones');
+const DetalleUsuarioDirecciones = require('../models/detalle_usuarios_direcciones');
 
 // Obtener todos los detalles de usuario y direcciones
 exports.getDetallesUsuarioDirecciones = async (req, res) => {

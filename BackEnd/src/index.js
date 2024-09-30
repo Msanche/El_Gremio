@@ -1,45 +1,35 @@
+// index.js
 const express =  require('express');
-const Sequelize = require('sequelize');
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
 
-//settings
-app.use(cors());// Permite las solicitudes
+// Importa la instancia de Sequelize desde database.js
+const  sequelize  = require('./database/database');
+console.log("en index",sequelize)
+
+// settings
+app.use(cors());
 app.set('port', 3000);
-const sequelize = new Sequelize('gremio','root','12345',{
-    host:'localhost',
-    dialect:'mysql',
-    
-})
 
-
-sequelize.authenticate()
-    .then(()=>{
-        console.log('Conexión a la base de datos OK')
-    })
-    .catch( error => {
-        console.log('Error en la conexión: '+ error)
-    })
-
- 
-
-//middlewears
+// Middlewares
 app.use(morgan('dev'));
 app.use(express.json());
 
+// routes
+app.use(require('./routes/routes'));
 
-module.exports = {
-    sequelize,
-    Sequelize,
-};
+// Conexión a la base de datos y autenticación
+sequelize.authenticate()
+    .then(() => console.log('Conexión a la base de datos OK'))
+    .catch(error => console.log('Error en la conexión: ', error));
 
- // routes
- app.use(require('./routes/routes'));
+// Sincronización de modelos
+sequelize.sync()
+    .then(() => console.log('Sincronización de la base de datos completa'))
+    .catch(error => console.error('Error al sincronizar la base de datos:', error));
 
-
-//Start Server
+// Start Server
 app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`)
 });
-
