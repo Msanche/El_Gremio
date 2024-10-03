@@ -30,28 +30,25 @@
         <div v-if="!login" class="register-form" key="register">
           <h2>Registrarse</h2>
           <form @submit.prevent="Registro" needs-validation>
-            <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="text" name="apellidos" placeholder="Apellidos" required>
-            <input type="email" name="email" placeholder="Correo electrónico" required>
-            <input type="number" name="telefono" placeholder="Teléfono" required>
+            <input type="text" name="nombre" placeholder="Nombre" v-model="nombre" required>
+            <input type="text" name="apellidos" placeholder="Apellidos" v-model="apellidos" required>
+            <input type="email" name="email" placeholder="Correo electrónico" v-model="email" required>
+            <input type="number" name="telefono" placeholder="Teléfono" v-model="tel" required>
 
             <div class="input-group">
               <input :type="mostrarContrasena ? 'text' : 'password'" name="password" placeholder="Contraseña"
                 v-model="password" required>
               <!-- Ícono para mostrar/ocultar contraseña -->
-              <!-- <i :class="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'" class="toggle-icon"
-                @click="toggleMostrarContrasena"></i> -->
-                <i class="fas fa-eye-slash" 
-                @click="toggleMostrarContrasena"></i>
+               <i :class="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'" class="toggle-icon"
+                @click="toggleMostrarContrasena"></i> 
+                
             </div>
 
             <div class="input-group">
               <input :type="mostrarContrasena ? 'text' : 'password'" name="confirm_password"
                 placeholder="Repetir Contraseña" v-model="confirm_password" required>
-              <input :type="mostrarContrasena ? 'text' : 'password'" name="password" placeholder="Contraseña"
-                v-model="password" required>
               <!-- Ícono para mostrar/ocultar contraseña -->
-              <i :class="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'" class="toggle-icon"
+              <i :class="mostrarContrasena ? 'fas fa-eye-slash' : 'fa-regular fa-eye'" class="toggle-icon"
                 @click="toggleMostrarContrasena"></i>
             </div>
             <button type="submit">Registrarse</button>
@@ -78,7 +75,11 @@ export default {
     return {
       login: true,
       contrasena: '',          // Variable para almacenar la contraseña
-      mostrarContrasena: false // Estado para controlar si se muestra u oculta la contraseña
+      mostrarContrasena: false, // Estado para controlar si se muestra u oculta la contraseña,
+      nombre:'',
+      apellidos:'',
+      email:'',
+      tel:'',
     }
   },
   components: {
