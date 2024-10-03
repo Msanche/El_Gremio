@@ -26,7 +26,7 @@ const UsuarioVendedor = sequelize.define('UsuarioVendedores', {
     allowNull: true
   }
 }, {
-  tableName: 'usuario_vendedor',
+  tableName: 'UsuarioVendedores',
   timestamps: false
 });
 

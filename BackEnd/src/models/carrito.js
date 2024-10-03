@@ -22,7 +22,7 @@ const Carrito = sequelize.define('Carritos', {
     allowNull: false
   }
 }, {
-  tableName: 'carrito',
+  tableName: 'Carritos',
   timestamps: false
 });
 

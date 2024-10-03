@@ -28,7 +28,7 @@ const Encargo = sequelize.define('Encargos', {
     allowNull: true
   }
 }, {
-  tableName: 'encargo',
+  tableName: 'Encargos',
   timestamps: false
 });
 

@@ -16,7 +16,7 @@ const PaginaVendedor = sequelize.define('PaginaVendedores', {
     allowNull: false
   }
 }, {
-  tableName: 'pagina_vendedor',
+  tableName: 'PaginaVendedores',
   timestamps: false
 });
 

@@ -26,7 +26,7 @@ const Tamano = sequelize.define('Tamanos', {
     allowNull: false
   }
 }, {
-  tableName: 'tamano',
+  tableName: 'Tamanos',
   timestamps: false
 });
 

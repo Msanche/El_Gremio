@@ -26,7 +26,7 @@ const DetalleCarritoProducto = sequelize.define('DetalleCarritoProductos', {
     allowNull: false
   }
 }, {
-  tableName: 'detalle_carrito_producto',
+  tableName: 'DetalleCarritoProductos',
   timestamps: false,
   primaryKey: {
     name: 'composite_primary_key',
