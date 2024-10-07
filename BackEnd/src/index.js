@@ -3,6 +3,8 @@ const Sequelize = require('sequelize');
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
+const https = require('https');
+const fs = require('fs');
 
 //settings
 app.use(cors());// Permite las solicitudes
@@ -39,12 +41,30 @@ module.exports = {
     // models
 };
 
-// // routes
+// routes
 // app.use(require('./routes/PostesOcupados'));
 
 
-//Start Server
+// Start Server
 app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`)
 });
 
+// Servidor con HTTPS
+
+
+// Carga los certificados
+const options = {
+    key: fs.readFileSync('/certificates/clave-privada.key'),
+    cert: fs.readFileSync('/certificates/certificado-autofirmado.crt'),
+};
+
+// Crea el servidor HTTPS
+https.createServer(options, app).listen(443, () => {
+    console.log('Servidor HTTPS corriendo en el puerto 443');
+});
+
+// Configura tus rutas
+app.get('/', (req, res) => {
+    res.send('Servidor seguro con HTTPS');
+});
