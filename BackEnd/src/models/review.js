@@ -19,6 +19,7 @@ const Review = sequelize.define('Reviews', {
   },
   fk_id_pagina: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     references: {
       model: PaginaVendedor,
       key: 'pk_id_pagina'
@@ -26,6 +27,7 @@ const Review = sequelize.define('Reviews', {
   },
   fk_id_cliente: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     references: {
       model: UsuarioCliente,
       key: 'pk_id_cliente'

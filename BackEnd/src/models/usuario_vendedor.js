@@ -19,12 +19,9 @@ const UsuarioVendedor = sequelize.define('UsuarioVendedores', {
   },
   nombre_marca: {
     type: DataTypes.STRING(100),
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
-  mano_card: {
-    type: DataTypes.STRING(12), 
-    allowNull: true
-  }
 }, {
   tableName: 'UsuarioVendedores',
   timestamps: false

@@ -2,6 +2,7 @@
 const { DataTypes } = require('sequelize');
 const  sequelize  = require('../database/database');
 
+// Tabla Usuarios
 const Usuario = sequelize.define('Usuarios', {
   pk_id_usuario: {
     type: DataTypes.INTEGER,
@@ -10,7 +11,8 @@ const Usuario = sequelize.define('Usuarios', {
   },
   correo: {
     type: DataTypes.STRING(100),
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   nombre: {
     type: DataTypes.STRING(100),
@@ -22,7 +24,8 @@ const Usuario = sequelize.define('Usuarios', {
   },
   numeroCelular: {
     type: DataTypes.STRING(10),
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   contrasena: {
     type: DataTypes.STRING(255),
