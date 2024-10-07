@@ -1,9 +1,9 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
-const PaginaVendedor = require('./PaginaVendedor');
-const UsuarioCliente = require('./UsuarioCliente');
+const PaginaVendedor = require('./pagina_vendedor');
+const UsuarioCliente = require('./usuario_cliente');
 
-const Review = sequelize.define('Review', {
+const Review = sequelize.define('Reviews', {
   pk_id_review: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -32,7 +32,7 @@ const Review = sequelize.define('Review', {
     }
   }
 }, {
-  tableName: 'review',
+  tableName: 'Reviews',
   timestamps: false
 });
 

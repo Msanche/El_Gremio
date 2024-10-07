@@ -53,6 +53,7 @@ export default {
         isActiveC: Boolean,
         isActiveA: Boolean,
         isActiveH: Boolean,
+
     },
     methods:{
         About(){
@@ -63,6 +64,9 @@ export default {
         },
         Home(){
             router.push('/home')
+        },
+        Category(){
+            router.push('/categorias')
         }
 
     }

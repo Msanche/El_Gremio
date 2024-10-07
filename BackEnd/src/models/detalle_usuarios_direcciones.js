@@ -19,7 +19,7 @@ const DetalleUsuarioDirecciones = sequelize.define('DetalleUsuarioDirecciones', 
     }
   }
 }, {
-  tableName: 'detalle_usuario_direcciones',
+  tableName: 'DetalleUsuarioDirecciones',
   timestamps: false,
   primaryKey: ['pk_fk_id_usuario', 'pk_fk_id_direcciones'] // Llave primaria compuesta
 });

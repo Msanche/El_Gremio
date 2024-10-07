@@ -18,94 +18,141 @@ const UsuarioController = require('../controllers/UsuarioController');
 const UsuarioVendedorController = require('../controllers/UsuarioVendedorController');
 
 // Rutas para Carrito
-router.get('/carrito', CarritoController.getAll);
-router.post('/carrito', CarritoController.create);
-router.get('/carrito/:id', CarritoController.getById);
-router.put('/carrito/:id', CarritoController.update);
-router.delete('/carrito/:id', CarritoController.delete);
+router.route('/carrito')
+  .get(CarritoController.getCarritos)      // Obtener todos los carritos
+  .post(CarritoController.createCarrito);  // Crear un nuevo carrito
 
-// Rutas para Categoria
-router.get('/categorias', CategoriaController.getAll);
-router.post('/categorias', CategoriaController.create);
-router.get('/categorias/:id', CategoriaController.getById);
-router.put('/categorias/:id', CategoriaController.update);
-router.delete('/categorias/:id', CategoriaController.delete);
+router.route('/carrito/:id')
+  .get(CarritoController.getCarritoById)   // Obtener un carrito por ID
+  .put(CarritoController.updateCarrito)    // Actualizar un carrito por ID
+  .delete(CarritoController.deleteCarrito); // Eliminar un carrito por ID
 
-// Rutas para DetalleCarritoProducto
-router.get('/detalle-carrito-producto', DetalleCarritoProductoController.getAll);
-router.post('/detalle-carrito-producto', DetalleCarritoProductoController.create);
-router.get('/detalle-carrito-producto/:id', DetalleCarritoProductoController.getById);
-router.put('/detalle-carrito-producto/:id', DetalleCarritoProductoController.update);
-router.delete('/detalle-carrito-producto/:id', DetalleCarritoProductoController.delete);
 
-// Rutas para DetalleUsuariosDirecciones
-router.get('/detalle-usuarios-direcciones', DetalleUsuariosDireccionesController.getAll);
-router.post('/detalle-usuarios-direcciones', DetalleUsuariosDireccionesController.create);
-router.get('/detalle-usuarios-direcciones/:id', DetalleUsuariosDireccionesController.getById);
-router.put('/detalle-usuarios-direcciones/:id', DetalleUsuariosDireccionesController.update);
-router.delete('/detalle-usuarios-direcciones/:id', DetalleUsuariosDireccionesController.delete);
+// Rutas para las categorías
+router.route('/categorias')
+  .get(CategoriaController.getCategorias)      // Obtener todas las categorías
+  .post(CategoriaController.createCategoria);  // Crear una nueva categoría
 
-// Rutas para Direcciones
-router.get('/direcciones', DireccionesController.getAll);
-router.post('/direcciones', DireccionesController.create);
-router.get('/direcciones/:id', DireccionesController.getById);
-router.put('/direcciones/:id', DireccionesController.update);
-router.delete('/direcciones/:id', DireccionesController.delete);
+router.route('/categorias/:id')
+  .get(CategoriaController.getCategoriaById)   // Obtener una categoría por ID
+  .put(CategoriaController.updateCategoria)    // Actualizar una categoría por ID
+  .delete(CategoriaController.deleteCategoria); // Eliminar una categoría por ID
 
-// Rutas para Encargo
-router.get('/encargo', EncargoController.getAll);
-router.post('/encargo', EncargoController.create);
-router.get('/encargo/:id', EncargoController.getById);
-router.put('/encargo/:id', EncargoController.update);
-router.delete('/encargo/:id', EncargoController.delete);
+// Rutas para los detalles del carrito y producto
+router.route('/detalles-carrito-producto')
+  .get(DetalleCarritoProductoController.getDetallesCarritoProducto)      // Obtener todos los detalles de carrito y producto
+  .post(DetalleCarritoProductoController.createDetalleCarritoProducto);  // Crear un nuevo detalle de carrito y producto
 
-// Rutas para PaginaVendedor
-router.get('/pagina-vendedor', PaginaVendedorController.getAll);
-router.post('/pagina-vendedor', PaginaVendedorController.create);
-router.get('/pagina-vendedor/:id', PaginaVendedorController.getById);
-router.put('/pagina-vendedor/:id', PaginaVendedorController.update);
-router.delete('/pagina-vendedor/:id', PaginaVendedorController.delete);
+router.route('/detalles-carrito-producto/:id')
+  .get(DetalleCarritoProductoController.getDetalleCarritoProductoById)   // Obtener un detalle por ID
+  .put(DetalleCarritoProductoController.updateDetalleCarritoProducto)    // Actualizar un detalle por ID
+  .delete(DetalleCarritoProductoController.deleteDetalleCarritoProducto); // Eliminar un detalle por ID
 
-// Rutas para Producto
-router.get('/productos', ProductoController.getAll);
-router.post('/productos', ProductoController.create);
-router.get('/productos/:id', ProductoController.getById);
-router.put('/productos/:id', ProductoController.update);
-router.delete('/productos/:id', ProductoController.delete);
 
-// Rutas para Review
-router.get('/review', ReviewController.getAll);
-router.post('/review', ReviewController.create);
-router.get('/review/:id', ReviewController.getById);
-router.put('/review/:id', ReviewController.update);
-router.delete('/review/:id', ReviewController.delete);
+// Rutas para los detalles de usuario y direcciones
+router.route('/detalles-usuario-direcciones')
+  .get(DetalleUsuariosDireccionesController.getDetallesUsuarioDirecciones)      // Obtener todos los detalles de usuario y direcciones
+  .post(DetalleUsuariosDireccionesController.createDetalleUsuarioDireccion);    // Crear un nuevo detalle de usuario y dirección
 
-// Rutas para Tamano
-router.get('/tamano', TamanoController.getAll);
-router.post('/tamano', TamanoController.create);
-router.get('/tamano/:id', TamanoController.getById);
-router.put('/tamano/:id', TamanoController.update);
-router.delete('/tamano/:id', TamanoController.delete);
+router.route('/detalles-usuario-direcciones/:id')
+  .get(DetalleUsuariosDireccionesController.getDetalleUsuarioDireccionById)     // Obtener un detalle por ID
+  .put(DetalleUsuariosDireccionesController.updateDetalleUsuarioDireccion)      // Actualizar un detalle por ID
+  .delete(DetalleUsuariosDireccionesController.deleteDetalleUsuarioDireccion);  // Eliminar un detalle por ID
 
-// Rutas para UsuarioCliente
-router.get('/usuario-cliente', UsuarioClienteController.getAll);
-router.post('/usuario-cliente', UsuarioClienteController.create);
-router.get('/usuario-cliente/:id', UsuarioClienteController.getById);
-router.put('/usuario-cliente/:id', UsuarioClienteController.update);
-router.delete('/usuario-cliente/:id', UsuarioClienteController.delete);
 
-// Rutas para Usuario
-router.get('/usuario', UsuarioController.getAll);
-router.post('/usuario', UsuarioController.create);
-router.get('/usuario/:id', UsuarioController.getById);
-router.put('/usuario/:id', UsuarioController.update);
-router.delete('/usuario/:id', UsuarioController.delete);
+// Rutas para las direcciones
+router.route('/direcciones')
+  .get(DireccionesController.getDirecciones)      // Obtener todas las direcciones
+  .post(DireccionesController.createDireccion);   // Crear una nueva dirección
 
-// Rutas para UsuarioVendedor
-router.get('/usuario-vendedor', UsuarioVendedorController.getAll);
-router.post('/usuario-vendedor', UsuarioVendedorController.create);
-router.get('/usuario-vendedor/:id', UsuarioVendedorController.getById);
-router.put('/usuario-vendedor/:id', UsuarioVendedorController.update);
-router.delete('/usuario-vendedor/:id', UsuarioVendedorController.delete);
+router.route('/direcciones/:id')
+  .get(DireccionesController.getDireccionById)    // Obtener una dirección por ID
+  .put(DireccionesController.updateDireccion)     // Actualizar una dirección por ID
+  .delete(DireccionesController.deleteDireccion); // Eliminar una dirección por ID
+
+// Rutas para los encargos
+router.route('/encargos')
+  .get(EncargoController.getEncargos)      // Obtener todos los encargos
+  .post(EncargoController.createEncargo);  // Crear un nuevo encargo
+
+router.route('/encargos/:id')
+  .get(EncargoController.getEncargoById)   // Obtener un encargo por ID
+  .put(EncargoController.updateEncargo)    // Actualizar un encargo por ID
+  .delete(EncargoController.deleteEncargo); // Eliminar un encargo por ID
+
+// Rutas para las páginas de vendedor
+router.route('/paginaVendedores')
+  .get(PaginaVendedorController.getPaginaVendedores)      // Obtener todas las páginas de vendedores
+  .post(PaginaVendedorController.createPaginaVendedor);   // Crear una nueva página de vendedor
+
+router.route('/paginaVendedores/:id')
+  .get(PaginaVendedorController.getPaginaVendedorById)    // Obtener una página de vendedor por ID
+  .put(PaginaVendedorController.updatePaginaVendedor)     // Actualizar una página de vendedor por ID
+  .delete(PaginaVendedorController.deletePaginaVendedor); // Eliminar una página de vendedor por ID
+
+
+// Rutas para los productos
+router.route('/productos')
+  .get(ProductoController.getProductos)      // Obtener todos los productos
+  .post(ProductoController.createProducto);   // Crear un nuevo producto
+
+router.route('/productos/:id')
+  .get(ProductoController.getProductoById)    // Obtener un producto por ID
+  .put(ProductoController.updateProducto)     // Actualizar un producto por ID
+  .delete(ProductoController.deleteProducto); // Eliminar un producto por ID
+
+
+// Rutas para las reviews
+router.route('/reviews')
+  .get(ReviewController.getReviews)            // Obtener todas las reviews
+  .post(ReviewController.createReview);         // Crear una nueva review
+
+router.route('/reviews/:id')
+  .get(ReviewController.getReviewById)         // Obtener una review por ID
+  .put(ReviewController.updateReview)           // Actualizar una review por ID
+  .delete(ReviewController.deleteReview);       // Eliminar una review por ID
+
+
+// Rutas para los tamaños
+router.route('/tamanos')
+  .get(TamanoController.getTamanos)            // Obtener todos los tamaños
+  .post(TamanoController.createTamano);         // Crear un nuevo tamaño
+
+router.route('/tamanos/:id')
+  .get(TamanoController.getTamanoById)         // Obtener un tamaño por ID
+  .put(TamanoController.updateTamano)           // Actualizar un tamaño por ID
+  .delete(TamanoController.deleteTamano);       // Eliminar un tamaño por ID
+
+
+// Rutas para los usuarios clientes
+router.route('/usuarios-clientes')
+  .get(UsuarioClienteController.getUsuarioClientes)       // Obtener todos los usuarios clientes
+  .post(UsuarioClienteController.createUsuarioCliente);    // Crear un nuevo usuario cliente
+
+router.route('/usuarios-clientes/:id')
+  .get(UsuarioClienteController.getUsuarioClienteById)    // Obtener un usuario cliente por ID
+  .put(UsuarioClienteController.updateUsuarioCliente)      // Actualizar un usuario cliente por ID
+  .delete(UsuarioClienteController.deleteUsuarioCliente);  // Eliminar un usuario cliente por ID
+
+
+// Rutas para los usuarios
+router.route('/usuarios')
+  .get(UsuarioController.getUsuarios)       // Obtener todos los usuarios
+  .post(UsuarioController.createUsuario);    // Crear un nuevo usuario
+
+router.route('/usuarios/:id')
+  .get(UsuarioController.getUsuarioById)    // Obtener un usuario por ID
+  .put(UsuarioController.updateUsuario)      // Actualizar un usuario por ID
+  .delete(UsuarioController.deleteUsuario);  // Eliminar un usuario por ID
+
+// Rutas para los usuarios vendedores
+router.route('/usuarios-vendedores')
+  .get(UsuarioVendedorController.getUsuarioVendedores)       // Obtener todos los usuarios vendedores
+  .post(UsuarioVendedorController.createUsuarioVendedor);     // Crear un nuevo usuario vendedor
+
+router.route('/usuarios-vendedores/:id')
+  .get(UsuarioVendedorController.getUsuarioVendedorById)     // Obtener un usuario vendedor por ID
+  .put(UsuarioVendedorController.updateUsuarioVendedor)       // Actualizar un usuario vendedor por ID
+  .delete(UsuarioVendedorController.deleteUsuarioVendedor);    // Eliminar un usuario vendedor por ID
 
 module.exports = router;

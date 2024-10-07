@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
 const Usuario = require('./usuario');
 
-const UsuarioVendedor = sequelize.define('UsuarioVendedor', {
+const UsuarioVendedor = sequelize.define('UsuarioVendedores', {
   pk_id_vendedor: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -26,7 +26,7 @@ const UsuarioVendedor = sequelize.define('UsuarioVendedor', {
     allowNull: true
   }
 }, {
-  tableName: 'usuario_vendedor',
+  tableName: 'UsuarioVendedores',
   timestamps: false
 });
 

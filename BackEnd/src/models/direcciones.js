@@ -12,7 +12,7 @@ const Direcciones = sequelize.define('Direcciones', {
     allowNull: false
   }
 }, {
-  tableName: 'direcciones',
+  tableName: 'Direcciones',
   timestamps: false
 });
 

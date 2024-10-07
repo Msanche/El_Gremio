@@ -44,6 +44,9 @@
             <button class="checkout-btn">Proceder al Pago</button>
         </div>
     </div>
+    <footer>
+        <p>© 2023 El Gremio - Conectando Tradición y Modernidad</p>
+    </footer>
 </template>
 
 <script>
