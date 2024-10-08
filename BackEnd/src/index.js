@@ -39,3 +39,13 @@ app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`)
 });
 
+// Carga los certificados
+const options = {
+    key: fs.readFileSync('/certificates/clave-privada.key'),
+    cert: fs.readFileSync('/certificates/certificado-autofirmado.crt'),
+};
+
+// Crea el servidor HTTPS
+https.createServer(options, app).listen(443, () => {
+    console.log('Servidor HTTPS corriendo en el puerto 443');
+});
