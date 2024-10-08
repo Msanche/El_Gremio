@@ -13,4 +13,4 @@ const verifyPassword = async (password, hashedPassword) => {
   return isMatch;
 };
 
-module.export = { hashPassword, verifyPassword };
+module.exports = { hashPassword, verifyPassword };
