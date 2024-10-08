@@ -1,12 +1,39 @@
-const UsuarioCliente = require('../models/usuario_cliente');
-
+const  {sequelize} = require('../models/usuario_vendedor');
+const  UsuarioCliente = require('../models/usuario_cliente');
+const  Usuario = require('../models/usuario');
 // Crear un nuevo usuario cliente
 exports.createUsuarioCliente = async (req, res) => {
+  const transaction = await sequelize.transaction();
+  
   try {
-    const usuarioCliente = await UsuarioCliente.create(req.body);
-    res.status(201).json(usuarioCliente);
+    // Paso 1: Crear el usuario
+    const usuario = await Usuario.create(req.body, { transaction });
+    console.log(usuario.dataValues.pk_id_usuario)
+  
+    // Paso 2: Crear el usuario_cliente usando el id del usuario creado
+    const usuarioClienteData = {
+      fk_id_usuario: usuario.dataValues.pk_id_usuario        // Asignar el id del usuario recién creado
+    };
+    
+    const usuarioCliente = await UsuarioCliente.create(usuarioClienteData, { transaction });
+
+    // Si ambas operaciones son exitosas, hacer commit a la transacción
+    await transaction.commit();
+
+    // Enviar la respuesta con los datos creados
+    res.status(201).json({
+      message: 'Usuario y UsuarioCliente creados correctamente',
+      usuario,
+      usuarioCliente
+    });
+    
   } catch (error) {
-    res.status(500).json({ message: 'Error al crear el usuario cliente', error });
+    // En caso de error, hacer rollback para revertir los cambios
+    await transaction.rollback();
+    res.status(500).json({
+      message: 'Error al crear el usuario o usuario cliente',
+      error
+    });
   }
 };
 

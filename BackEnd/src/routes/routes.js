@@ -134,7 +134,6 @@ router.route('/usuarios-clientes/:id')
   .put(UsuarioClienteController.updateUsuarioCliente)      // Actualizar un usuario cliente por ID
   .delete(UsuarioClienteController.deleteUsuarioCliente);  // Eliminar un usuario cliente por ID
 
-
 // Rutas para los usuarios
 router.route('/usuarios')
   .get(UsuarioController.getUsuarios)       // Obtener todos los usuarios

@@ -15,7 +15,6 @@ const UsuarioCliente = sequelize.define('Usuario_clientes', {
       model: Usuario,
       key: 'pk_id_usuario'
     },
-    allowNull: true
   }
 }, {
   tableName: 'Usuario_clientes',

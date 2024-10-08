@@ -30,18 +30,30 @@
         <div v-if="!login" class="register-form" key="register">
           <h2>Registrarse</h2>
           <form @submit.prevent="Registro" needs-validation>
+            <div class="user-type-option" :class="{ active: selectedType === 'cliente' }" data-type="cliente"
+              @click="selectType('cliente')">
+              Cliente
+            </div>
+            <div class="user-type-option" :class="{ active: selectedType === 'vendedor' }" data-type="vendedor"
+              @click="selectType('vendedor')">
+              Vendedor
+            </div>
             <input type="text" name="nombre" placeholder="Nombre" v-model="nombre" required>
             <input type="text" name="apellidos" placeholder="Apellidos" v-model="apellidos" required>
             <input type="email" name="email" placeholder="Correo electrónico" v-model="email" required>
             <input type="number" name="telefono" placeholder="Teléfono" v-model="tel" required>
+            <div v-if="selectedType === 'vendedor'">
+              <!-- Opciones para Vendedor -->
+              <input type="text" name="nombre_marca" placeholder="Nombre de marca" v-model="nombre_marca" required>
+            </div>
 
             <div class="input-group">
               <input :type="mostrarContrasena ? 'text' : 'password'" name="password" placeholder="Contraseña"
                 v-model="password" required>
               <!-- Ícono para mostrar/ocultar contraseña -->
-               <i :class="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'" class="toggle-icon"
-                @click="toggleMostrarContrasena"></i> 
-                
+              <i :class="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'" class="toggle-icon"
+                @click="toggleMostrarContrasena"></i>
+
             </div>
 
             <div class="input-group">
@@ -76,16 +88,21 @@ export default {
       login: true,
       contrasena: '',          // Variable para almacenar la contraseña
       mostrarContrasena: false, // Estado para controlar si se muestra u oculta la contraseña,
-      nombre:'',
-      apellidos:'',
-      email:'',
-      tel:'',
+      nombre: '',
+      apellidos: '',
+      email: '',
+      tel: '',
+      selectedType: 'cliente', // Valor inicial
+
     }
   },
   components: {
     ModalRegistroCorrecto
   },
   methods: {
+    selectType(type) {
+      this.selectedType = type;
+    },
     toggleMostrarContrasena() {
       // Alternar el estado de mostrarContrasena
       this.mostrarContrasena = !this.mostrarContrasena;
@@ -97,7 +114,7 @@ export default {
       this.ModalExito();
 
     },
-    Registro(){
+    Registro() {
       console.log("Registro ");
       let payload = "Registro"
       this.$store.commit('LoginRegistro', payload);
@@ -137,6 +154,27 @@ export default {
 </script>
 
 <style scoped>
+.user-type-option {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.user-type-option.active {
+  background-color: #c69c6d;
+  color: white;
+}
+
+.user-type-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
@@ -300,22 +338,26 @@ button:hover {
 }
 
 .input-group {
-  position: relative; /* Necesario para posicionar el ícono dentro del input */
+  position: relative;
+  /* Necesario para posicionar el ícono dentro del input */
   display: flex;
   align-items: center;
 }
 
 input {
-  padding: 8px 35px 8px 8px; /* Espacio adicional para el ícono */
+  padding: 8px 35px 8px 8px;
+  /* Espacio adicional para el ícono */
   font-size: 14px;
-  border: 1px solid  #ddd;
+  border: 1px solid #ddd;
   border-radius: 5px;
   width: 100%;
 }
 
 .toggle-icon {
-  position: absolute; /* Posiciona el ícono dentro del input */
-  right: 10px; /* Ajusta la posición del ícono a la derecha */
+  position: absolute;
+  /* Posiciona el ícono dentro del input */
+  right: 10px;
+  /* Ajusta la posición del ícono a la derecha */
   cursor: pointer;
   color: #888;
 }

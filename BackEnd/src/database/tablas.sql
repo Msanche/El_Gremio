@@ -8,12 +8,15 @@ correo varchar(100) not null,
 nombre varchar(100) not null,
 apellido varchar(100) not null,
 numeroCelular varchar(10) not null,
-contrasena varchar(255) not null
+contrasena varchar(255) not null,
+UNIQUE(correo),
+UNIQUE(numeroCelular)
 );
 
 create table Categorias(
 id_categoria int primary key auto_increment,
-categoria varchar(30) not null
+categoria varchar(30) not null,
+UNIQUE(categoria)
 );
 
 create table Usuario_clientes(
@@ -26,7 +29,8 @@ create table Usuario_vendedores (
 pk_id_vendedor int primary key auto_increment,
 fk_id_usuario int not null,
 nombre_marca varchar(100) not null,
-foreign key (fk_id_usuario) references Usuarios (pk_id_usuario)
+foreign key (fk_id_usuario) references Usuarios (pk_id_usuario),
+UNIQUE(nombre_marca)
 );
 
 create table Productos (
@@ -37,7 +41,9 @@ nombre_imagen varchar(255) not null,
 fk_id_vendedor int not null,
 fk_id_categorias int not null,
 foreign key (fk_id_categorias) references Categorias (id_categoria),
-foreign key (fk_id_vendedor) references Usuario_vendedores(pk_id_vendedor));
+foreign key (fk_id_vendedor) references Usuario_vendedores(pk_id_vendedor)
+
+);
 
 create table tamanos (
 pk_id_tamaño int primary key auto_increment,

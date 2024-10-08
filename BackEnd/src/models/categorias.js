@@ -2,6 +2,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
 
+// Tabla Categorias
 const Categorias = sequelize.define('Categorias', {
   id_categoria: {
     type: DataTypes.INTEGER,
@@ -10,7 +11,8 @@ const Categorias = sequelize.define('Categorias', {
   },
   categoria: {
     type: DataTypes.STRING(30),
-    allowNull: false
+    allowNull: false,
+    unique: true
   }
 }, {
   tableName: 'Categorias',
