@@ -17,10 +17,13 @@
         <div v-if="login" class="login-form" key="login">
           <h2>Iniciar Sesión</h2>
           <form @submit.prevent="Iniciar_sesion" needs-validation>
-            <input type="email" name="email" placeholder="Correo electrónico" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
+            <input type="email" name="email" placeholder="Correo electrónico" v-model="email" required>
+            <input type="password" name="password" placeholder="Contraseña" v-model="password" required>
             <button type="submit">Iniciar Sesión</button>
           </form>
+          <div v-if="loginError">
+            <span>Correo o contraseña incorrectos</span>
+          </div>
           <p class="toggle-form" id="showRegister" @click="Toggle_form">¿No tienes cuenta? Regístrate aquí</p>
           <p class="toggle-form" id="forgot_password">Olvidé mi contraseña</p>
 
@@ -80,20 +83,21 @@
 <script>
 import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 import ModalRegistroCorrecto from "@/components/ModalRegistroCorrecto.vue";
-
+import axios from "axios";
 export default {
   name: 'LoginView',
   data() {
     return {
       login: true,
-      contrasena: '',          // Variable para almacenar la contraseña
+      password: '',          // Variable para almacenar la contraseña
       mostrarContrasena: false, // Estado para controlar si se muestra u oculta la contraseña,
       nombre: '',
       apellidos: '',
       email: '',
       tel: '',
+      nombre_marca: '',
       selectedType: 'cliente', // Valor inicial
-
+      loginError: false
     }
   },
   components: {
@@ -107,18 +111,91 @@ export default {
       // Alternar el estado de mostrarContrasena
       this.mostrarContrasena = !this.mostrarContrasena;
     },
-    Iniciar_sesion() {
+    async Iniciar_sesion() {
       console.log("Iniciando sesión ");
-      let payload = "inicio de sesión"
-      this.$store.commit('LoginRegistro', payload);
-      this.ModalExito();
+      let login, respuesta
+      try {
+        login = {
+          correo: this.email,
+          contrasena: this.password
+        }
+        respuesta = await axios.post('http://localhost:3000/usuarios', {
+          login
+        });
+        if (respuesta) {
+          this.loginError = false
+          let payload = "inicio de sesión"
+          this.$store.commit('LoginRegistro', payload);
+          this.ModalExito();
+          // Guarda un solo valor
+          // localStorage.setItem('clave', 'valor');
+
+          // Guarda un objeto (convertido a JSON)
+          const usuario = {
+            correo: this.email,
+          };
+          localStorage.setItem('correo', JSON.stringify(usuario.correo));
+
+        }
+      } catch (error) {
+        this.loginError = true
+        console.error("correo o contraseña incorrectos", login)
+      }
+
+
 
     },
-    Registro() {
-      console.log("Registro ");
-      let payload = "Registro"
-      this.$store.commit('LoginRegistro', payload);
-      this.ModalExito();
+    async Registro() {
+      let respuesta
+
+      try {
+        // Datos del usuario que quieres enviar en el body
+        const usuario = {
+          correo: this.email,
+          nombre: this.nombre,
+          apellido: this.apellidos,
+          numeroCelular: this.tel,
+          contrasena: this.password
+        };
+        if (this.selectedType == 'vendedor') {
+          const vendedor = {
+            usuario: usuario,
+            nombre_marca: this.nombre_marca
+          }
+          // Hacer la solicitud POST
+          console.log(vendedor)
+          respuesta = await axios.post('http://localhost:3000/usuarios-vendedores', vendedor);
+
+        } else {
+          // Hacer la solicitud POST
+          console.log(usuario)
+          respuesta = await axios.post('http://localhost:3000/usuarios-clientes', usuario);
+
+        }
+        if (respuesta) {
+          let payload = "Registro"
+          this.$store.commit('LoginRegistro', payload);
+          this.ModalExito();
+
+        }
+
+
+
+        // Manejo de la respuesta
+        console.log('Usuario creado:', respuesta.data);
+      } catch (error) {
+        // Manejo de errores
+        if (error.response) {
+          console.error('Error en la respuesta:', error.response.data);
+        } else if (error.request) {
+          console.error('Error en la solicitud:', error.request);
+        } else {
+          console.error('Error:', error.message);
+        }
+      }
+
+
+
     },
     ModalExito() {
 

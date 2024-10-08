@@ -5,9 +5,12 @@ const cors = require('cors');
 const morgan = require('morgan');
 const https = require('https');
 const fs = require('fs');
+const path = require('path');
+
 
 // Importa la instancia de Sequelize desde database.js
 const  sequelize  = require('./database/database');
+const router = require('./routes/routes');
 
 // settings
 app.use(cors());
@@ -17,32 +20,22 @@ app.set('port', 3000);
 app.use(morgan('dev'));
 app.use(express.json());
 
-// tablas
-
-
-// const { initModels } = require('./routes/tablas');
-// const models = initModels(sequelize);
+app.use(router); // Asegúrate de que este "use" está correctamente configurado
 
 
 module.exports = {
     sequelize,
-    Sequelize,
-    // models
 };
-
-// // routes
-// app.use(require('./routes/PostesOcupados'));
-
 
 // Start Server
 app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`)
 });
 
-// Carga los certificados
+// Carga los certificados con rutas absolutas
 const options = {
-    key: fs.readFileSync('/certificates/clave-privada.key'),
-    cert: fs.readFileSync('/certificates/certificado-autofirmado.crt'),
+    key: fs.readFileSync(path.join(__dirname, 'certificates', 'clave-privada.key')),
+    cert: fs.readFileSync(path.join(__dirname, 'certificates', 'certificado-autofirmado.crt')),
 };
 
 // Crea el servidor HTTPS

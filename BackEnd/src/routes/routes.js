@@ -137,7 +137,7 @@ router.route('/usuarios-clientes/:id')
 // Rutas para los usuarios
 router.route('/usuarios')
   .get(UsuarioController.getUsuarios)       // Obtener todos los usuarios
-  .post(UsuarioController.createUsuario);    // Crear un nuevo usuario
+  .post(UsuarioController.login);    // Crear un nuevo usuario
 
 router.route('/usuarios/:id')
   .get(UsuarioController.getUsuarioById)    // Obtener un usuario por ID

@@ -13,7 +13,7 @@ const secretKey = process.env.SECRET_KEY;
 
 // Controlador para manejar el login de usuarios
 exports.login = async (req, res) => {
-  const { correo, contrasena } = req.body;
+  const { correo, contrasena } = req.body.login;
 
   // Validar que el email y la contraseña sean proporcionados
   if (!correo || !contrasena) {
@@ -23,15 +23,15 @@ exports.login = async (req, res) => {
   try {
     // Buscar el usuario por email normalizado
     const usuario = await Usuario.findOne({ where: { correo: normalizedEmail } });
-    console.log('Datos del usuario encontrado:', usuario)
 
     if (!usuario) {
       return res.status(400).json({ message: 'Credenciales inválidas' });
     }
 
     // Comparar la contraseña (pswd) con bcrypt
-    const isMatch = hash.verifyPassword(contrasena, usuario.contrasena);
-    
+    const hashedPassword = await hash.hashPassword(usuario.dataValues.contrasena);
+
+    const isMatch = await hash.verifyPassword(contrasena,hashedPassword );
     if (!isMatch) {
       return res.status(400).json({ message: 'Credenciales inválidas' });
     }

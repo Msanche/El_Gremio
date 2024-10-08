@@ -1,17 +1,23 @@
 const  {sequelize} = require('../models/usuario_vendedor');
 const  UsuarioCliente = require('../models/usuario_cliente');
 const  Usuario = require('../models/usuario');
+const hash = require('../utils/hash');
+
 // Crear un nuevo usuario cliente
 exports.createUsuarioCliente = async (req, res) => {
   const transaction = await sequelize.transaction();
   
   try {
     // Paso 1: Crear el usuario
-    console.log("Contrasñea",req.body.contrasena);
+    console.log("Contraseña",req.body.contrasena);
 
     // Redeclarar la contraseña (hasheo)
-    const hashedPassword = hash.hashPassword(req.body.contrasena);
-    req.body.usuario.contrasena = hashedPassword;
+    const hashedPassword = await hash.hashPassword(req.body.contrasena);
+    // Usar hashedPassword para guardar en la base de datos
+    req.body.contrasena = hashedPassword;
+
+
+    console.log(req.body)
 
     // Iniciar transaccion
     const usuario = await Usuario.create(req.body, { transaction });
