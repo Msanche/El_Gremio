@@ -1,4 +1,60 @@
 const Usuario = require('../models/usuario');
+const hash = require('../utils/hash');
+const jwt = require('jsonwebtoken');
+require('dotenv').config(); 
+
+//Corroborar que se este obteniendo datos de .env
+if (!process.env.SECRET_KEY) {
+  console.error('SECRET_KEY no está definida en el archivo .env');
+  process.exit(1); // Detener la aplicación si falta la clave secreta
+}
+
+const secretKey = process.env.SECRET_KEY;
+
+// Controlador para manejar el login de usuarios
+exports.login = async (req, res) => {
+  const { correo, contrasena } = req.body;
+
+  // Validar que el email y la contraseña sean proporcionados
+  if (!correo || !contrasena) {
+    return res.status(400).json({ message: 'El correo y la contraseña son obligatorios' });
+  }
+  const normalizedEmail = correo;
+  try {
+    // Buscar el usuario por email normalizado
+    const usuario = await Usuario.findOne({ where: { correo: normalizedEmail } });
+    console.log('Datos del usuario encontrado:', usuario)
+
+    if (!usuario) {
+      return res.status(400).json({ message: 'Credenciales inválidas' });
+    }
+
+    // Comparar la contraseña (pswd) con bcrypt
+    const isMatch = hash.verifyPassword(contrasena, usuario.contrasena);
+    
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Credenciales inválidas' });
+    }
+
+    // Generar un token JWT con una expiración de 2 horas
+    const token = jwt.sign(
+      { idUsuario: usuario.pk_id_usuario, nombre: usuario.nombre, apellido: usuario.apellido },
+       secretKey,
+        { expiresIn: '2h' });
+    
+    // Devolver el token en la respuesta
+    res.status(200).json({ message: 'Autenticación exitosa', token,
+      idUsuario: usuario.idUsuario,
+      nombre: usuario.nombre
+     });
+  } catch (err) {
+    // Manejo de errores más específico
+    console.error('Error en el proceso de login:', err);
+    res.status(500).json({ message: 'Error del servidor', error: err.message });
+  }
+};
+
+
 
 // Crear un nuevo usuario
 exports.createUsuario = async (req, res) => {

@@ -7,8 +7,14 @@ exports.createUsuarioCliente = async (req, res) => {
   
   try {
     // Paso 1: Crear el usuario
+    console.log("Contrasñea",req.body.contrasena);
+
+    // Redeclarar la contraseña (hasheo)
+    const hashedPassword = hash.hashPassword(req.body.contrasena);
+    req.body.usuario.contrasena = hashedPassword;
+
+    // Iniciar transaccion
     const usuario = await Usuario.create(req.body, { transaction });
-    console.log(usuario.dataValues.pk_id_usuario)
   
     // Paso 2: Crear el usuario_cliente usando el id del usuario creado
     const usuarioClienteData = {

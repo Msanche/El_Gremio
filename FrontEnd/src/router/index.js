@@ -41,6 +41,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),  // Cambiado a createWebHistory
   routes
-})
+});
+
+//Verificación de Token para poder acceder
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+  if (to.matched.some(record => record.meta.requiresAuth) && !token) {
+    next('/');
+  } else {
+    next();
+  }
+});
 
 export default router

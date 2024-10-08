@@ -1,16 +1,19 @@
 const  {sequelize} = require('../models/usuario_vendedor');
 const  UsuarioVendedor = require('../models/usuario_vendedor');
 const  Usuario = require('../models/usuario');
+const hash = require ('../utils/hash');
 // Crear un nuevo usuario vendedor
 exports.createUsuarioVendedor = async (req, res) => {
   const transaction = await sequelize.transaction();
   try {
-    console.log(req.body.usuario)
-    console.log(req.body.nombre_marca)
-    console.log(Usuario)
+
     // Paso 1: Crear el usuario
+    console.log("Contrasñea",req.body.usuario.contrasena);
+    // Redeclarar la contraseña
+    const hashedPassword = hash.hashPassword(req.body.usuario.contrasena);
+    req.body.usuario.contrasena = hashedPassword;
+    // Iniciar transaccion
     const usuario = await Usuario.create(req.body.usuario, { transaction });
-    console.log("ver user",usuario.dataValues.pk_id_usuario)
     // Paso 2: Crear el usuario_cliente usando el id del usuario creado
     const usuarioVendedorData = {
       nombre_marca: req.body.nombre_marca,
@@ -18,7 +21,6 @@ exports.createUsuarioVendedor = async (req, res) => {
     };
     
     const usuario_vendedor = await UsuarioVendedor.create(usuarioVendedorData, { transaction });
-    console.log(usuario_vendedor)
 
     // Si ambas operaciones son exitosas, hacer commit a la transacción
     await transaction.commit();
