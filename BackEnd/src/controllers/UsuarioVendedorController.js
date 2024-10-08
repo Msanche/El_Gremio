@@ -1,18 +1,59 @@
-const UsuarioVendedor = require('../models/usuario_vendedor');
-
+const  {sequelize} = require('../models/usuario_vendedor');
+const  UsuarioVendedor = require('../models/usuario_vendedor');
+const  Usuario = require('../models/usuario');
 // Crear un nuevo usuario vendedor
 exports.createUsuarioVendedor = async (req, res) => {
+  const transaction = await sequelize.transaction();
   try {
-    const usuarioVendedor = await UsuarioVendedor.create(req.body);
-    res.status(201).json(usuarioVendedor);
+    console.log(req.body.usuario)
+    console.log(req.body.nombre_marca)
+    console.log(Usuario)
+    // Paso 1: Crear el usuario
+    const usuario = await Usuario.create(req.body.usuario, { transaction });
+    console.log("ver user",usuario.dataValues.pk_id_usuario)
+    // Paso 2: Crear el usuario_cliente usando el id del usuario creado
+    const usuarioVendedorData = {
+      nombre_marca: req.body.nombre_marca,
+      fk_id_usuario: usuario.dataValues.pk_id_usuario        // Asignar el id del usuario recién creado
+    };
+    
+    const usuario_vendedor = await UsuarioVendedor.create(usuarioVendedorData, { transaction });
+    console.log(usuario_vendedor)
+
+    // Si ambas operaciones son exitosas, hacer commit a la transacción
+    await transaction.commit();
+
+    // Enviar la respuesta con los datos creados
+    res.status(201).json({
+      message: 'Usuario y usuario_vendedor creados correctamente',
+      usuario,
+      usuario_vendedor
+    });
+    
   } catch (error) {
-    res.status(500).json({ message: 'Error al crear el usuario vendedor', error });
+    await transaction.rollback();
+  
+    // Manejar errores de unicidad o validación
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({
+        message: 'El correo o número de celular ya están en uso',
+        error
+      });
+    }
+  
+    // Otros errores
+    res.status(500).json({
+      message: 'Error al crear el usuario o usuario vendedor',
+      error
+    });
   }
+  
 };
 
 // Obtener todos los usuarios vendedores
 exports.getUsuarioVendedores = async (req, res) => {
   try {
+    console.log(sequelize)
     const usuariosVendedores = await UsuarioVendedor.findAll();
     res.status(200).json(usuariosVendedores);
   } catch (error) {
