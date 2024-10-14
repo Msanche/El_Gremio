@@ -28,8 +28,10 @@ foreign key (fk_id_usuario) references Usuarios (pk_id_usuario)
 create table Usuario_vendedores (
 pk_id_vendedor int primary key auto_increment,
 fk_id_usuario int not null,
+fk_id_pagina int not null,
 nombre_marca varchar(100) not null,
 foreign key (fk_id_usuario) references Usuarios (pk_id_usuario),
+foreign key (fk_id_pagina) references Pagina_vendedores (pk_id_pagina),
 UNIQUE(nombre_marca)
 );
 
