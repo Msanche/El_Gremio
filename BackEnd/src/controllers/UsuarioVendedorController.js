@@ -55,11 +55,16 @@ exports.createUsuarioVendedor = async (req, res) => {
 // Obtener todos los usuarios vendedores
 exports.getUsuarioVendedores = async (req, res) => {
   try {
-    console.log(sequelize)
-    const usuariosVendedores = await UsuarioVendedor.findAll();
-    res.status(200).json(usuariosVendedores);
+    const usuariosVendedores = await Usuario.findAll({
+      include:[{
+        model:UsuarioVendedor,
+      }]
+    });
+        res.status(200).json(usuariosVendedores);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'Error al obtener los usuarios vendedores', error });
+
   }
 };
 
