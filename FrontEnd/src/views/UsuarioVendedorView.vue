@@ -3,16 +3,6 @@
   <div class="container">
     <h2 class="profile-title">Bienvenido {{ Username }}</h2>
 
-    <div class="description" id="descriptionSection">
-      <h2>Descripción</h2>
-            <i class="fas fa-edit edit-icon" id="editDescriptionBtn" title="Editar descripción"></i>
-
-      <p id="descriptionText">En Madame Crochet, cada puntada cuenta una historia. Somos expertos en crochet en Colima,
-        dedicados a crear piezas personalizadas que capturan la esencia de tus deseos. Nuestras creaciones viajan por
-        toda la república mexicana, llevando alegría y calidez a cada hogar.</p>
-      <p><i class="fas fa-map-marker-alt"></i> Villa de Álvarez, Colima - El corazón de nuestra inspiración</p>
-      <i class="fas fa-edit edit-icon" id="editDescriptionBtn" title="Editar descripción"></i>
-    </div>
 
     <div class="reviews">
       <h2>Lo Que Dicen Nuestros Clientes</h2>
@@ -44,16 +34,7 @@
     </div>
   </div>
 
-  <div id="editDescriptionModal" class="modal">
-    <div class="modal-content">
-      <span class="close">×</span>
-      <h2>Editar Descripción</h2>
-      <form id="editDescriptionForm">
-        <textarea id="newDescription" rows="6" required=""></textarea>
-        <button type="submit">Guardar Cambios</button>
-      </form>
-    </div>
-  </div>
+
 
 
 </template>

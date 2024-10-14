@@ -14,7 +14,7 @@ const multer = require('multer');
 // Importa la instancia de Sequelize desde database.js
 const  sequelize  = require('./database/database');
 const router = require('./routes/routes');
-
+const relaciones = require('./models/asociaciones')
 // settings
 app.use(cors());
 app.set('port', 3000);
@@ -59,3 +59,4 @@ const options = {
 https.createServer(options, app).listen(443, () => {
     console.log('Servidor HTTPS corriendo en el puerto 443');
 });
+
