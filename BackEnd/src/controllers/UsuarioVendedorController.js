@@ -2,6 +2,8 @@ const  {sequelize} = require('../models/usuario_vendedor');
 const  UsuarioVendedor = require('../models/usuario_vendedor');
 const  Usuario = require('../models/usuario');
 const hash = require ('../utils/hash');
+const { Op } = require('sequelize');
+
 // Crear un nuevo usuario vendedor
 exports.createUsuarioVendedor = async (req, res) => {
   const transaction = await sequelize.transaction();
@@ -55,10 +57,11 @@ exports.createUsuarioVendedor = async (req, res) => {
 // Obtener todos los usuarios vendedores
 exports.getUsuarioVendedores = async (req, res) => {
   try {
-    const usuariosVendedores = await Usuario.findAll({
+    const usuariosVendedores = await UsuarioVendedor.findAll({
       include:[{
-        model:UsuarioVendedor,
-      }]
+        model:Usuario,
+      }],
+      
     });
         res.status(200).json(usuariosVendedores);
   } catch (error) {
