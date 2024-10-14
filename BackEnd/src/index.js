@@ -14,7 +14,7 @@ const multer = require('multer');
 // Importa la instancia de Sequelize desde database.js
 const  sequelize  = require('./database/database');
 const router = require('./routes/routes');
-
+const relaciones = require('./models/asociaciones')
 // settings
 app.use(cors());
 app.set('port', 3000);
