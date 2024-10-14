@@ -1,6 +1,8 @@
 <template>
-  <NavBar isActiveUV="True" />
+  <NavBar isActiveP="True" />
   <div class="container">
+    <h2 class="profile-title">Bienvenido {{ Username }}</h2>
+
     <div class="description" id="descriptionSection">
       <h2>Descripción</h2>
             <i class="fas fa-edit edit-icon" id="editDescriptionBtn" title="Editar descripción"></i>
@@ -62,11 +64,15 @@ import NavBar from '@/components/NavBar.vue';
 export default {
   data() {
     return {
-
+      Username:''
     }
   },
   components: {
     NavBar
+  },
+  mounted(){
+    this.Username = localStorage.getItem('nombre');
+
   }
 }
 </script>

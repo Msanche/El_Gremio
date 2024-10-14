@@ -132,9 +132,16 @@ export default {
 
           // Guarda un objeto (convertido a JSON)
           const usuario = {
+            token:respuesta.data.token,
             correo: this.email,
+            nombre: respuesta.data.nombre,
+            role:respuesta.data.role
           };
-          localStorage.setItem('correo', JSON.stringify(usuario.correo));
+          localStorage.setItem('correo', (usuario.correo));
+          localStorage.setItem('token', (usuario.token));
+          localStorage.setItem('role', (usuario.role));
+          localStorage.setItem('nombre', (usuario.nombre));
+
 
         }
       } catch (error) {

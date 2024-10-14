@@ -1,4 +1,6 @@
 const Usuario = require('../models/usuario');
+const UsuarioVendedor = require('../models/usuario_vendedor')
+const UsuarioCliente = require('../models/usuario_cliente')
 const hash = require('../utils/hash');
 const jwt = require('jsonwebtoken');
 require('dotenv').config(); 
@@ -21,17 +23,29 @@ exports.login = async (req, res) => {
   }
   const normalizedEmail = correo;
   try {
+    let role
     // Buscar el usuario por email normalizado
     const usuario = await Usuario.findOne({ where: { correo: normalizedEmail } });
+
+    const usuarioV = await UsuarioVendedor.findOne({ where: { fk_id_usuario: usuario.dataValues.pk_id_usuario } });
+    if (usuarioV) {
+      console.log("user v",usuarioV)
+      role = "Vendedor"
+    }
+    const usuarioC = await UsuarioCliente.findOne({ where: { fk_id_usuario: usuario.dataValues.pk_id_usuario } });
+    if (usuarioC) {
+      console.log("user c",usuarioC.dataValues.pk_id_usuario)
+      role = "Cliente"
+
+    }
 
     if (!usuario) {
       return res.status(400).json({ message: 'Credenciales inválidas' });
     }
 
     // Comparar la contraseña (pswd) con bcrypt
-    const hashedPassword = await hash.hashPassword(usuario.dataValues.contrasena);
 
-    const isMatch = await hash.verifyPassword(contrasena,hashedPassword );
+    const isMatch = await hash.verifyPassword(contrasena,usuario.dataValues.contrasena );
     if (!isMatch) {
       return res.status(400).json({ message: 'Credenciales inválidas' });
     }
@@ -45,7 +59,8 @@ exports.login = async (req, res) => {
     // Devolver el token en la respuesta
     res.status(200).json({ message: 'Autenticación exitosa', token,
       idUsuario: usuario.idUsuario,
-      nombre: usuario.nombre
+      nombre: usuario.nombre,
+      role:role
      });
   } catch (err) {
     // Manejo de errores más específico

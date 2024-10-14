@@ -28,6 +28,10 @@
                         type="button" style="margin-right: 20px;">Conocenos 👥</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link "  :class="{ disable: isActiveP, 'active-nav': isActiveP }" @click="Perfil()"
+                        type="button" style="margin-right: 20px;">Perfil 👤</a>
+                    </li>
+                    <li class="nav-item">
                         <input type="search" placeholder="Buscar productos artesanales..."
                             style="flex-grow: 1; max-width: 400px;">
                     </li>
@@ -53,6 +57,7 @@ export default {
         isActiveC: Boolean,
         isActiveA: Boolean,
         isActiveH: Boolean,
+        isActiveP: Boolean,
 
     },
     methods:{
@@ -67,6 +72,16 @@ export default {
         },
         Category(){
             router.push('/categorias')
+        },
+        Perfil(){
+            const role = localStorage.getItem('role');
+            console.log(role); // Esto mostrará el valor del token si existe, o null si no está presente.
+            if (role == 'Vendedor') {
+                router.push('/Vendedor')
+
+            }else if(role =='Cliente'){
+                router.push("/Cliente")
+            }
         }
 
     }

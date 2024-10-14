@@ -6,6 +6,10 @@ const morgan = require('morgan');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
+const path = require('path');
+
+
 
 
 // Importa la instancia de Sequelize desde database.js
@@ -19,12 +23,26 @@ app.set('port', 3000);
 // Middlewares
 app.use(morgan('dev'));
 app.use(express.json());
-
+// Configuración de almacenamiento
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/'); // Carpeta donde se guardarán las imágenes
+    },
+    filename: (req, file, cb) => {
+      // Define el nombre del archivo
+      cb(null, `${Date.now()}-${file.originalname}`);
+    }
+  });
+  
+  // Configuración de multer
+  const upload = multer({ storage });
+  
 app.use(router); // Asegúrate de que este "use" está correctamente configurado
 
 
 module.exports = {
     sequelize,
+    upload
 };
 
 // Start Server
