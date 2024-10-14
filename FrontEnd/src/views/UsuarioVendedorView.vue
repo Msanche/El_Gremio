@@ -34,16 +34,7 @@
     </div>
   </div>
 
-  <div id="editDescriptionModal" class="modal">
-    <div class="modal-content">
-      <span class="close">×</span>
-      <h2>Editar Descripción</h2>
-      <form id="editDescriptionForm">
-        <textarea id="newDescription" rows="6" required=""></textarea>
-        <button type="submit">Guardar Cambios</button>
-      </form>
-    </div>
-  </div>
+
 
 
 </template>
