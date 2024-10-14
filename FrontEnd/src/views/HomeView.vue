@@ -1,5 +1,5 @@
 <template>
-<NavBar isActiveH="true"/>
+    <NavBar isActiveH="true" />
     <main>
         <div id="carouselExampleCaptions" class="carousel slide">
             <div class="carousel-indicators">
@@ -75,14 +75,16 @@
         <h2 class="section-title">Sugeridos para Ti</h2>
         <div class="product-grid">
             <div class="product-card">
-                <img src="../../../../../../../../../Imágenes/test.png" alt="Joyería artesanal" width="250" height="250">
+                <img src="../../../../../../../../../Imágenes/test.png" alt="Joyería artesanal" width="250"
+                    height="250">
                 <div class="product-info">
                     <h3>Collar de Plata</h3>
                     <p>Artesana: Elena Gómez</p>
                 </div>
             </div>
             <div class="product-card">
-                <img src="../../../../../../../../../Imágenes/test.png" alt="Escultura de barro" width="250" height="250">
+                <img src="../../../../../../../../../Imágenes/test.png" alt="Escultura de barro" width="250"
+                    height="250">
                 <div class="product-info">
                     <h3>Escultura de Barro</h3>
                     <p>Artesano: Pedro Ramírez</p>
@@ -96,31 +98,20 @@
                 </div>
             </div>
         </div>
-
+        <li v-for="usuario in usuarios" :key="usuario.id">
+        {{ usuario.nombre }} ({{ usuario.email }})
+      </li>
         <h2 class="section-title">Artesanos Visitados</h2>
-        <div class="product-grid">
+        <div v-for="(vendedor, index) in Vendedores" :key="index" class="product-grid">
             <div class="product-card">
-                <img src="../../../../../../../../../Imágenes/test.png" alt="Retrato de artesano" width="250" height="250">
+                <img src="../../../../../../../../../Imágenes/test.png" alt="Retrato de artesano" width="250"
+                    height="250">
                 <div class="product-info">
-                    <h3>Juan Pérez</h3>
-                    <p>Especialidad: Tejidos</p>
+                    <h3>{{vendedor.nombre_marca}}</h3>
                 </div>
             </div>
-            <div class="product-card">
-                <img src="../../../../../../../../../Imágenes/test.png" alt="Retrato de artesana" width="250" height="250">
-                <div class="product-info">
-                    <h3>María González</h3>
-                    <p>Especialidad: Cerámica</p>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="../../../../../../../../../Imágenes/test.png" alt="Retrato de artesano" width="250" height="250">
-                <div class="product-info">
-                    <h3>Carlos Rodríguez</h3>
-                    <p>Especialidad: Tallado en madera</p>
-                </div>
-            </div>
-        </div>
+
+        </div> 
     </main>
 
     <footer>
@@ -128,16 +119,32 @@
     </footer>
 </template>
 <script>
+import axios from 'axios';
 import NavBar from '@/components/NavBar.vue';
 export default {
-    data(){
-        return{
+    data() {
+        return {
+            Vendedores:[]
+        }
+    },
+    methods: {
+        async ConsultaVendedores() {
+            try {
+                const response = await axios.get('http://localhost:3000/usuarios-vendedores');
+                console.log(response.data)
+                this.Vendedores = response.data
+            } catch (err) {
+                console.error('Error al obtener los usuarios:', err);
+            }
 
         }
     },
-    
-    components:{
-NavBar
+
+    components: {
+        NavBar
+    },
+    mounted() {
+        this.ConsultaVendedores();
     }
 }
 </script>
