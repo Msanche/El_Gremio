@@ -11,7 +11,7 @@ exports.getReviews = async (req, res) => {
   }
 };
 
-exports.getReviewsByIdPage() = async(req, res) =>{
+exports.getReviewsByIdPage = async(req, res) =>{
   try{
     const { fk_id_pagina } = req.body;
 

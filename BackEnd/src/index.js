@@ -23,6 +23,8 @@ app.set('port', 3000);
 // Middlewares
 app.use(morgan('dev'));
 app.use(express.json());
+
+
 // Configuración de almacenamiento
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
