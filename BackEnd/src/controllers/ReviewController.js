@@ -1,5 +1,6 @@
 // controllers/reviewController.js
 const Review = require('../models/review');
+const { sequelize } = require('../models/review'); // Asegúrate de importar la instancia de Sequelize
 
 // Obtener todas las reviews
 exports.getReviews = async (req, res) => {
@@ -13,7 +14,7 @@ exports.getReviews = async (req, res) => {
 
 exports.getReviewsByIdPage = async(req, res) =>{
   try{
-    const { fk_id_pagina } = req.body;
+    const { fk_id_pagina } = req.params;
 
     const reviews = await Review.findAll({where:{fk_id_pagina}});
 
@@ -41,15 +42,19 @@ exports.getReviewById = async (req, res) => {
 };
 
 // Crear una nueva review
+
 exports.createReview = async (req, res) => {
+  const t = await sequelize.transaction(); // Inicia la transacción
   try {
-    const { review, calificacion, fk_id_pagina, fk_id_cliente } = req.body;
-    const newReview = await Review.create({ review, calificacion, fk_id_pagina, fk_id_cliente });
+    const newReview = await Review.create(req.body, { transaction: t }); // Inserta dentro de la transacción
+    await t.commit(); // Confirma la transacción si todo salió bien
     res.status(201).json(newReview);
   } catch (error) {
+    await t.rollback(); // Revertir cambios en caso de error
     res.status(500).json({ message: 'Error al crear la review', error });
   }
 };
+
 
 // Actualizar una review
 exports.updateReview = async (req, res) => {

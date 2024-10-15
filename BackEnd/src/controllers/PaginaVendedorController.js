@@ -1,14 +1,21 @@
 const PaginaVendedor = require('../models/pagina_vendedor');
+const { sequelize } = require('../models/pagina_vendedor'); // Asegúrate de importar la instancia de Sequelize
+
+// Crear una nueva página de vendedor
 
 // Crear una nueva página de vendedor
 exports.createPaginaVendedor = async (req, res) => {
+  const t = await sequelize.transaction(); // Inicia la transacción
   try {
-    const pagina = await PaginaVendedor.create(req.body);
+    const pagina = await PaginaVendedor.create(req.body, { transaction: t }); // Inserta dentro de la transacción
+    await t.commit(); // Confirma la transacción si todo salió bien
     res.status(201).json(pagina);
   } catch (error) {
+    await t.rollback(); // Revertir cambios en caso de error
     res.status(500).json({ message: 'Error al crear la página de vendedor', error });
   }
 };
+
 
 // Obtener todas las páginas de vendedores
 exports.getPaginaVendedores = async (req, res) => {
