@@ -19,7 +19,7 @@
                         <a class="nav-link" :class="{ disable: isActiveCtg, 'active-nav': isActiveCtg }" @click="Category()"
                             type="button" style="margin-right: 20px;">Categorías</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="ShowCarrito">
                         <a class="nav-link " :class="{ disable: isActiveC, 'active-nav': isActiveC }" @click="Carrito()"
                             type="button" style="margin-right: 20px;">🛒 Carrito</a>
                     </li>
@@ -49,7 +49,7 @@ import router from '@/router';
 export default {
     data() {
         return {
-            
+            ShowCarrito:true
         }
     },
     props:{
@@ -84,6 +84,14 @@ export default {
             }
         }
 
+    },
+    mounted(){
+        const role = localStorage.getItem('role');
+        if (role === 'Cliente') {
+            this.ShowCarrito = true
+        }else{
+            this.ShowCarrito = false
+        }
     }
 }
 </script>
