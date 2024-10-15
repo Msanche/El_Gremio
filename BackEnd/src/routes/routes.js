@@ -105,7 +105,7 @@ router.route('/productos/:id')
 // Rutas para las reviews
 router.route('/reviews')
   .get(ReviewController.getReviews)            // Obtener todas las reviews
-  .post(ReviewController.createReview);         // Crear una nueva review
+  .post(ReviewController.createReview);           // Crear una nueva review
 
 router.route('/reviews/:id')
   .get(ReviewController.getReviewById)         // Obtener una review por ID
