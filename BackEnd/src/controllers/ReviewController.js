@@ -11,6 +11,22 @@ exports.getReviews = async (req, res) => {
   }
 };
 
+exports.getReviewsByIdPage() = async(req, res) =>{
+  try{
+    const { fk_id_pagina } = req.body;
+
+    const reviews = await Review.findAll({where:{fk_id_pagina}});
+
+    if(!reviews|| reviews.length === 0){
+      return res.status(404).json({message: `Reviews con idPagina = ${fk_id_pagina} no encontrado`})
+    }
+    res.json(reviews);
+
+  }catch(error){
+    res.status(500).json({ message: 'Error al obtener las reviews por idPagina', error });
+  }
+}
+
 // Obtener una review por ID
 exports.getReviewById = async (req, res) => {
   try {
