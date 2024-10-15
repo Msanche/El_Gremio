@@ -1,4 +1,4 @@
-const  {sequelize} = require('../models/usuario_vendedor');
+const  {sequelize} = require('../models/usuario_cliente');
 const  UsuarioCliente = require('../models/usuario_cliente');
 const  Usuario = require('../models/usuario');
 const hash = require('../utils/hash');
