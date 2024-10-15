@@ -48,7 +48,7 @@ export default {
             if (this.$store.getters.LoginRegistro == 'inicio de sesión') {
                 console.log("inicio de sesión")
                 //Con esto cambio de view por código 
-                this.$router.push("/carrito")
+                this.$router.push("/home")
             }else{
                 console.log("registro")
             }
