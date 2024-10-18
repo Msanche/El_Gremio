@@ -31,7 +31,7 @@ const routes = [
     path: '/carrito',
     name: 'carrito',
     component: CarritoView,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, role: 'Cliente'  }
 
   },
   {

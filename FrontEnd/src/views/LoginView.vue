@@ -127,10 +127,7 @@ export default {
           let payload = "inicio de sesión"
           this.$store.commit('LoginRegistro', payload);
           this.ModalExito();
-          // Guarda un solo valor
-          // localStorage.setItem('clave', 'valor');
-
-          // Guarda un objeto (convertido a JSON)
+          
           const usuario = {
             token:respuesta.data.token,
             correo: this.email,
