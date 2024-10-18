@@ -2,8 +2,9 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
 const Usuario = require('./usuario');
+const PaginaVendedores = require('./pagina_vendedor');
 
-const UsuarioVendedor = sequelize.define('UsuarioVendedores', {
+const UsuarioVendedores = sequelize.define('usuario_vendedores', {
   pk_id_vendedor: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -22,9 +23,17 @@ const UsuarioVendedor = sequelize.define('UsuarioVendedores', {
     allowNull: false,
     unique: true
   },
+  fk_pagina_vendedor: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: PaginaVendedores,
+      key: 'pk_id_pagina'
+    },
+    allowNull: false
+  }
 }, {
-  tableName: 'UsuarioVendedores',
+  tableName: 'usuario_vendedores',
   timestamps: false
 });
 
-module.exports = UsuarioVendedor;
+module.exports = UsuarioVendedores;

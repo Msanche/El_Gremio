@@ -16,6 +16,7 @@ const TamanoController = require('../controllers/TamanoController');
 const UsuarioClienteController = require('../controllers/UsuarioClienteController');
 const UsuarioController = require('../controllers/UsuarioController');
 const UsuarioVendedorController = require('../controllers/UsuarioVendedorController');
+const upload = require('../Middleware/multer')
 
 // Rutas para Carrito
 router.route('/carrito')
@@ -148,7 +149,7 @@ router.route('/usuarios/:id')
 // Rutas para los usuarios vendedores
 router.route('/usuarios-vendedores')
   .get(UsuarioVendedorController.getUsuarioVendedores)       // Obtener todos los usuarios vendedores
-  .post(UsuarioVendedorController.createUsuarioVendedor);     // Crear un nuevo usuario vendedor
+  .post(upload.single('imagen'),UsuarioVendedorController.createUsuarioVendedor);     // Crear un nuevo usuario vendedor
 
 router.route('/usuarios-vendedores/:id')
   .get(UsuarioVendedorController.getUsuarioVendedorById)     // Obtener un usuario vendedor por ID

@@ -11,8 +11,14 @@ const Direcciones = require('../models/direcciones');
 const DetalleUsuarioDirecciones = require('../models/detalle_usuarios_direcciones');
 const PaginaVendedor = require('../models/pagina_vendedor');
 const Review = require('../models/review');
+const PaginaVendedores =require('../models/pagina_vendedor')
+
 
 // Definir relaciones entre los modelos
+
+Usuario.hasMany(UsuarioVendedor, { foreignKey: 'fk_id_usuario' });
+PaginaVendedores.hasMany(UsuarioVendedor, { foreignKey: 'fk_pagina_vendedor' });
+
 Usuario.hasOne(UsuarioCliente, { foreignKey: 'fk_id_usuario' });
 UsuarioCliente.belongsTo(Usuario, { foreignKey: 'fk_id_usuario' });
 

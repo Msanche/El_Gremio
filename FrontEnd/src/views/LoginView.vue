@@ -48,6 +48,21 @@
             <div v-if="selectedType === 'vendedor'">
               <!-- Opciones para Vendedor -->
               <input type="text" name="nombre_marca" placeholder="Nombre de marca" v-model="nombre_marca" required>
+              <div class="form-group">
+                <label for="productImage">Imagen del Producto:</label>
+                <div class="file-input-wrapper">
+                  <button class="btn-file-input" type="button" @click="selectFile">Seleccionar Imagen</button>
+                  <input type="file" id="productImage" ref="productImage" accept="image/*" required
+                    @change="handleFileChange" style="display: none" />
+                </div>
+                <span class="file-input-name">{{ fileName }}</span>
+                <p class="help-text">Seleccione una imagen clara (formatos: JPG, PNG)</p>
+              </div>
+
+              <!-- Miniatura de la imagen -->
+              <div v-if="imagePreview" class="image-preview">
+                <img :src="imagePreview" alt="Vista previa de la imagen" />
+              </div>
             </div>
 
             <div class="input-group">
@@ -97,7 +112,11 @@ export default {
       tel: '',
       nombre_marca: '',
       selectedType: 'cliente', // Valor inicial
-      loginError: false
+      loginError: false,
+      fileName: '',
+      imagePreview: '', // Para la vista previa de la imagen
+      selectedFile: null,
+
     }
   },
   components: {
@@ -110,6 +129,23 @@ export default {
     toggleMostrarContrasena() {
       // Alternar el estado de mostrarContrasena
       this.mostrarContrasena = !this.mostrarContrasena;
+    },
+    selectFile() {
+      this.$refs.productImage.click();
+    },
+    handleFileChange(event) {
+      const file = event.target.files[0];
+      this.selectedFile = event.target.files[0];
+      this.fileName = file?.name || '';
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imagePreview = e.target.result; // Establecer la imagen de vista previa
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.imagePreview = ''; // Reiniciar si no se selecciona archivo
+      }
     },
     async Iniciar_sesion() {
       console.log("Iniciando sesión ");
@@ -127,12 +163,12 @@ export default {
           let payload = "inicio de sesión"
           this.$store.commit('LoginRegistro', payload);
           this.ModalExito();
-          
+
           const usuario = {
-            token:respuesta.data.token,
+            token: respuesta.data.token,
             correo: this.email,
             nombre: respuesta.data.nombre,
-            role:respuesta.data.role
+            role: respuesta.data.role
           };
           localStorage.setItem('correo', (usuario.correo));
           localStorage.setItem('token', (usuario.token));
@@ -154,7 +190,7 @@ export default {
 
       try {
         // Datos del usuario que quieres enviar en el body
-        const usuario = {
+         const  usuario = {
           correo: this.email,
           nombre: this.nombre,
           apellido: this.apellidos,
@@ -162,13 +198,17 @@ export default {
           contrasena: this.password
         };
         if (this.selectedType == 'vendedor') {
-          const vendedor = {
-            usuario: usuario,
-            nombre_marca: this.nombre_marca
-          }
+          const formData = new FormData();
+          formData.append('usuario', JSON.stringify(usuario));
+          formData.append('nombre_marca', this.nombre_marca);
+          formData.append('imagen', this.selectedFile); // `selectedFile` es el archivo de imagen seleccionado
+          
           // Hacer la solicitud POST
-          console.log(vendedor)
-          respuesta = await axios.post('http://localhost:3000/usuarios-vendedores', vendedor);
+          respuesta = await axios.post('http://localhost:3000/usuarios-vendedores', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data' // Aunque Axios lo establece automáticamente, es buena práctica
+            }
+          });
 
         } else {
           // Hacer la solicitud POST
@@ -235,6 +275,15 @@ export default {
 </script>
 
 <style scoped>
+.image-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  /* Limitar la altura de la vista previa */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
 .user-type-option {
   flex: 1;
   text-align: center;
