@@ -7,6 +7,7 @@ import HomeView from '@/views/HomeView.vue'
 import CategoriasView from '@/views/CategoriasView.vue'
 import UsuarioVendedorView from '@/views/UsuarioVendedorView.vue'
 import UsuarioClienteView from '@/views/UsuarioClienteView.vue'
+import ProductoPersonalizado from '@/views/ProductoPersonalizado.vue'
 const routes = [
   {
     path: '/',
@@ -52,6 +53,13 @@ const routes = [
     path: '/Cliente',
     name: 'Cliente',
     component: UsuarioClienteView,
+    meta: { requiresAuth: true, role: 'Cliente' }
+
+  },
+  {
+    path: '/Producto/Personalizado',
+    name: 'producto_personalizado',
+    component: ProductoPersonalizado,
     meta: { requiresAuth: true, role: 'Cliente' }
 
   },
