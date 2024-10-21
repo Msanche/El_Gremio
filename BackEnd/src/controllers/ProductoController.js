@@ -33,6 +33,24 @@ exports.getProductoById = async (req, res) => {
   }
 };
 
+// Obtener un producto por categoria
+exports.getProductoByCategory = async (req, res) => {
+      const fk_id_categorias = req.params.idCategory
+  try {
+    const producto = await Producto.findAll({
+      where:{
+        fk_id_categorias:fk_id_categorias
+      }
+    });
+    if (!producto) {
+      return res.status(404).json({ message: 'Producto no encontrado' });
+    }
+    res.status(200).json(producto);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener el producto', error });
+  }
+};
+
 // Actualizar un producto
 exports.updateProducto = async (req, res) => {
   try {

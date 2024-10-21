@@ -102,6 +102,8 @@ router.route('/productos/:id')
   .put(ProductoController.updateProducto)     // Actualizar un producto por ID
   .delete(ProductoController.deleteProducto); // Eliminar un producto por ID
 
+router.route('/productos/Category/:idCategory')
+  .get(ProductoController.getProductoByCategory)    // Obtener un producto por ID de categoria
 
 // Rutas para las reviews
 router.route('/reviews')
