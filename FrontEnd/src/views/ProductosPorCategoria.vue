@@ -9,8 +9,8 @@
     <div class="product-card">
       <img src="../images/cards.jpg" alt="Llavero de amigurumi en forma de estrella de mar rosa" class="product-image">
       <div class="product-info">
-        <div class="product-name">{{ product.nombre }}</div>
-        <div class="product-price">$150.00</div>
+        <div class="product-name">{{ product.Producto.nombre }}</div>
+        <div class="product-price">${{product.precio}}</div>
         <div class="rating">★★★★★</div>
       </div>
     </div>
