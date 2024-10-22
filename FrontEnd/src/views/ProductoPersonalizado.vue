@@ -22,19 +22,34 @@
             </div>
             <div class="product-dimensions">
                 <h3>Medidas Sugeridas</h3>
-                <div class="dimension-inputs">
-                    <div>
-                        <label for="length">Largo</label>
-                        <input type="number" id="length" name="length" placeholder="cm">
-                    </div>
-                    <div>
-                        <label for="width">Ancho</label>
-                        <input type="number" id="width" name="width" placeholder="cm">
-                    </div>
-                    <div>
-                        <label for="height">Alto</label>
-                        <input type="number" id="height" name="height" placeholder="cm">
-                    </div>
+                <div class="dimension-radio">
+                    <label :class="{'selected': selectedSize === 'Chico'}">
+                        <input
+                        type="radio"
+                        v-model="selectedSize"
+                        value="Chico"
+                        name="size"
+                        />
+                        Chico
+                    </label>
+                    <label :class="{'selected': selectedSize === 'Mediano'}">
+                        <input
+                        type="radio"
+                        v-model="selectedSize"
+                        value="Mediano"
+                        name="size"
+                        />
+                        Mediano
+                    </label>
+                    <label :class="{'selected': selectedSize === 'Grande'}">
+                        <input
+                        type="radio"
+                        v-model="selectedSize"
+                        value="Grande"
+                        name="size"
+                        />
+                        Grande
+                    </label>
                 </div>
             </div>
             <div class="buttons">
@@ -48,13 +63,64 @@
 <script>
 import NavBar from '@/components/NavBar.vue';
 export default {
-    components:{
+    data() {
+        return {
+        description: '',
+        selectedSize: '', // Almacena la selección de 'Chico', 'Mediano' o 'Grande'
+        uploadedImage: null,
+        }
+    }
+    ,components:{
         NavBar
     }
 }
 </script>
 
 <style scoped>
+
+.dimension-radio {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.dimension-radio label {
+  position: relative;
+  font-size: 16px;
+  color: #4A3728;
+  background-color: #FFF8EE;
+  border: 2px solid #D2B48C;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.dimension-radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.dimension-radio label.selected {
+  background-color: #D2691E;
+  color: #FFF8EE;
+  border-color: #8B4513;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.dimension-radio label:hover {
+  border-color: #8B4513;
+  background-color: #F5E6D3;
+}
+
 body, html {
         margin: 0;
         padding: 0;
