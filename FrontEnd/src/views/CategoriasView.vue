@@ -6,7 +6,7 @@
                 <img src="../images/crochet.jpg" alt="Tejidos artesanales coloridos" width="250" height="200">
                 <h3>Crochet</h3>
                 <div class="category-overlay">
-                    <span>Ver Crochet</span>
+                    <span @click="ProductByCategory">Ver Crochet</span>
                 </div>
             </div>
         </div>
@@ -17,6 +17,7 @@
 
 <script>
 import NavBar from '@/components/NavBar.vue';
+import router from '@/router';
 export default {
     data(){
         return{
@@ -25,6 +26,11 @@ export default {
     },
     components:{
         NavBar
+    },
+    methods:{
+        ProductByCategory(){
+            router.push('Producto/Categoria')
+        }
     }
 }
 </script>

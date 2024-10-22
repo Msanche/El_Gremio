@@ -266,7 +266,13 @@ export default {
       el.style.opacity = 0;
       el.style.transform = 'translateY(10px)';
       done();
+    },
+    LogOut(){
+      localStorage.clear();
     }
+  },
+  mounted(){
+    this.LogOut();
   }
 
 }

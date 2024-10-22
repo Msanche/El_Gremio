@@ -1,5 +1,5 @@
 const Producto = require('../models/productos');
-
+const tamano = require('../models/tamano')
 // Crear un nuevo producto
 exports.createProducto = async (req, res) => {
   try {
@@ -29,6 +29,29 @@ exports.getProductoById = async (req, res) => {
     }
     res.status(200).json(producto);
   } catch (error) {
+    res.status(500).json({ message: 'Error al obtener el producto', error });
+  }
+};
+
+// Obtener un producto por categoria
+exports.getProductoByCategory = async (req, res) => {
+      const fk_id_categorias = req.params.idCategory
+  try {
+    const producto = await tamano.findAll({
+      include:[{
+        model:Producto,
+        where:{
+          fk_id_categorias:fk_id_categorias
+        }
+      }],
+     
+    });
+    if (!producto) {
+      return res.status(404).json({ message: 'Producto no encontrado' });
+    }
+    res.status(200).json(producto);
+  } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'Error al obtener el producto', error });
   }
 };

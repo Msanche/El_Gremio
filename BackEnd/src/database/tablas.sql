@@ -21,17 +21,23 @@ UNIQUE(categoria)
 
 create table Usuario_clientes(
 pk_id_cliente int primary key auto_increment,
-fk_id_usuario int null,
+fk_id_usuario int not null,
 foreign key (fk_id_usuario) references Usuarios (pk_id_usuario)
+);
+
+create table Pagina_vendedores (
+pk_id_pagina int primary key auto_increment,
+foto_perfil varchar(255) not null,
+color_primario varchar(10) not null
 );
 
 create table Usuario_vendedores (
 pk_id_vendedor int primary key auto_increment,
 fk_id_usuario int not null,
-fk_id_pagina int not null,
 nombre_marca varchar(100) not null,
+fk_pagina_vendedor int not null,
+foreign key(fk_pagina_vendedor) references Pagina_vendedores(pk_id_pagina),
 foreign key (fk_id_usuario) references Usuarios (pk_id_usuario),
-foreign key (fk_id_pagina) references Pagina_vendedores (pk_id_pagina),
 UNIQUE(nombre_marca)
 );
 
@@ -90,11 +96,7 @@ foreign key (fk_id_vendedor) references Usuario_vendedores(pk_id_vendedor),
 foreign key (fk_id_carrito) references Carritos(pk_id_carrito)
 );
 
-create table Pagina_vendedores (
-pk_id_pagina int primary key auto_increment,
-foto_perfil varchar(255) not null,
-color_primario varchar(10) not null
-);
+
 
 create table Reviews (
 pk_id_review int primary key auto_increment,
