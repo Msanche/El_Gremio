@@ -35,6 +35,10 @@
                         <input type="search" placeholder="Buscar productos artesanales..."
                             style="flex-grow: 1; max-width: 400px;">
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link "  @click="LogOut()"
+                        type="button" style="margin-right: 20px;">Cerrar sesión ✖️</a>
+                    </li>
                 </ul>
             </div>
 
@@ -72,6 +76,9 @@ export default {
         },
         Category(){
             router.push('/categorias')
+        },
+        LogOut(){
+            router.push('/')
         },
         Perfil(){
             const role = localStorage.getItem('role');

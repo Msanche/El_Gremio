@@ -49,7 +49,7 @@
               <!-- Opciones para Vendedor -->
               <input type="text" name="nombre_marca" placeholder="Nombre de marca" v-model="nombre_marca" required>
               <div class="form-group">
-                <label for="productImage">Imagen del Producto:</label>
+                <label for="productImage">Logo de la marca:</label>
                 <div class="file-input-wrapper">
                   <button class="btn-file-input" type="button" @click="selectFile">Seleccionar Imagen</button>
                   <input type="file" id="productImage" ref="productImage" accept="image/*" required

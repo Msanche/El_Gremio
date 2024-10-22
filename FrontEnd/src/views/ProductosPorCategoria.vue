@@ -38,7 +38,8 @@ export default {
                 this.productos = response.data
             } catch (err) {
                 console.error('Error al obtener los usuarios:', err);
-            }        }
+            }       
+           }
     },
     mounted(){
         this.GetProducts();

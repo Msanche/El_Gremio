@@ -84,15 +84,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token'); // Verifica si el usuario está autenticado
+  // const token = localStorage.getItem('token'); // Verifica si el usuario está autenticado
   const role = localStorage.getItem('role'); // Suponiendo que tienes la información del usuario
 
   // Verifica si la ruta requiere autenticación
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!token) {
-      // Redirige al login si no hay token
-      return next('/');
-    }
+    // if (!token) {
+    //   // Redirige al login si no hay token
+    //   return next('/');
+    // }
     
     // Verifica si la ruta tiene un rol específico
     if (to.meta.role) {
