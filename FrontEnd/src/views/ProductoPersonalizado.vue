@@ -69,6 +69,7 @@ export default {
         selectedSize: '', // Almacena la selección de 'Chico', 'Mediano' o 'Grande'
         uploadedImage: null,
         }
+        
     }
     ,components:{
         NavBar
