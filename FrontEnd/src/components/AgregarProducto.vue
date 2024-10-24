@@ -146,12 +146,15 @@ export default {
             try {
         // Datos del usuario que quieres enviar en el body
          const  usuario = {
-          nombre: this.ProductoName,
+          productoNombre: this.ProductoName,
           nombre: this.nombre,
           apellido: this.apellidos,
           numeroCelular: this.tel,
           contrasena: this.password
         };
+
+        let respuesta
+
         if (this.selectedType == 'vendedor') {
           const formData = new FormData();
           formData.append('usuario', JSON.stringify(usuario));
