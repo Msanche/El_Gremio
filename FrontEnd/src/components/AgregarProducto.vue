@@ -152,6 +152,7 @@ export default {
           numeroCelular: this.tel,
           contrasena: this.password
         };
+        
 
         let respuesta
 

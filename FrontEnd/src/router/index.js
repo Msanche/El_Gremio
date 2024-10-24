@@ -9,6 +9,7 @@ import UsuarioVendedorView from '@/views/UsuarioVendedorView.vue'
 import UsuarioClienteView from '@/views/UsuarioClienteView.vue'
 import ProductoPersonalizado from '@/views/ProductoPersonalizado.vue'
 import ProductosPorCategoria from '@/views/ProductosPorCategoria.vue'
+import ResetPass from '@/components/ResetPass.vue'
 const routes = [
   {
     path: '/',
@@ -62,6 +63,12 @@ const routes = [
     name: 'producto_personalizado',
     component: ProductoPersonalizado,
     meta: { requiresAuth: true, role: 'Cliente' }
+
+  },
+  {
+    path: '/ResetPassword',
+    name: 'ResetPassword',
+    component: ResetPass,
 
   },
   {

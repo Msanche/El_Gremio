@@ -25,7 +25,7 @@
             <span>Correo o contraseña incorrectos</span>
           </div>
           <p class="toggle-form" id="showRegister" @click="Toggle_form">¿No tienes cuenta? Regístrate aquí</p>
-          <p class="toggle-form" id="forgot_password">Olvidé mi contraseña</p>
+          <p class="toggle-form" id="forgot_password" @click="PassForgoten">Olvidé mi contraseña</p>
 
         </div>
       </transition>
@@ -99,6 +99,7 @@
 import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 import ModalRegistroCorrecto from "@/components/ModalRegistroCorrecto.vue";
 import axios from "axios";
+import router from "@/router";
 export default {
   name: 'LoginView',
   data() {
@@ -123,6 +124,10 @@ export default {
     ModalRegistroCorrecto
   },
   methods: {
+    PassForgoten(){
+      console.log("entró")
+      router.push('/ResetPassword')
+    },
     selectType(type) {
       this.selectedType = type;
     },

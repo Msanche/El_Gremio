@@ -2,15 +2,16 @@ drop database gremio;
 create database gremio;
 use  gremio;
 
-create table Usuarios (
-pk_id_usuario int primary key auto_increment,
-correo varchar(100) not null,
-nombre varchar(100) not null,
-apellido varchar(100) not null,
-numeroCelular varchar(10) not null,
-contrasena varchar(255) not null,
-UNIQUE(correo),
-UNIQUE(numeroCelular)
+CREATE TABLE Usuarios (
+  pk_id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+  correo VARCHAR(100) NOT NULL UNIQUE,
+  nombre VARCHAR(100) NOT NULL,
+  apellido VARCHAR(100) NOT NULL,
+  numeroCelular VARCHAR(10) NOT NULL UNIQUE,
+  contrasena VARCHAR(255) NOT NULL,
+  resetToken VARCHAR(255) NULL,
+  resetTokenExpires DATETIME NULL,
+  CONSTRAINT UC_Usuario UNIQUE (correo, numeroCelular)
 );
 
 create table Categorias(
