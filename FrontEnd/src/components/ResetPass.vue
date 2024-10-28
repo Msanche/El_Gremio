@@ -1,151 +1,105 @@
 <template>
-    <main class="main-content">
-    <div class="recovery-window">
-      <div class="window-header">
-        <div class="window-title">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
-          </svg>
-          Recuperar Contraseña
+  <!-- Modal -->
+  <div class="modal fade" id="ResetPass" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-body">
+            <div class="recovery-window">
+              <div class="window-header">
+                <div class="window-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                  </svg>
+                  Recuperar Contraseña
+                </div>
+
+              </div>
+
+              <div class="recovery-content">
+                <div class="step-indicator">
+                  <div class="step" :class="active1" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Email</div>
+                  </div>
+                  <div class="step" :class="active2" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Verificación</div>
+                  </div>
+                  <div class="step" :class="active3" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Nueva Contraseña</div>
+                  </div>
+                </div>
+
+                <form id="recoveryForm">
+                  <div v-if="step1" class="form-section">
+                    <p class="info-text">Ingresa tu dirección de correo electrónico y te enviaremos un código de
+                      verificación para restablecer tu contraseña.</p>
+                    <div class="form-group">
+                      <label for="email">Correo Electrónico</label>
+                      <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com"
+                        autocomplete="email">
+                    </div>
+                  </div>
+
+                  <div v-if="step2" class="form-section" style="display: none;">
+                    <p class="info-text">Hemos enviado un código de verificación a tu correo electrónico. Por favor,
+                      ingrésalo a continuación:</p>
+                    <div class="verification-inputs">
+                      <input type="text" maxlength="1" pattern="[0-9]" required>
+                      <input type="text" maxlength="1" pattern="[0-9]" required>
+                      <input type="text" maxlength="1" pattern="[0-9]" required>
+                      <input type="text" maxlength="1" pattern="[0-9]" required>
+                      <input type="text" maxlength="1" pattern="[0-9]" required>
+                      <input type="text" maxlength="1" pattern="[0-9]" required>
+                    </div>
+                  </div>
+
+                  <div v-if="step3" class="form-section" style="display: none;">
+                    <p class="info-text">Ingresa tu nueva contraseña.</p>
+                    <div class="form-group">
+                      <label for="newPassword">Nueva Contraseña</label>
+                      <input type="password" id="newPassword" name="newPassword" required placeholder="••••••••">
+                    </div>
+                    <div class="form-group">
+                      <label for="confirmPassword">Confirmar Contraseña</label>
+                      <input type="password" id="confirmPassword" name="confirmPassword" required
+                        placeholder="••••••••">
+                    </div>
+                  </div>
+
+                  <div id="success" class="form-section" style="display: none;">
+                    <div class="success-message">
+                      <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <h3>¡Contraseña Actualizada!</h3>
+                      <p>Tu contraseña ha sido actualizada exitosamente.</p>
+                    </div>
+                  </div>
+
+                  <div class="action-buttons">
+                    <button type="button" class="btn btn-outline" id="backBtn" style="display: none;">Atrás</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn">Continuar</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="status-bar">
+                Conexión segura
+              </div>
+            </div>
+
         </div>
-       
-      </div>
-
-      <div class="recovery-content">
-        <div class="step-indicator">
-          <div class="step active" data-step="1">
-            <div class="step-circle">1</div>
-            <div class="step-label">Email</div>
-          </div>
-          <div class="step" data-step="2">
-            <div class="step-circle">2</div>
-            <div class="step-label">Verificación</div>
-          </div>
-          <div class="step" data-step="3">
-            <div class="step-circle">3</div>
-            <div class="step-label">Nueva Contraseña</div>
-          </div>
-        </div>
-
-        <form id="recoveryForm">
-          <div v-if="step1" class="form-section">
-            <p class="info-text">Ingresa tu dirección de correo electrónico y te enviaremos un código de verificación para restablecer tu contraseña.</p>
-            <div class="form-group">
-              <label for="email">Correo Electrónico</label>
-              <input 
-                type="email" 
-                id="email" 
-                name="email" 
-                required 
-                placeholder="ejemplo@correo.com"
-                autocomplete="email">
-            </div>
-          </div>
-
-          <div v-if="step2" class="form-section" style="display: none;">
-            <p class="info-text">Hemos enviado un código de verificación a tu correo electrónico. Por favor, ingrésalo a continuación:</p>
-            <div class="verification-inputs">
-              <input type="text" maxlength="1" pattern="[0-9]" required>
-              <input type="text" maxlength="1" pattern="[0-9]" required>
-              <input type="text" maxlength="1" pattern="[0-9]" required>
-              <input type="text" maxlength="1" pattern="[0-9]" required>
-              <input type="text" maxlength="1" pattern="[0-9]" required>
-              <input type="text" maxlength="1" pattern="[0-9]" required>
-            </div>
-          </div>
-
-          <div v-if="step3" class="form-section" style="display: none;">
-            <p class="info-text">Ingresa tu nueva contraseña.</p>
-            <div class="form-group">
-              <label for="newPassword">Nueva Contraseña</label>
-              <input 
-                type="password" 
-                id="newPassword" 
-                name="newPassword" 
-                required 
-                placeholder="••••••••">
-            </div>
-            <div class="form-group">
-              <label for="confirmPassword">Confirmar Contraseña</label>
-              <input 
-                type="password" 
-                id="confirmPassword" 
-                name="confirmPassword" 
-                required 
-                placeholder="••••••••">
-            </div>
-          </div>
-
-          <div id="success" class="form-section" style="display: none;">
-            <div class="success-message">
-              <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-              <h3>¡Contraseña Actualizada!</h3>
-              <p>Tu contraseña ha sido actualizada exitosamente.</p>
-            </div>
-          </div>
-
-          <div class="action-buttons">
-            <button type="button" class="btn btn-outline" id="backBtn" style="display: none;">Atrás</button>
-            <button type="button" class="btn btn-primary" id="nextBtn">Continuar</button>
-          </div>
-        </form>
-      </div>
-
-      <div class="status-bar">
-        Conexión segura - https://web.example.com/recovery
       </div>
     </div>
-  </main>
-     <main class="main-content">
-    <div class="recovery-window">
-      <div class="window-header">
-        <div class="window-title">Recuperación de Contraseña</div>
-      </div>
-      <form @submit.prevent="requestPasswordReset">
+  </div>
 
-      <div class="recovery-content">
-        <div class="recovery-header">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
-          </svg>
-          <p>Ingresa tu correo electrónico para recuperar tu cuenta</p>
-        </div>
-
-        <div class="success-message" id="successMessage">
-          Se ha enviado un enlace de recuperación a tu correo electrónico.
-        </div>
-
-        <div class="error-message" id="errorMessage">
-          No se encontró una cuenta asociada a este correo electrónico.
-        </div>
-
-        <form id="recoveryForm">
-          <div class="form-group">
-            <label for="email">Correo Electrónico</label>
-            <input 
-            v-model="email" type="email" placeholder="ejemplo@correo.com" required
-              autocomplete="email">
-          </div>
-
-          <button type="submit" class="submit-btn" id="submitBtn">
-            Enviar Instrucciones
-          </button>
-        </form>
-
-        <a href="https://web.example.com/login" class="back-link">
-          Volver al inicio de sesión
-        </a>
-      </div>
-    </form>
-
-
-      <div class="status-bar">
-        Conexión segura - https://web.example.com/recovery
-      </div>
-    </div>
-  </main>
 
 </template>
 
@@ -153,25 +107,28 @@
 import axios from 'axios';
 
 export default {
-    data() {
-        return {
-            email: '',
-            message: '',
-            step1:true,
-            step2:false,
-            step3:false
-        };
+  data() {
+    return {
+      email: '',
+      message: '',
+      step1: true,
+      step2: false,
+      step3: false,
+      active1:'active',
+      active2:'',
+      active3:''
+    };
+  },
+  methods: {
+    async requestPasswordReset() {
+      try {
+        const response = await axios.post('http://localhost:3000/request-password-reset', { email: this.email });
+        this.message = response.data.message;
+      } catch (error) {
+        this.message = 'Error al enviar solicitud';
+      }
     },
-    methods: {
-        async requestPasswordReset() {
-            try {
-                const response = await axios.post('http://localhost:3000/request-password-reset', { email: this.email });
-                this.message = response.data.message;
-            } catch (error) {
-                this.message = 'Error al enviar solicitud';
-            }
-        },
-    },
+  },
 };
 </script>
 
@@ -181,10 +138,11 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+
 .navbar {
   background: white;
   padding: 1rem 2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-brand {
@@ -194,19 +152,11 @@ export default {
   text-decoration: none;
 }
 
-.main-content {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+
 
 .recovery-window {
   background: white;
   border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  width: 100%;
-  max-width: 500px;
-  margin: 2rem auto;
   position: relative;
   animation: slideIn 0.5s ease-out;
 }
@@ -216,6 +166,7 @@ export default {
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -259,9 +210,17 @@ export default {
   transform: scale(1.1);
 }
 
-.close { background: #A0522D; }
-.minimize { background: #DAA520; }
-.maximize { background: #8B4513; }
+.close {
+  background: #A0522D;
+}
+
+.minimize {
+  background: #DAA520;
+}
+
+.maximize {
+  background: #8B4513;
+}
 
 .recovery-content {
   padding: 2rem;
@@ -322,8 +281,13 @@ export default {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .form-group {
