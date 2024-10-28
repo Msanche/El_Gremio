@@ -175,19 +175,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
-body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
-  min-height: 100vh;
-}
-
 .navbar {
   background: white;
   padding: 1rem 2rem;
