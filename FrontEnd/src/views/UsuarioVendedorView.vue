@@ -1,4 +1,6 @@
 <template>
+    <AgregarProducto/>
+
   <NavBar isActiveP="True" />
   <div class="container">
     <h2 class="profile-title">Bienvenido {{ Username }}</h2>
@@ -14,33 +16,16 @@
     </div>
 
     <h2>Galería de Artesanías</h2>
-    <button class="add-product" id="addProductBtn">Agregar Nueva Creación</button>
+    <button class="add-product" id="addProductBtn" @click="AddProduct()">Agregar Nueva Creación</button>
     <div class="products" id="productsContainer">
       <!-- Products will be dynamically added here -->
     </div>
   </div>
-
-  <div id="addProductModal" class="modal">
-    <div class="modal-content">
-      <span class="close">×</span>
-      <h2>Agregar Nueva Creación</h2>
-      <form id="addProductForm">
-        <input type="text" id="productName" placeholder="Nombre de tu creación" required="">
-        <input type="number" id="productPrice" placeholder="Precio (en pesos)" required="">
-        <input type="url" id="productImage" placeholder="URL de la imagen" required="">
-        <textarea id="productDescription" placeholder="Describe tu maravillosa creación" required=""></textarea>
-        <button type="submit">Añadir a la Galería</button>
-      </form>
-    </div>
-  </div>
-
-
-
-
 </template>
 
 <script>
-
+import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
+import AgregarProducto from "@/components/AgregarProducto.vue";
 import NavBar from '@/components/NavBar.vue';
 export default {
   data() {
@@ -49,7 +34,15 @@ export default {
     }
   },
   components: {
-    NavBar
+    NavBar,
+    AgregarProducto
+  },
+  methods:{
+    AddProduct(){
+      const modalElement = document.getElementById("AddProduct");
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
   },
   mounted(){
     this.Username = localStorage.getItem('nombre');
@@ -59,36 +52,11 @@ export default {
 </script>
 
 <style scoped>
-:root {
-  --primary-color: #8b4513;
-  --secondary-color: #a0522d;
-  --accent-color: #c69c6d;
-  --background-color: #FFF8E7;
-  --text-color: #4A3728;
-  --box-shadow: 0 4px 6px rgba(139, 69, 19, 0.1);
-}
-
-body {
-  font-family: 'Raleway', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  line-height: 1.6;
-}
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-}
-
-header {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: var(--accent-color);
-  text-align: center;
-  padding: 40px 0;
-  box-shadow: var(--box-shadow);
 }
 
 h1 {
@@ -104,7 +72,6 @@ h1 {
   border-radius: 15px;
   padding: 25px;
   margin-top: 30px;
-  box-shadow: var(--box-shadow);
   transition: transform 0.3s ease;
   position: relative;
 }
@@ -115,8 +82,8 @@ h1 {
 }
 
 h2 {
-  color: var(--primary-color);
-  border-bottom: 2px solid var(--accent-color);
+  color: #8b4513;
+  border-bottom: 2px solid #c69c6d;
   padding-bottom: 10px;
   margin-top: 0;
   font-weight: 600;
@@ -145,7 +112,6 @@ h2 {
   border-radius: 15px;
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: var(--box-shadow);
 }
 
 .product:hover {
@@ -157,7 +123,7 @@ h2 {
   width: 100%;
   height: 250px;
   object-fit: cover;
-  border-bottom: 3px solid var(--accent-color);
+  border-bottom: 3px solid #c69c6d;
 }
 
 .product-info {
@@ -167,19 +133,19 @@ h2 {
 .product-name {
   font-weight: 600;
   margin-bottom: 10px;
-  color: var(--primary-color);
+  color: #8b4513;
 }
 
 .product-price {
-  color: var(--secondary-color);
+  color: #a0522d;
   font-weight: 600;
   font-size: 1.2em;
 }
 
 .add-product,
 .edit-description {
-  background-color: var(--secondary-color);
-  color: var(--accent-color);
+  background-color: #a0522d;
+  color: #c69c6d;
   border: none;
   padding: 12px 25px;
   font-size: 16px;
@@ -187,43 +153,18 @@ h2 {
   cursor: pointer;
   border-radius: 25px;
   transition: all 0.3s ease;
-  box-shadow: var(--box-shadow);
   font-weight: 600;
   display: inline-block;
 }
 
 .add-product:hover,
 .edit-description:hover {
-  background-color: var(--primary-color);
+  background-color: #8b4513;
   transform: scale(1.05);
 }
 
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(139, 69, 19, 0.6);
-  backdrop-filter: blur(5px);
-}
-
-.modal-content {
-  background-color: #FFF8E7;
-  margin: 10% auto;
-  padding: 30px;
-  border: 1px solid var(--accent-color);
-  width: 90%;
-  max-width: 500px;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
-}
-
 .close {
-  color: var(--secondary-color);
+  color: #a0522d;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -232,7 +173,7 @@ h2 {
 
 .close:hover,
 .close:focus {
-  color: var(--primary-color);
+  color: #8b4513;
   text-decoration: none;
   cursor: pointer;
 }
@@ -246,7 +187,7 @@ form input,
 form textarea {
   margin-bottom: 15px;
   padding: 12px;
-  border: 1px solid var(--accent-color);
+  border: 1px solid #c69c6d;
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s ease;
@@ -255,13 +196,13 @@ form textarea {
 
 form input:focus,
 form textarea:focus {
-  border-color: var(--primary-color);
+  border-color: #8b4513;
   outline: none;
 }
 
 form button {
-  background-color: var(--primary-color);
-  color: var(--accent-color);
+  background-color: #8b4513;
+  color: #c69c6d;
   border: none;
   padding: 12px;
   border-radius: 8px;
@@ -272,7 +213,7 @@ form button {
 }
 
 form button:hover {
-  background-color: var(--secondary-color);
+  background-color: #a0522d;
 }
 
 .edit-icon {
@@ -281,7 +222,7 @@ form button:hover {
   right: 10px;
   cursor: pointer;
   font-size: 20px;
-  color: var(--secondary-color);
+  color: #a0522d;
 }
 
 @media (max-width: 768px) {

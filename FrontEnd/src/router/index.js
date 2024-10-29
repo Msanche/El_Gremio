@@ -9,6 +9,7 @@ import UsuarioVendedorView from '@/views/UsuarioVendedorView.vue'
 import UsuarioClienteView from '@/views/UsuarioClienteView.vue'
 import ProductoPersonalizado from '@/views/ProductoPersonalizado.vue'
 import ProductosPorCategoria from '@/views/ProductosPorCategoria.vue'
+import ResetPass from '@/components/ResetPass.vue'
 const routes = [
   {
     path: '/',
@@ -65,6 +66,12 @@ const routes = [
 
   },
   {
+    path: '/ResetPassword',
+    name: 'ResetPassword',
+    component: ResetPass,
+
+  },
+  {
     path: '/Producto/Categoria',
     name: 'producto_categoria',
     component: ProductosPorCategoria,
@@ -84,15 +91,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token'); // Verifica si el usuario está autenticado
+  // const token = localStorage.getItem('token'); // Verifica si el usuario está autenticado
   const role = localStorage.getItem('role'); // Suponiendo que tienes la información del usuario
 
   // Verifica si la ruta requiere autenticación
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!token) {
-      // Redirige al login si no hay token
-      return next('/');
-    }
+    // if (!token) {
+    //   // Redirige al login si no hay token
+    //   return next('/');
+    // }
     
     // Verifica si la ruta tiene un rol específico
     if (to.meta.role) {

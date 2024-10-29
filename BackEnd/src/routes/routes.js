@@ -17,6 +17,10 @@ const UsuarioClienteController = require('../controllers/UsuarioClienteControlle
 const UsuarioController = require('../controllers/UsuarioController');
 const UsuarioVendedorController = require('../controllers/UsuarioVendedorController');
 const upload = require('../Middleware/multer')
+const AuthController = require('../controllers/AuthController');
+
+router.post('/request-password-reset', AuthController.requestPasswordReset);
+router.post('/reset-password', AuthController.resetPassword);
 
 // Rutas para Carrito
 router.route('/carrito')
