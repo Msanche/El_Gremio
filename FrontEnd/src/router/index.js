@@ -41,7 +41,7 @@ const routes = [
     path: '/categorias',
     name: 'categorias',
     component: CategoriasView,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, role:'Cliente' }
 
   },
   {
