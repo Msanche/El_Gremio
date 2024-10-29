@@ -2,7 +2,7 @@
 
   <!-- Modales import-->
   <ModalRegistroCorrecto />
-
+  <ResetPass/>
   <header class="header">
     <img src="@/images/logo.jpg" alt="El Gremio Logo - A shield with wings and a central emblem" class="logo">
     <h1>El Gremio</h1>
@@ -25,7 +25,7 @@
             <span>Correo o contraseña incorrectos</span>
           </div>
           <p class="toggle-form" id="showRegister" @click="Toggle_form">¿No tienes cuenta? Regístrate aquí</p>
-          <p class="toggle-form" id="forgot_password" @click="PassForgoten">Olvidé mi contraseña</p>
+          <p class="toggle-form" id="forgot_password" @click="ResetPass">Olvidé mi contraseña</p>
 
         </div>
       </transition>
@@ -100,6 +100,7 @@ import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 import ModalRegistroCorrecto from "@/components/ModalRegistroCorrecto.vue";
 import axios from "axios";
 import router from "@/router";
+import ResetPass from "@/components/ResetPass.vue";
 export default {
   name: 'LoginView',
   data() {
@@ -121,10 +122,11 @@ export default {
     }
   },
   components: {
-    ModalRegistroCorrecto
+    ModalRegistroCorrecto,
+    ResetPass
   },
   methods: {
-    PassForgoten(){
+    PassForgoten() {
       console.log("entró")
       router.push('/ResetPassword')
     },
@@ -195,7 +197,7 @@ export default {
 
       try {
         // Datos del usuario que quieres enviar en el body
-         const  usuario = {
+        const usuario = {
           correo: this.email,
           nombre: this.nombre,
           apellido: this.apellidos,
@@ -207,7 +209,7 @@ export default {
           formData.append('usuario', JSON.stringify(usuario));
           formData.append('nombre_marca', this.nombre_marca);
           formData.append('imagen', this.selectedFile); // `selectedFile` es el archivo de imagen seleccionado
-          
+
           // Hacer la solicitud POST
           respuesta = await axios.post('http://localhost:3000/usuarios-vendedores', formData, {
             headers: {
@@ -252,6 +254,13 @@ export default {
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
     },
+
+    ResetPass() {
+
+      const modalElement = document.getElementById("ResetPass");
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    },
     Toggle_form() {
       this.login = !this.login;
     },
@@ -272,11 +281,11 @@ export default {
       el.style.transform = 'translateY(10px)';
       done();
     },
-    LogOut(){
+    LogOut() {
       localStorage.clear();
     }
   },
-  mounted(){
+  mounted() {
     this.LogOut();
   }
 
