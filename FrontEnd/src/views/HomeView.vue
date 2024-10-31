@@ -98,10 +98,8 @@
                 </div>
             </div>
         </div>
-        <li v-for="usuario in usuarios" :key="usuario.id">
-        {{ usuario.nombre }} ({{ usuario.email }})
-      </li>
-        <h2 class="section-title">Artesanos Visitados</h2>
+
+        <!-- <h2 class="section-title">Artesanos Visitados</h2>
         <div v-for="(vendedor, index) in Vendedores" :key="index" class="product-grid">
             <div class="product-card">
                 <img src="../images/test.png" alt="Retrato de artesano" width="250"
@@ -111,7 +109,7 @@
                 </div>
             </div>
 
-        </div> 
+        </div>  -->
     </main>
 
     <footer>
@@ -119,7 +117,7 @@
     </footer>
 </template>
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import NavBar from '@/components/NavBar.vue';
 export default {
     data() {
@@ -128,23 +126,23 @@ export default {
         }
     },
     methods: {
-        async ConsultaVendedores() {
-            try {
-                const response = await axios.get('http://localhost:3000/usuarios-vendedores');
-                console.log(response.data)
-                this.Vendedores = response.data
-            } catch (err) {
-                console.error('Error al obtener los usuarios:', err);
-            }
+        // async ConsultaVendedores() {
+        //     try {
+        //         const response = await axios.get('http://localhost:3000/usuarios-vendedores');
+        //         console.log(response.data)
+        //         this.Vendedores = response.data
+        //     } catch (err) {
+        //         console.error('Error al obtener los usuarios:', err);
+        //     }
 
-        }
+        // }
     },
 
     components: {
         NavBar
     },
     mounted() {
-        this.ConsultaVendedores();
+        // this.ConsultaVendedores();
     }
 }
 </script>

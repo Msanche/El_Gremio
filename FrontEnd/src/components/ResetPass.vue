@@ -41,7 +41,7 @@
                     <div class="form-group">
                       <label for="email">Correo Electrónico</label>
                       <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com"
-                        autocomplete="email">
+                        autocomplete="email" v-model="mail">
                     </div>
                   </div>
 
@@ -49,12 +49,12 @@
                     <p class="info-text">Hemos enviado un código de verificación a tu correo electrónico. Por favor,
                       ingrésalo a continuación:</p>
                     <div class="verification-inputs">
-                      <input type="text" maxlength="1" pattern="[0-9]" required>
-                      <input type="text" maxlength="1" pattern="[0-9]" required>
-                      <input type="text" maxlength="1" pattern="[0-9]" required>
-                      <input type="text" maxlength="1" pattern="[0-9]" required>
-                      <input type="text" maxlength="1" pattern="[0-9]" required>
-                      <input type="text" maxlength="1" pattern="[0-9]" required>
+                      <input type="text" maxlength="1" pattern="[0-9]" required v-model="num1">
+                      <input type="text" maxlength="1" pattern="[0-9]" required v-model="num2">
+                      <input type="text" maxlength="1" pattern="[0-9]" required v-model="num3">
+                      <input type="text" maxlength="1" pattern="[0-9]" required v-model="num4">
+                      <input type="text" maxlength="1" pattern="[0-9]" required v-model="num5">
+                      <input type="text" maxlength="1" pattern="[0-9]" required v-model="num6">
                     </div>
                   </div>
 
@@ -62,11 +62,11 @@
                     <p class="info-text">Ingresa tu nueva contraseña.</p>
                     <div class="form-group">
                       <label for="newPassword">Nueva Contraseña</label>
-                      <input type="password" id="newPassword" name="newPassword" required placeholder="••••••••">
+                      <input v-model="passwd" type="password" id="newPassword" name="newPassword" required placeholder="••••••••">
                     </div>
                     <div class="form-group">
                       <label for="confirmPassword">Confirmar Contraseña</label>
-                      <input type="password" id="confirmPassword" name="confirmPassword" required
+                      <input v-model="confirmPasswd" type="password" id="confirmPassword" name="confirmPassword" required
                         placeholder="••••••••">
                     </div>
                   </div>

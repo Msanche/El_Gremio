@@ -10,6 +10,7 @@ import UsuarioClienteView from '@/views/UsuarioClienteView.vue'
 import ProductoPersonalizado from '@/views/ProductoPersonalizado.vue'
 import ProductosPorCategoria from '@/views/ProductosPorCategoria.vue'
 import ResetPass from '@/components/ResetPass.vue'
+import VistaProductoView from '@/views/VistaProductoView.vue'
 const routes = [
   {
     path: '/',
@@ -42,7 +43,6 @@ const routes = [
     name: 'categorias',
     component: CategoriasView,
     meta: { requiresAuth: true }
-
   },
   {
     path: '/Vendedor',
@@ -75,8 +75,14 @@ const routes = [
     path: '/Producto/Categoria',
     name: 'producto_categoria',
     component: ProductosPorCategoria,
-    meta: { requiresAuth: true, role: 'Cliente' }
+    meta: { requiresAuth: true}
 
+  },
+  {
+    path: '/Producto/Vista',
+    name: 'producto_vista',
+    component: VistaProductoView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/:catchAll(.*)',  // Ruta para manejar 404

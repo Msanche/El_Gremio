@@ -15,11 +15,11 @@
                         <a class="nav-link" :class="{ disable: isActiveH, 'active-nav': isActiveH }" @click="Home()"
                             type="button" style="margin-right: 20px;">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li v-if="rol == 'Cliente'" class="nav-item">
                         <a class="nav-link" :class="{ disable: isActiveCtg, 'active-nav': isActiveCtg }" @click="Category()"
                             type="button" style="margin-right: 20px;">Categorías</a>
                     </li>
-                    <li class="nav-item" v-if="ShowCarrito">
+                    <li v-if="rol == 'Cliente'" class="nav-item" >
                         <a class="nav-link " :class="{ disable: isActiveC, 'active-nav': isActiveC }" @click="Carrito()"
                             type="button" style="margin-right: 20px;">🛒 Carrito</a>
                     </li>
@@ -53,7 +53,8 @@ import router from '@/router';
 export default {
     data() {
         return {
-            ShowCarrito:true
+            ShowCarrito:true,
+            rol:''
         }
     },
     props:{
@@ -81,25 +82,18 @@ export default {
             router.push('/')
         },
         Perfil(){
-            const role = localStorage.getItem('role');
-            console.log(role); // Esto mostrará el valor del token si existe, o null si no está presente.
-            if (role == 'Vendedor') {
+            this.rol= localStorage.getItem('role');
+            console.log(this.rol); // Esto mostrará el valor del token si existe, o null si no está presente.
+            if (this.rol == 'Vendedor') {
                 router.push('/Vendedor')
 
-            }else if(role =='Cliente'){
+            }else if(this.rol =='Cliente'){
                 router.push("/Cliente")
             }
         }
 
     },
-    mounted(){
-        const role = localStorage.getItem('role');
-        if (role === 'Cliente') {
-            this.ShowCarrito = true
-        }else{
-            this.ShowCarrito = false
-        }
-    }
+    
 }
 </script>
 
