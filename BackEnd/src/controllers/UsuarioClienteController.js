@@ -40,6 +40,7 @@ exports.createUsuarioCliente = async (req, res) => {
     });
     
   } catch (error) {
+    console.log(error)
     // En caso de error, hacer rollback para revertir los cambios
     await transaction.rollback();
     res.status(500).json({
