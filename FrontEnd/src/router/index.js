@@ -9,7 +9,7 @@ import UsuarioVendedorView from '@/views/UsuarioVendedorView.vue'
 import UsuarioClienteView from '@/views/UsuarioClienteView.vue'
 import ProductoPersonalizado from '@/views/ProductoPersonalizado.vue'
 import ProductosPorCategoria from '@/views/ProductosPorCategoria.vue'
-import ResetPass from '@/components/ResetPass.vue'
+import ResetPassView from '@/views/ResetPassView.vue'
 import VistaProductoView from '@/views/VistaProductoView.vue'
 const routes = [
   {
@@ -66,9 +66,9 @@ const routes = [
 
   },
   {
-    path: '/ResetPassword',
+    path: '/ResetPassword/:token',
     name: 'ResetPassword',
-    component: ResetPass,
+    component: ResetPassView,
 
   },
   {
