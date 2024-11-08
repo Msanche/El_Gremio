@@ -45,7 +45,7 @@
             </button>
         </div>
 
-        <h2 class="section-title">Artesanías Vistas</h2>
+        <h2 class="section-title">Artesanías Recientes</h2>
         <div class="product-grid">
             <div class="product-card">
                 <img src="../images/test.png" alt="Cerámica pintada a mano" width="250"
@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <h2 class="section-title">Sugeridos para Ti</h2>
+        <h2 class="section-title">Artesanos</h2>
         <div class="product-grid">
             <div class="product-card">
                 <img src="../images/test.png" alt="Joyería artesanal" width="250"
