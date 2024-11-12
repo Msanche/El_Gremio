@@ -125,6 +125,7 @@ create table ventaVendedores(
   fk_id_vendedor int not null,
   fk_id_cliente int not null,
   fk_id_tamano int not null,
+  estado default false, -- mientras de que el valor este como false, significa que la venta no se ha concretado o terminado
     
   foreign key (fk_id_vendedor) references Usuario_vendedores(pk_id_vendedor),
 	foreign key (fk_id_cliente) references Usuario_clientes (pk_id_cliente),
