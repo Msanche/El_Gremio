@@ -83,6 +83,9 @@
             </div>
             <button type="submit">Registrarse</button>
           </form>
+          <div v-if="registrationError" class="error-message">
+            <span>{{ registrationErrorMsg }}</span>
+          </div>
           <p class="toggle-form" id="showLogin" @click="Toggle_form()">¿Ya tienes cuenta? Inicia sesión aquí</p>
 
         </div>
@@ -115,6 +118,8 @@ export default {
       nombre_marca: '',
       selectedType: 'cliente', // Valor inicial
       loginError: false,
+      registrationError: false,
+      registrationErrorMsg: '',
       fileName: '',
       imagePreview: '', // Para la vista previa de la imagen
       selectedFile: null,
@@ -218,7 +223,7 @@ export default {
           });
 
         } else {
-          // Hacer la solicitud POST
+          // Hacer la solicitud POST 
           console.log(usuario)
           respuesta = await axios.post('http://localhost:3000/usuarios-clientes', usuario);
 
@@ -236,12 +241,11 @@ export default {
         console.log('Usuario creado:', respuesta.data);
       } catch (error) {
         // Manejo de errores
-        if (error.response) {
-          console.error('Error en la respuesta:', error.response.data);
-        } else if (error.request) {
-          console.error('Error en la solicitud:', error.request);
+        if (error.response && error.response.status === 500) { // Supongamos que el error de duplicado es 409
+          this.registrationError = true;
+          this.registrationErrorMsg = 'No puede usar este correo y/o teléfono.';
         } else {
-          console.error('Error:', error.message);
+          console.error('Error en la solicitud:', error.message);
         }
       }
 
@@ -514,5 +518,11 @@ input {
 
 .toggle-icon:hover {
   color: #555;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-weight: bold;
 }
 </style>
