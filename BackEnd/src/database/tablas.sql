@@ -110,3 +110,24 @@ foreign key (fk_id_pagina) references Pagina_vendedores (pk_id_pagina),
 foreign key (fk_id_cliente) references Usuario_clientes (pk_id_cliente)
 );
 
+-- Historial compras y ventas
+create table comprasUsuarios(
+	pk_id_compra int primary key auto_increment,
+  fk_id_cliente int not null,
+  fk_id_carrito int not null,
+    
+  foreign key (fk_id_cliente) references Usuario_clientes (pk_id_cliente),
+	foreign key (fk_id_carrito) references Carritos (pk_id_carrito)
+);
+
+create table ventaVendedores(
+	pk_id_venta int primary key auto_increment,
+  fk_id_vendedor int not null,
+  fk_id_cliente int not null,
+  fk_id_tamano int not null,
+  estado default false, -- mientras de que el valor este como false, significa que la venta no se ha concretado o terminado
+    
+  foreign key (fk_id_vendedor) references Usuario_vendedores(pk_id_vendedor),
+	foreign key (fk_id_cliente) references Usuario_clientes (pk_id_cliente),
+  foreign key (fk_id_tamano) references tamanos (pk_id_tamano)
+);

@@ -12,22 +12,22 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="../images/test.png" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
+                    <img src="../images/blackCat.jpg" class="d-block w-100" alt="..." style="height: 600px;">
+                    <div class="carousel-caption d-none d-md-block blurred-text">
                         <h5>First slide label</h5>
                         <p>Some representative placeholder content for the first slide.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="../images/test.png" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
+                    <img src="../images/cards.jpg" class="d-block w-100" alt="..." style="height: 600px;">
+                    <div class="carousel-caption d-none d-md-block blurred-text">
                         <h5>Second slide label</h5>
                         <p>Some representative placeholder content for the second slide.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="../images/test.png" class="d-block w-100" alt="...">
-                    <div class="carousel-caption d-none d-md-block">
+                    <img src="../../public/images/frieren.jpg" class="d-block w-100" alt="..." style="height: 600px;">
+                    <div class="carousel-caption d-none d-md-block blurred-text">
                         <h5>Third slide label</h5>
                         <p>Some representative placeholder content for the third slide.</p>
                     </div>
@@ -47,35 +47,20 @@
 
         <h2 class="section-title">Artesanías Recientes</h2>
         <div class="product-grid">
-            <div class="product-card">
-                <img src="../images/test.png" alt="Cerámica pintada a mano" width="250"
+        <div class="product-card" v-for="item in LastProduct" :key="item.id_producto">
+            <img :src="`../images/${item.nombre_imagen}`" :alt="`${item.nombre_imagen}`" width="250"
                     height="250">
                 <div class="product-info">
-                    <h3>Cerámica Pintada</h3>
-                    <p>Artesana: Luisa Fernández</p>
+                    <h3>{{ item.nombre }}</h3>
+                    <p>Artesano: {{item.usuario_vendedore.Usuario.nombre}}</p>
                 </div>
-            </div>
-            <div class="product-card">
-                <img src="../images/test.png" alt="Bolso tejido" width="250" height="250">
-                <div class="product-info">
-                    <h3>Bolso Tejido</h3>
-                    <p>Artesano: Roberto Sánchez</p>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="../images/test.png" alt="Cuadro de madera tallada" width="250"
-                    height="250">
-                <div class="product-info">
-                    <h3>Cuadro Tallado</h3>
-                    <p>Artesano: Miguel Ángel Torres</p>
-                </div>
-            </div>
+        </div>
         </div>
 
         <h2 class="section-title">Artesanos</h2>
         <div class="product-grid">
             <div class="product-card">
-                <img src="../images/test.png" alt="Joyería artesanal" width="250"
+                <img  alt="Joyería artesanal" width="250"
                     height="250">
                 <div class="product-info">
                     <h3>Collar de Plata</h3>
@@ -83,7 +68,7 @@
                 </div>
             </div>
             <div class="product-card">
-                <img src="../images/test.png" alt="Escultura de barro" width="250"
+                <img  alt="Escultura de barro" width="250"
                     height="250">
                 <div class="product-info">
                     <h3>Escultura de Barro</h3>
@@ -91,7 +76,7 @@
                 </div>
             </div>
             <div class="product-card">
-                <img src="../images/test.png" alt="Tapiz tejido" width="250" height="250">
+                <img  alt="Tapiz tejido" width="250" height="250">
                 <div class="product-info">
                     <h3>Tapiz Andino</h3>
                     <p>Artesana: Rosa Mamani</p>
@@ -117,37 +102,52 @@
     </footer>
 </template>
 <script>
-// import axios from 'axios';
+ import axios from 'axios';
 import NavBar from '@/components/NavBar.vue';
 export default {
     data() {
         return {
-            Vendedores:[]
+            Vendedores:[],
+            LastProduct:[]
         }
     },
     methods: {
-        // async ConsultaVendedores() {
-        //     try {
-        //         const response = await axios.get('http://localhost:3000/usuarios-vendedores');
-        //         console.log(response.data)
-        //         this.Vendedores = response.data
-        //     } catch (err) {
-        //         console.error('Error al obtener los usuarios:', err);
-        //     }
+         async ConsultaLastProduct() {
+             try {
+                 const response = await axios.get('http://localhost:3000/LastProductos');
+                 console.log(response.data)
+                 this.LastProduct = response.data
+             } catch (err) {
+                 console.error('Error al obtener los usuarios:', err);
+             }
 
-        // }
+         }
     },
 
     components: {
         NavBar
     },
     mounted() {
-        // this.ConsultaVendedores();
+         this.ConsultaLastProduct();
     }
 }
 </script>
 
 <style>
+
+.carousel-caption{
+    color: rgb(0, 0, 0) !important
+}
+
+.blurred-text {
+  background: rgba(255, 255, 255, 0.4); /* Fondo semitransparente */
+  backdrop-filter: blur(10px); /* Nivel de desenfoque */
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: grey; /* Color del texto */
+  font-weight: bold;
+}
+
 :root {
     --primary-color: #8B4513;
     --secondary-color: #D2691E;
@@ -299,7 +299,6 @@ main {
     text-align: center;
     background-size: cover;
     background-position: center;
-    color: white;
     position: relative;
 }
 
