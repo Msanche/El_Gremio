@@ -101,6 +101,9 @@ router.route('/productos')
   .get(ProductoController.getProductos)      // Obtener todos los productos
   .post(ProductoController.createProducto);   // Crear un nuevo producto
 
+router.route('/LastProductos')
+  .get(ProductoController.getLastProductos) ;
+
 router.route('/productos/:id')
   .get(ProductoController.getProductoById)    // Obtener un producto por ID
   .put(ProductoController.updateProducto)     // Actualizar un producto por ID

@@ -1,5 +1,8 @@
 const Producto = require('../models/productos');
 const tamano = require('../models/tamano')
+const usuario_vendedor = require('../models/usuario_vendedor')
+const usuario = require('../models/usuario')
+
 // Crear un nuevo producto
 exports.createProducto = async (req, res) => {
   try {
@@ -19,6 +22,26 @@ exports.getProductos = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener los productos', error });
   }
 };
+
+exports.getLastProductos = async (req, res) => {
+  try {
+    const productos = await Producto.findAll({
+      order: [['id_producto', 'DESC']],
+      limit: 5, // Cambia el límite según la cantidad de productos que desees obtener
+      include:[{
+        model:usuario_vendedor,
+        include:[{
+          model:usuario,
+          attributes:['nombre']
+        }]
+      }]
+    });
+    res.status(200).json(productos);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener los productos', error });
+  }
+};
+
 
 // Obtener un producto por ID
 exports.getProductoById = async (req, res) => {
