@@ -82,7 +82,6 @@ export default {
             router.push('/')
         },
         Perfil(){
-            this.rol= localStorage.getItem('role');
             console.log(this.rol); // Esto mostrará el valor del token si existe, o null si no está presente.
             if (this.rol == 'Vendedor') {
                 router.push('/Vendedor')
@@ -93,6 +92,9 @@ export default {
         }
 
     },
+    mounted(){
+        this.rol= localStorage.getItem('role');
+    }
     
 }
 </script>

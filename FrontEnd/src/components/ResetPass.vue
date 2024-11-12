@@ -34,14 +34,14 @@
                   </div>
                 </div>
 
-                <form id="recoveryForm">
+                <form id="recoveryForm" @submit.prevent="requestPasswordReset()">
                   <div v-if="step1" class="form-section">
                     <p class="info-text">Ingresa tu dirección de correo electrónico y te enviaremos un código de
                       verificación para restablecer tu contraseña.</p>
                     <div class="form-group">
                       <label for="email">Correo Electrónico</label>
                       <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com"
-                        autocomplete="email" v-model="mail">
+                        autocomplete="email" v-model="email">
                     </div>
                   </div>
 
@@ -85,7 +85,7 @@
 
                   <div class="action-buttons">
                     <button type="button" class="btn btn-outline" id="backBtn" style="display: none;">Atrás</button>
-                    <button type="button" class="btn btn-primary" id="nextBtn">Continuar</button>
+                    <button type="submit" class="btn btn-primary" id="nextBtn">Continuar</button>
                   </div>
                 </form>
               </div>

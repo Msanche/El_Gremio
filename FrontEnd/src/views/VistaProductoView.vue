@@ -4,11 +4,7 @@
         <div class="main-content">
         <div class="product-images">
             <div class="main-image-container">
-                <svg class="main-image" viewBox="0 0 400 400">
-                    <rect width="100%" height="100%" fill="#f5e6d3"/>
-                    <circle cx="200" cy="200" r="100" fill="#8b5e3c"/>
-                    <text x="200" y="200" text-anchor="middle" dy=".3em" fill="#fdf6e3" font-size="40">Llavero</text>
-                </svg>
+                <img src="../images/patricio.jpg" alt="Llavero Patricio artesanal" class="main-image"/>
             </div>
         </div>
         <div class="product-details">
