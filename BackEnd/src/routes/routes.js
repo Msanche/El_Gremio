@@ -25,7 +25,9 @@ router.post('/reset-password', AuthController.resetPassword);
 // Rutas para Carrito
 router.route('/carrito')
   .get(CarritoController.getCarritos)      // Obtener todos los carritos
-  .post(CarritoController.createCarrito);  // Crear un nuevo carrito
+  .post(CarritoController.createCarrito) // Crear un nuevo carrito
+  .get(CarritoController.carritoUsuarioCliente) // traer los productos del carrito por ID del cliente
+  ;  
 
 router.route('/carrito/:id')
   .get(CarritoController.getCarritoById)   // Obtener un carrito por ID
