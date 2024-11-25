@@ -46,7 +46,17 @@ exports.getLastProductos = async (req, res) => {
 // Obtener un producto por ID
 exports.getProductoById = async (req, res) => {
   try {
-    const producto = await Producto.findByPk(req.params.id);
+    const idProducto = req.query;
+    // const producto = await Producto.findByPk(req.params.id); deprecated
+    const producto = await Producto.findOne({
+      where: {
+        id_prodcuto: idProducto
+      },
+      include:[{
+        model:tamano,
+        attributes: ['nombre_size','precio']
+      }]
+    })
     if (!producto) {
       return res.status(404).json({ message: 'Producto no encontrado' });
     }
