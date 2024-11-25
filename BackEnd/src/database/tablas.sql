@@ -68,6 +68,7 @@ pk_id_carrito int primary key auto_increment,
 fk_id_cliente int not null,
 total float not null
 );
+alter table Carritos add column estado boolean default true; -- True: carrito vigente. False: carrito ya pagado
 
 create table Detalle_carrito_productos (
 pk_fk_id_carrito int not null,
@@ -92,6 +93,8 @@ pk_id_encargo int primary key auto_increment,
 fk_id_vendedor int not null,
 fk_id_carrito int not null,
 descripcion varchar(255) ,
+nombre_imagen varchar(255), -- Para poder almacenar el nombre de referencia
+-- precio float (se agregaría para que cuando se acepte el encargo el vendedor establezca el precio. Discutir como implementarlo para el carrito)
 
 foreign key (fk_id_vendedor) references Usuario_vendedores(pk_id_vendedor),
 foreign key (fk_id_carrito) references Carritos(pk_id_carrito)

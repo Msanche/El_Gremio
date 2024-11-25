@@ -1,4 +1,9 @@
 const Carrito = require('../models/carrito');
+const DetalleCarrito = require ('../models/detalle_carrito_producto');
+const Tamano = require ('../models/tamano');
+const Producto = require ('../models/productos');
+const UsuarioVendedor = require ('../models/usuario_vendedor');
+const Encargo = require ('../models/encargo');
 
 // Crear un nuevo carrito
 exports.createCarrito = async (req, res) => {
@@ -60,3 +65,59 @@ exports.deleteCarrito = async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar el carrito', error });
   }
 };
+
+
+//Obtener todos los carritos por el idUsuarioCliente
+exports.carritoUsuarioCliente = async (req, res) =>{
+  const idUsuarioCliente = req.body;
+  try {
+    const carrito = await Carrito.findOne({
+      where: {
+        idUsuarioCliente,
+        estado:true
+      }
+    });
+
+    //Se obtienen los productos en Stock que formen parte del carrito del cliente
+    const detalle = await DetalleCarrito.findAll({
+      attributes:['cantidad_productos'],
+      include:[
+        {
+          model:Tamano,
+          attributes: ['nombre_size','precio'],
+          include: [{
+            model:Producto,
+            attributes: ['nombre','nombre_imagen'],
+            include:[{
+              model:UsuarioVendedor,
+              attributes: ['nombre_marca']
+            }]
+          }]
+        }
+      ],
+      where:{
+        pk_fk_id_carrito:carrito.pk_id_carrito
+      }
+    });
+
+    
+    //Se obtienen los productos de categoría Encargo que esten dentro del carrito
+    /* Determinar con exactitud como se va a manejar esto en relación con los precios para el carrito (discutir agregación de precio como atributo)
+    const encargo = await Encargo.findAll({
+      where:{
+        fk_id_carrito:carrito.pk_id_carrito
+      }
+    })
+      Esto se agregaría al json que se enviaría de esta parte
+    */
+
+  res.status(201).json({
+    message:'Se han obtenido exitosamente los datos del carrito',
+    data: detalle
+  })
+  
+  } catch (error) {
+    console.error("Error al realizar la consulta del carrito: ", error);
+    res.status(500).json({ message: "Error al realizar la consulta del carrito", error });
+  }
+}

@@ -26,6 +26,10 @@ const Encargo = sequelize.define('Encargos', {
   descripcion: {
     type: DataTypes.STRING(255),
     allowNull: true
+  },
+  nombre_imagen:{
+    type: DataTypes.STRING(255),
+    allowNull: true
   }
 }, {
   tableName: 'Encargos',
