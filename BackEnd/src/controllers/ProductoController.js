@@ -79,6 +79,31 @@ exports.getProductoByCategory = async (req, res) => {
   }
 };
 
+//Obtener un producto por el id del vendedor
+exports.getProductosPorIdVendedor = async (req, res) =>{
+  try {
+    const vendedorId = req.query;
+    const productos = await Producto.findAll({
+      where:{
+        fk_id_vendedor:vendedorId
+      },
+      include:[{
+        model:tamano,
+        attributes:['nombre_size','precio']
+      }]
+    });
+    res.status(201).json({
+      message: 'Se obtuvieron exitosamente los productos del vendedor',
+      data:{
+        productos
+      }
+    })
+  } catch (error) {
+    console.log(`Error al recuperar los prodcutos del vendedor ${vendedorId} `,error)
+    res.status(500).json({ error: `Error al recuperar los prodcutos del vendedor ${vendedorId} ` }, error);
+  }
+}
+
 // Actualizar un producto
 exports.updateProducto = async (req, res) => {
   try {

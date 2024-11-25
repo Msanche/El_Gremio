@@ -26,7 +26,6 @@ router.post('/reset-password', AuthController.resetPassword);
 router.route('/carrito')
   .get(CarritoController.getCarritos)      // Obtener todos los carritos
   .post(CarritoController.createCarrito) // Crear un nuevo carrito
-  .get(CarritoController.carritoUsuarioCliente) // traer los productos del carrito por ID del cliente
   ;  
 
 router.route('/carrito/:id')
@@ -34,6 +33,8 @@ router.route('/carrito/:id')
   .put(CarritoController.updateCarrito)    // Actualizar un carrito por ID
   .delete(CarritoController.deleteCarrito); // Eliminar un carrito por ID
 
+router.route('/carritoCliente')
+  .get(CarritoController.carritoUsuarioCliente); // traer los productos del carrito por ID del cliente
 
 // Rutas para las categorías
 router.route('/categorias')
@@ -114,15 +115,17 @@ router.route('/productos/:id')
 router.route('/productos/Category/:idCategory')
   .get(ProductoController.getProductoByCategory)    // Obtener un producto por ID de categoria
 
+roueter.route('/productos/:idVendedor')
+  .get(ProductoController.getProductosPorIdVendedor); // Obtener un producto por el ID del vendedor
+
 // Rutas para las reviews
 router.route('/reviews')
   .get(ReviewController.getReviews)            // Obtener todas las reviews
-  ,get(ReviewController.getReviewsByIdPage) // Obtener reviews por 
   .post(ReviewController.createReview);           // Crear una nueva review
 
 router.route('/reviews/:id')
   .get(ReviewController.getReviewById)         // Obtener una review por ID
-  .get(ReviewController.getReviewsByIdPage) 
+  .get(ReviewController.getReviewsByIdPage)  // Obtener reviews por id Pagina
   .put(ReviewController.updateReview)           // Actualizar una review por ID
   .delete(ReviewController.deleteReview);       // Eliminar una review por ID
 
