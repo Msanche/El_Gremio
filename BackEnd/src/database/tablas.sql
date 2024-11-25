@@ -108,6 +108,7 @@ review  varchar(255) not null ,
 calificacion tinyint not null,
 fk_id_pagina int not null,
 fk_id_cliente int not null,
+fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP not null, -- Para poder conocer cuando es que se realizó la review
 
 foreign key (fk_id_pagina) references Pagina_vendedores (pk_id_pagina),
 foreign key (fk_id_cliente) references Usuario_clientes (pk_id_cliente)

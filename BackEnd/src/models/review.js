@@ -32,6 +32,11 @@ const Review = sequelize.define('Reviews', {
       model: UsuarioCliente,
       key: 'pk_id_cliente'
     }
+  },
+  fecha:{
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    allowNull: true
   }
 }, {
   tableName: 'Reviews',

@@ -1,5 +1,7 @@
 // controllers/reviewController.js
 const Review = require('../models/review');
+const UsuarioCliente = require ('../models/usuario_cliente');
+const Usuario = require ('../models/usuario');
 const { sequelize } = require('../models/review'); // Asegúrate de importar la instancia de Sequelize
 
 // Obtener todas las reviews
@@ -12,11 +14,23 @@ exports.getReviews = async (req, res) => {
   }
 };
 
+// Obtener las reviews por el id de la Página
 exports.getReviewsByIdPage = async(req, res) =>{
   try{
     const { fk_id_pagina } = req.params;
 
-    const reviews = await Review.findAll({where:{fk_id_pagina}});
+    const reviews = await Review.findAll({
+      include:[{
+        model:UsuarioCliente,
+        include:[{
+          model:Usuario,
+          attributes:['nombre','apellido']
+        }]
+      }],
+      where:{
+        fk_id_pagina
+      }
+    });
 
     if(!reviews|| reviews.length === 0){
       return res.status(404).json({message: `Reviews con idPagina = ${fk_id_pagina} no encontrado`})
@@ -42,7 +56,6 @@ exports.getReviewById = async (req, res) => {
 };
 
 // Crear una nueva review
-
 exports.createReview = async (req, res) => {
   const t = await sequelize.transaction(); // Inicia la transacción
   try {

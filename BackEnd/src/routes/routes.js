@@ -117,6 +117,7 @@ router.route('/productos/Category/:idCategory')
 // Rutas para las reviews
 router.route('/reviews')
   .get(ReviewController.getReviews)            // Obtener todas las reviews
+  ,get(ReviewController.getReviewsByIdPage) // Obtener reviews por 
   .post(ReviewController.createReview);           // Crear una nueva review
 
 router.route('/reviews/:id')
