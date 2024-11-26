@@ -12,21 +12,21 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="../images/blackCat.jpg" class="d-block w-100" alt="..." style="height: 600px;">
+                    <img src="/images/blackCat.jpg" class="d-block w-100" alt="..." style="height: 600px;">
                     <div class="carousel-caption d-none d-md-block blurred-text">
                         <h5>First slide label</h5>
                         <p>Some representative placeholder content for the first slide.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="../images/cards.jpg" class="d-block w-100" alt="..." style="height: 600px;">
+                    <img src="/images/cards.jpg" class="d-block w-100" alt="..." style="height: 600px;">
                     <div class="carousel-caption d-none d-md-block blurred-text">
                         <h5>Second slide label</h5>
                         <p>Some representative placeholder content for the second slide.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="../../public/images/frieren.jpg" class="d-block w-100" alt="..." style="height: 600px;">
+                    <img src="/images/frieren.jpg" class="d-block w-100" alt="..." style="height: 600px;">
                     <div class="carousel-caption d-none d-md-block blurred-text">
                         <h5>Third slide label</h5>
                         <p>Some representative placeholder content for the third slide.</p>
@@ -48,7 +48,7 @@
         <h2 class="section-title">Artesanías Recientes</h2>
         <div class="product-grid">
         <div class="product-card" v-for="item in LastProduct" :key="item.id_producto">
-            <img :src="`../images/${item.nombre_imagen}`" :alt="`${item.nombre_imagen}`" width="250"
+            <img :src="`/images/${item.nombre_imagen}`" :alt="`${item.nombre_imagen}`" width="250"
                     height="250">
                 <div class="product-info">
                     <h3>{{ item.nombre }}</h3>

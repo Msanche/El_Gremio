@@ -4,7 +4,7 @@
   <ModalRegistroCorrecto />
   <ResetPass/>
   <header class="header">
-    <img src="@/images/logo.jpg" alt="El Gremio Logo - A shield with wings and a central emblem" class="logo">
+    <img src="/images/logo.jpg" alt="El Gremio Logo - A shield with wings and a central emblem" class="logo">
     <h1>El Gremio</h1>
     <p class="subtitle">Llevando la Tradición al Mundo Digital</p>
   </header>

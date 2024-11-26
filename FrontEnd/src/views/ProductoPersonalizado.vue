@@ -4,7 +4,7 @@
 <div class="container">
         <header>
             <div class="logo">
-                <img src="../images/blackCat.jpg" alt="Madame Crochet logo">
+                <img src="/images/blackCat.jpg" alt="Madame Crochet logo">
                 <h1>Madame Crochet</h1>
             </div>
             <div class="rating">★★★★★</div>

@@ -4,7 +4,7 @@
         <div class="main-content">
         <div class="product-images">
             <div class="main-image-container">
-                <img src="../images/patricio.jpg" alt="Llavero Patricio artesanal" class="main-image"/>
+                <img src="/images/patricio.jpg" alt="Llavero Patricio artesanal" class="main-image"/>
             </div>
         </div>
         <div class="product-details">

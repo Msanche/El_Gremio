@@ -3,7 +3,7 @@
     <h2>Explora Nuestras Artesanías</h2>
         <div class="category-grid">
             <div class="category-card">
-                <img src="../images/crochet.jpg" alt="Tejidos artesanales coloridos" width="250" height="200">
+                <img src="/images/crochet.jpg" alt="Tejidos artesanales coloridos" width="250" height="200">
                 <h3>Crochet</h3>
                 <div class="category-overlay">
                     <span @click="ProductByCategory">Ver Crochet</span>
