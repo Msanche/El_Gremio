@@ -125,10 +125,11 @@ router.route('/reviews')
 
 router.route('/reviews/:id')
   .get(ReviewController.getReviewById)         // Obtener una review por ID
-  .get(ReviewController.getReviewsByIdPage)  // Obtener reviews por id Pagina
   .put(ReviewController.updateReview)           // Actualizar una review por ID
   .delete(ReviewController.deleteReview);       // Eliminar una review por ID
 
+router.route('/reviews/:idPage')
+  .get(ReviewController.getReviewsByIdPage);  // Obtener reviews por id Pagina 
 
 // Rutas para los tamaños
 router.route('/tamanos')
