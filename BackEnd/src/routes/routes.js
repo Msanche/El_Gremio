@@ -115,7 +115,7 @@ router.route('/productos/:id')
 router.route('/productos/Category/:idCategory')
   .get(ProductoController.getProductoByCategory)    // Obtener un producto por ID de categoria
 
-roueter.route('/productos/:idVendedor')
+router.route('/productos/:idVendedor')
   .get(ProductoController.getProductosPorIdVendedor); // Obtener un producto por el ID del vendedor
 
 // Rutas para las reviews
