@@ -9,7 +9,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <form class="product-form">
+                        <form class="product-form" @submit.prevent="CreateProduct()">
 
                             <div class="form-group">
                                 <label for="productImage">Imagen del Producto:</label>

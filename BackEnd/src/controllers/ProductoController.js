@@ -4,6 +4,8 @@ const usuario_vendedor = require('../models/usuario_vendedor')
 const usuario = require('../models/usuario')
 
 // Crear un nuevo producto
+// Crear transacción al incio
+// crear primero el producto y extraer el id para crear tamaños 
 exports.createProducto = async (req, res) => {
   try {
     const producto = await Producto.create(req.body);
