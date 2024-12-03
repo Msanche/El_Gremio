@@ -7,11 +7,29 @@ const usuario = require('../models/usuario')
 // Crear transacción al incio
 // crear primero el producto y extraer el id para crear tamaños 
 exports.createProducto = async (req, res) => {
+  const transaction = await sequelize.transaction(); // Inicia una transacción
   try {
-    const producto = await Producto.create(req.body);
-    res.status(201).json(producto);
+    // Crear el producto y extraer su ID
+    const producto = await Producto.create(req.body, { transaction });
+
+    // Crear tamaños relacionados con el producto
+    const tamanos = req.body.tamanos; // Se espera un array de tamaños en la solicitud
+    if (tamanos && tamanos.length > 0) {
+      const tamanosData = tamanos.map((tamano) => ({
+        ...tamano,
+        fk_id_producto: producto.id_producto, // Relacionar con el ID del producto recién creado
+      }));
+
+      await Tamano.bulkCreate(tamanosData, { transaction });
+    }
+
+    // Confirmar la transacción
+    await transaction.commit();
+    res.status(201).json({ message: 'Producto y tamaños creados exitosamente', producto });
   } catch (error) {
-    res.status(500).json({ message: 'Error al crear el producto', error });
+    // Revertir la transacción en caso de error
+    await transaction.rollback();
+    res.status(500).json({ message: 'Error al crear el producto y tamaños', error });
   }
 };
 
