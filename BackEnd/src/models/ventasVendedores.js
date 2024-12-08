@@ -38,10 +38,11 @@ const ventasVendedores = sequelize.define('ventaVendedores',{
         allowNull: false
     },
 
-    estado:{
-        type:Boolean,
-        defaultValue:false // mientras de que el valor este como false, significa que la venta no se ha concretado o terminado
-    }
+    estado: {
+        type: DataTypes.TINYINT(1),
+        defaultValue: 0  // 0 representa 'false'
+      }
+      
 },{
     tableName: 'ventaVendedores',
     timestamps: false

@@ -48,40 +48,22 @@
         <h2 class="section-title">Artesanías Recientes</h2>
         <div class="product-grid">
         <div class="product-card" v-for="item in LastProduct" :key="item.id_producto">
-            <img :src="`/images/${item.nombre_imagen}`" :alt="`${item.nombre_imagen}`" width="250"
-                    height="250">
+            <img :src="`http://localhost:3000/uploads/${item?.nombre_imagen}`" :alt="`${item.nombre}`" class="product-image">
                 <div class="product-info">
-                    <h3>{{ item.nombre }}</h3>
-                    <p>Artesano: {{item.usuario_vendedore.Usuario.nombre}}</p>
+                    <h3>{{ item?.nombre }}</h3>
+                    <p>Artesano: {{item?.usuario_vendedore.Usuario.nombre}}</p>
                 </div>
         </div>
         </div>
 
         <h2 class="section-title">Artesanos</h2>
         <div class="product-grid">
-            <div class="product-card">
-                <img  alt="Joyería artesanal" width="250"
-                    height="250">
+            <div class="product-card" v-for="item in artesanos" :key="item.id_producto">
+            <img :src="`http://localhost:3000/uploads/${item?.Pagina_vendedore.foto_perfil}`" :alt="`${item.nombre}`" class="product-image">
                 <div class="product-info">
-                    <h3>Collar de Plata</h3>
-                    <p>Artesana: Elena Gómez</p>
+                    <h3>{{ item?.nombre_marca }}</h3>
                 </div>
-            </div>
-            <div class="product-card">
-                <img  alt="Escultura de barro" width="250"
-                    height="250">
-                <div class="product-info">
-                    <h3>Escultura de Barro</h3>
-                    <p>Artesano: Pedro Ramírez</p>
-                </div>
-            </div>
-            <div class="product-card">
-                <img  alt="Tapiz tejido" width="250" height="250">
-                <div class="product-info">
-                    <h3>Tapiz Andino</h3>
-                    <p>Artesana: Rosa Mamani</p>
-                </div>
-            </div>
+        </div>
         </div>
 
         <!-- <h2 class="section-title">Artesanos Visitados</h2>
@@ -108,7 +90,8 @@ export default {
     data() {
         return {
             Vendedores:[],
-            LastProduct:[]
+            LastProduct:[],
+            artesanos:[],
         }
     },
     methods: {
@@ -121,6 +104,15 @@ export default {
                  console.error('Error al obtener los usuarios:', err);
              }
 
+         },
+         async ConsultaArtesanos(){
+            try {
+                 const response = await axios.get('http://localhost:3000/usuarios-vendedores');
+                 console.log(response.data)
+                 this.artesanos = response.data
+             } catch (err) {
+                 console.error('Error al obtener los usuarios:', err);
+             }
          }
     },
 
@@ -129,6 +121,7 @@ export default {
     },
     mounted() {
          this.ConsultaLastProduct();
+         this.ConsultaArtesanos();
     }
 }
 </script>
