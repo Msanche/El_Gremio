@@ -191,7 +191,7 @@ export default {
         }
       } catch (error) {
         this.loginError = true
-        console.error("correo o contraseña incorrectos", login)
+        console.error("correo o contraseña incorrectos", login,error)
       }
 
 

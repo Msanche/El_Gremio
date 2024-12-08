@@ -18,7 +18,7 @@
                                         style="color:#8B4513; background-color: #D2B48C;">Seleccionar
                                         Imagen</button>
                                     <input type="file" id="productImage" ref="productImage" accept="image/*" required
-                                        @change="handleFileChange" style="display: none" />
+                                        @change="handleFileChange($event)" style="display: none" />
                                 </div>
                                 <span class="file-input-name">{{ fileName }}</span>
                                 <p class="help-text">Seleccione una imagen clara (formatos: JPG, PNG)</p>
@@ -38,7 +38,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="product-category">Categoría</label>
-                                    <select id="product-category" name="product-category" class="category-select">
+                                    <select id="product-category" name="product-category" class="category-select"
+                                        v-model="categoriaSelected">
                                         <option value="">Selecciona una categoría</option>
                                         <option v-for="(item, index) in category" :key="index" :value="item">
                                             {{ item.categoria }}
@@ -46,6 +47,13 @@
                                     </select>
 
                                 </div>
+                                <div class="form-group">
+                                    <label for="product-price">Stock del producto</label>
+                                    <input class="price" v-model="stockProduct" type="number" id="product-price"
+                                        name="Precio">
+
+                                </div>
+
                                 <div class="form-group">
                                     <label for="product-description">Descripción del Producto</label>
                                     <textarea id="product-description" name="product-description" rows="4"
@@ -56,18 +64,36 @@
                                     <label>Medidas Sugeridas</label>
                                     <div class="dimensions">
                                         <label class="dimension-option">
-                                            <input type="radio" name="medidas" value="Chico" v-model="selectedSize" />
+                                            <input type="checkbox" value="Chico" v-model="selectedSizes" />
                                             <span>{{ Chico }}</span>
                                         </label>
+
                                         <label class="dimension-option">
-                                            <input type="radio" name="medidas" value="Mediano" v-model="selectedSize" />
+                                            <input type="checkbox" value="Mediano" v-model="selectedSizes" />
                                             <span>{{ Mediano }}</span>
                                         </label>
                                         <label class="dimension-option">
-                                            <input type="radio" name="medidas" value="Grande" v-model="selectedSize" />
+                                            <input type="checkbox" value="Grande" v-model="selectedSizes" />
                                             <span>{{ Grande }}</span>
                                         </label>
                                     </div>
+                                    <div class="dimensions" v-if="selectedSizes.includes('Chico')">
+                                        <label for="product-price">Precio del tamaño Chico</label>
+                                        <input class="price" v-model="PriceProductChico" type="number"
+                                            id="product-price" name="Precio">
+                                    </div>
+                                    <div class="dimensions" v-if="selectedSizes.includes('Mediano')">
+                                        <label for="product-price">Precio del tamaño Mediano</label>
+                                        <input class="price" v-model="PriceProductMediano" type="number"
+                                            id="product-price" name="Precio">
+                                    </div>
+                                    <div class="dimensions" v-if="selectedSizes.includes('Grande')">
+                                        <label for="product-price">Precio del tamaño Grande</label>
+                                        <input class="price" v-model="PriceProductGrande" type="number"
+                                            id="product-price" name="Precio">
+                                    </div>
+
+
                                 </div>
 
                             </div>
@@ -102,14 +128,38 @@ export default {
             Grande: 'Grande',
             category: [],
             description: '',
-            characterCount: 0,
-            selectedSize: ''
+            selectedSizes: [],
+            categoriaSelected: [],
+            stockProduct: 0,
+            PriceProductChico: 0,
+            PriceProductMediano: 0,
+            PriceProductGrande: 0
         }
+    },
+    computed: {
+        characterCount() {
+            return this.description.length; // Cuenta de caracteres actual
+        },
     },
     methods: {
 
+        clearForm() {
+            this.ProductoName = ''
+            this.selectedFile = ''
+            this.description = ''
+            this.selectedSizes = []
+            this.categoriaSelected = []
+            this.stockProduct = 0
+            this.PriceProductChico = 0
+            this.PriceProductMediano = 0
+            this.PriceProductGrande = 0
+        },
+
         updateCharacterCount() {
-            this.characterCount = this.description.length;
+            console.log(this.description.length)
+            if (this.description.length > 255) {
+                this.description = this.description.slice(0, 255);
+            }
         },
         CloseModal() {
             const modalElement = document.getElementById("AddProduct");
@@ -142,60 +192,50 @@ export default {
                 console.error('Error al obtener los usuarios:', err);
             }
         },
-       async  CreateProduct(){
-            try {
-        // Datos del usuario que quieres enviar en el body
-         const  usuario = {
-          productoNombre: this.ProductoName,
-          nombre: this.nombre,
-          apellido: this.apellidos,
-          numeroCelular: this.tel,
-          contrasena: this.password
-        };
-        
+        async CreateProduct() {
+         
+                const nombreVendedor = localStorage.getItem("nombre");
 
-        let respuesta
+                // Datos del usuario que quieres enviar en el body
+                // Construcción del objeto producto
+                const producto = {
+                    nombre: this.ProductoName,
+                    stock: this.stockProduct,
+                    descripcion: this.description,
+                    fk_id_vendedor: nombreVendedor,
+                    fk_id_categorias: this.categoriaSelected.id_categoria,
+                };
 
-        if (this.selectedType == 'vendedor') {
-          const formData = new FormData();
-          formData.append('usuario', JSON.stringify(usuario));
-          formData.append('nombre_marca', this.nombre_marca);
-          formData.append('imagen', this.selectedFile); // `selectedFile` es el archivo de imagen seleccionado
-          
-          // Hacer la solicitud POST
-          respuesta = await axios.post('http://localhost:3000/usuarios-vendedores', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data' // Aunque Axios lo establece automáticamente, es buena práctica
-            }
-          });
+                // Construcción del objeto tamanos
+                const tamanos = [
+                    this.PriceProductChico && { nombre_size: "Chico", precio: this.PriceProductChico },
+                    this.PriceProductMediano && { nombre_size: "Mediano", precio: this.PriceProductMediano },
+                    this.PriceProductGrande && { nombre_size: "Grande", precio: this.PriceProductGrande },
+                ].filter(Boolean); // Filtrar precios válidos
 
-        } else {
-          // Hacer la solicitud POST
-          console.log(usuario)
-          respuesta = await axios.post('http://localhost:3000/usuarios-clientes', usuario);
+                // Crear instancia de FormData
+                const formData = new FormData();
+                formData.append('nombre_imagen', this.selectedFile); // Archivo seleccionado
+                formData.append('producto', JSON.stringify(producto)); // Convertir el objeto a JSON
+                formData.append('tamanos', JSON.stringify(tamanos));  // Convertir el array a JSON
 
-        }
-        if (respuesta) {
-          let payload = "Registro"
-          this.$store.commit('LoginRegistro', payload);
-          this.ModalExito();
+                // Hacer la solicitud POST
+                try {
+                    const respuesta = await axios.post('http://localhost:3000/productos', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data', // Axios lo maneja automáticamente, pero no está de más incluirlo
+                        },
+                    });
 
-        }
+                    console.log('Respuesta del servidor:', respuesta.data);
+                    let payload = "Registro"
+                    this.$store.commit('LoginRegistro', payload);
+                    this.ModalExito();
+                } catch (error) {
+                    console.error('Error en la solicitud:', error.response?.data || error.message);
+                }
 
-
-
-        // Manejo de la respuesta
-        console.log('Usuario creado:', respuesta.data);
-      } catch (error) {
-        // Manejo de errores
-        if (error.response) {
-          console.error('Error en la respuesta:', error.response.data);
-        } else if (error.request) {
-          console.error('Error en la solicitud:', error.request);
-        } else {
-          console.error('Error:', error.message);
-        }
-      }
+           
         },
     },
     mounted() {
@@ -205,6 +245,29 @@ export default {
 </script>
 
 <style scoped>
+.price {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #D2B48C;
+    border-radius: 4px;
+    background-color: #FFF9F0;
+}
+
+.modal {
+    --bs-modal-width: 1000px !important
+}
+
+@media (max-width: 768px) {
+    .modal {
+        --bs-modal-width: 500px !important
+    }
+}
+
+.container {
+    display: block;
+
+}
+
 .image-preview img {
     max-width: 100%;
     max-height: 200px;
@@ -260,55 +323,71 @@ select {
 
 .dimensions {
     display: flex;
-    /* Permite que los botones se muevan a una nueva línea si es necesario */
     justify-content: space-between;
-    gap: 10px;
+    gap: 15px;
     flex-wrap: wrap;
+    padding: 10px;
+    background-color: #F5F5DC;
+    /* Fondo suave para el contenedor */
+    border-radius: 10px;
+    border: 1px solid #C19A6B;
+    /* Añade un borde ligero */
 }
 
 .dimension-option {
     display: flex;
     align-items: center;
+    justify-content: center;
     background-color: #D2B48C;
-    /* Fondo del botón */
+    /* Fondo base del botón */
     color: #4A3728;
     /* Color del texto */
-    border-radius: 5px;
-    padding: 10px;
+    border-radius: 8px;
+    padding: 12px 15px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    transition: all 0.3s ease;
     border: 2px solid transparent;
     /* Bordes transparentes por defecto */
     flex: 1 1 30%;
-    /* Permite que cada botón ocupe al menos el 30% del ancho disponible, pero pueda reducirse si es necesario */
-    max-width: 100px;
-    /* Establece un ancho máximo para evitar que se estiren demasiado */
+    /* Diseño flexible para adaptarse al ancho */
+    max-width: 120px;
+    /* Control del ancho máximo */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Sombra ligera para elevar los botones */
+    text-align: center;
 }
 
-.dimension-option:hover {
-    background-color: #C19A6B;
-    /* Color de fondo en hover */
-}
-
-/* Estilo para la entrada del radio */
-.dimension-option input[type="radio"] {
+.dimension-option input[type="checkbox"] {
     display: none;
-    /* Oculta el botón de radio real */
-}
-
-/* Estilo cuando el radio está seleccionado */
-.dimension-option input[type="radio"]:checked+span {
-    background-color: #8B4513;
-    /* Color de fondo cuando está seleccionado */
-    color: #FFF9F0;
-    /* Color del texto cuando está seleccionado */
-
+    /* Ocultar el checkbox predeterminado */
 }
 
 .dimension-option span {
-    display: block;
-    /* Para asegurar que el texto ocupe el espacio completo */
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: capitalize;
 }
+
+/* Estilo para hover */
+.dimension-option:hover {
+    background-color: #C19A6B;
+    /* Fondo más oscuro al pasar el mouse */
+    color: #FFFFFF;
+    /* Texto blanco para contraste */
+    border-color: #8B4513;
+    /* Borde destacado en hover */
+}
+
+/* Estilo para cuando el checkbox está seleccionado */
+.dimension-option input[type="checkbox"]:checked+span {
+    background-color: #8B4513;
+    color: #FFFFFF;
+    padding: 10px 12px;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* Efecto de "presionado" */
+}
+
 
 
 .buttons {

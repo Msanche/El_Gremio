@@ -40,7 +40,7 @@ exports.login = async (req, res) => {
     }
 
     if (!usuario) {
-      return res.status(400).json({ message: 'Credenciales inválidas' });
+      return res.status(400).json({ message: 'Correo o contraseña incorrectos' });
     }
 
     // Comparar la contraseña (pswd) con bcrypt

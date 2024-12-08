@@ -2,6 +2,8 @@ const Producto = require('../models/productos');
 const tamano = require('../models/tamano')
 const usuario_vendedor = require('../models/usuario_vendedor')
 const usuario = require('../models/usuario')
+const sequelize  = require('../database/database.js'); // Asegúrate de importar la instancia de Sequelize
+
 
 // Crear un nuevo producto
 // Crear transacción al incio
@@ -9,18 +11,43 @@ const usuario = require('../models/usuario')
 exports.createProducto = async (req, res) => {
   const transaction = await sequelize.transaction(); // Inicia una transacción
   try {
-    // Crear el producto y extraer su ID
-    const producto = await Producto.create(req.body, { transaction });
+    // Parsear datos del body
+    const productoInfo = JSON.parse(req.body.producto); // Parsear JSON del producto
+    const tamanos = JSON.parse(req.body.tamanos);       // Parsear JSON de tamaños
 
+    // Procesar archivo subido
+    const imagen = req.file;
+    if (!imagen) {
+      throw new Error('No se proporcionó una imagen.');
+    }
+
+    // Agregar el nombre del archivo al producto
+    productoInfo.nombre_imagen = imagen.filename;
+    console.log(productoInfo.fk_id_vendedor)
+    // Buscar el pk_id_usuario a partir del nombre
+    const Usuario = await usuario.findOne({
+      where: { nombre: productoInfo.fk_id_vendedor }, // Aquí buscamos por el nombre
+    });
+
+    if (!Usuario) {
+      throw new Error('Usuario no encontrado.');
+    }
+
+    // Reemplazar fk_id_usuario con pk_id_usuario
+    productoInfo.fk_id_vendedor = Usuario.pk_id_usuario;
+    console.log(tamanos)
+
+    // Crear el producto en la base de datos
+    const producto = await Producto.create(productoInfo, { transaction });
+    console.log("crea producto")
     // Crear tamaños relacionados con el producto
-    const tamanos = req.body.tamanos; // Se espera un array de tamaños en la solicitud
     if (tamanos && tamanos.length > 0) {
       const tamanosData = tamanos.map((tamano) => ({
         ...tamano,
         fk_id_producto: producto.id_producto, // Relacionar con el ID del producto recién creado
       }));
 
-      await Tamano.bulkCreate(tamanosData, { transaction });
+      await tamano.bulkCreate(tamanosData, { transaction });
     }
 
     // Confirmar la transacción
@@ -29,9 +56,12 @@ exports.createProducto = async (req, res) => {
   } catch (error) {
     // Revertir la transacción en caso de error
     await transaction.rollback();
-    res.status(500).json({ message: 'Error al crear el producto y tamaños', error });
+    console.error('Error al crear el producto y tamaños:', error);
+    res.status(500).json({ message: 'Error al crear el producto y tamaños', error: error.message });
   }
 };
+
+
 
 // Obtener todos los productos
 exports.getProductos = async (req, res) => {

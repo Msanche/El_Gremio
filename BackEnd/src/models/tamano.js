@@ -3,6 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
 const Productos = require('./productos');
 
+
 const Tamano = sequelize.define('tamanos', {
   pk_id_tamano: {
     type: DataTypes.INTEGER,

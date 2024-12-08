@@ -4,7 +4,7 @@ const vendedor = require ('./usuario_vendedor');
 const UsuarioCliente = require ('./usuario_cliente');
 const tamano = require ('./tamano');
 
-const ventasVendedores = sequelize.define('ventasVendedores',{
+const ventasVendedores = sequelize.define('ventaVendedores',{
     pk_id_venta:{
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -43,7 +43,7 @@ const ventasVendedores = sequelize.define('ventasVendedores',{
         defaultValue:false // mientras de que el valor este como false, significa que la venta no se ha concretado o terminado
     }
 },{
-    tableName: 'ventasVendedores',
+    tableName: 'ventaVendedores',
     timestamps: false
   }
 );

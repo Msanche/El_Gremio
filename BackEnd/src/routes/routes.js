@@ -99,10 +99,10 @@ router.route('/paginaVendedores/:id')
   .delete(PaginaVendedorController.deletePaginaVendedor); // Eliminar una página de vendedor por ID
 
 
-// Rutas para los productos
-router.route('/productos')
-  .get(ProductoController.getProductos)      // Obtener todos los productos
-  .post(ProductoController.createProducto);   // Crear un nuevo producto
+  router.route('/productos')
+  .get(ProductoController.getProductos) // Obtener todos los productos
+  .post(upload.single('nombre_imagen'), ProductoController.createProducto); // Procesar archivo antes de crear producto
+
 
 router.route('/LastProductos')
   .get(ProductoController.getLastProductos) ;
