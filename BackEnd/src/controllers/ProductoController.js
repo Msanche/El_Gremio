@@ -67,6 +67,7 @@ exports.createProducto = async (req, res) => {
 exports.getProductos = async (req, res) => {
   try {
     const productos = await Producto.findAll();
+
     res.status(200).json(productos);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener los productos', error });
@@ -120,13 +121,10 @@ exports.getProductoById = async (req, res) => {
 exports.getProductoByCategory = async (req, res) => {
       const fk_id_categorias = req.params.idCategory
   try {
-    const producto = await tamano.findAll({
-      include:[{
-        model:Producto,
-        where:{
-          fk_id_categorias:fk_id_categorias
-        }
-      }],
+    const producto = await Producto.findAll({
+      where:{
+        fk_id_categorias:fk_id_categorias
+      }
      
     });
     if (!producto) {
