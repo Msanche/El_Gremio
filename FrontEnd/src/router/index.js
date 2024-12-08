@@ -7,6 +7,10 @@ import HomeView from '@/views/HomeView.vue'
 import CategoriasView from '@/views/CategoriasView.vue'
 import UsuarioVendedorView from '@/views/UsuarioVendedorView.vue'
 import UsuarioClienteView from '@/views/UsuarioClienteView.vue'
+import ProductoPersonalizado from '@/views/ProductoPersonalizado.vue'
+import ProductosPorCategoria from '@/views/ProductosPorCategoria.vue'
+import ResetPassView from '@/views/ResetPassView.vue'
+import VistaProductoView from '@/views/VistaProductoView.vue'
 const routes = [
   {
     path: '/',
@@ -39,7 +43,6 @@ const routes = [
     name: 'categorias',
     component: CategoriasView,
     meta: { requiresAuth: true }
-
   },
   {
     path: '/Vendedor',
@@ -56,6 +59,32 @@ const routes = [
 
   },
   {
+    path: '/Producto/Personalizado',
+    name: 'producto_personalizado',
+    component: ProductoPersonalizado,
+    meta: { requiresAuth: true, role: 'Cliente' }
+
+  },
+  {
+    path: '/ResetPassword/:token',
+    name: 'ResetPassword',
+    component: ResetPassView,
+
+  },
+  {
+    path: '/Producto/Categoria',
+    name: 'producto_categoria',
+    component: ProductosPorCategoria,
+    meta: { requiresAuth: true}
+
+  },
+  {
+    path: '/Producto/Vista',
+    name: 'producto_vista',
+    component: VistaProductoView,
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/:catchAll(.*)',  // Ruta para manejar 404
     name: 'NotFound',
     component: NotFound
@@ -68,15 +97,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token'); // Verifica si el usuario está autenticado
+  // const token = localStorage.getItem('token'); // Verifica si el usuario está autenticado
   const role = localStorage.getItem('role'); // Suponiendo que tienes la información del usuario
 
   // Verifica si la ruta requiere autenticación
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!token) {
-      // Redirige al login si no hay token
-      return next('/');
-    }
+    // if (!token) {
+    //   // Redirige al login si no hay token
+    //   return next('/');
+    // }
     
     // Verifica si la ruta tiene un rol específico
     if (to.meta.role) {

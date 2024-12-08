@@ -75,23 +75,13 @@ exports.getUsuarioVendedores = async (req, res) => {
   try {
     const usuariosVendedores = await UsuarioVendedor.findAll({
       include:[{
-        model:Usuario,
+        model:PaginaVendedores,
       }],
       
     });
-    // Mapea los productos para incluir la URL de la imagen
-    const UsuariosConImagenes = productos.map(producto => {
-      const imagenUrl = producto.imagen 
-        ? `http://${req.headers.host}/uploads/${producto.imagen}` // Construye la URL de la imagen
-        : null; // Si no tiene imagen, deja el campo como null
 
-      return {
-        ...producto.toJSON(), // Convierte el producto a un objeto plano
-        imagenUrl // Agrega la URL de la imagen
-      };
-    });
 
-    res.status(200).json(UsuariosConImagenes);
+    res.status(200).json(usuariosVendedores);
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Error al obtener los usuarios vendedores', error });

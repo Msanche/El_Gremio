@@ -17,17 +17,24 @@ const UsuarioClienteController = require('../controllers/UsuarioClienteControlle
 const UsuarioController = require('../controllers/UsuarioController');
 const UsuarioVendedorController = require('../controllers/UsuarioVendedorController');
 const upload = require('../Middleware/multer')
+const AuthController = require('../controllers/AuthController');
+
+router.post('/request-password-reset', AuthController.requestPasswordReset);
+router.post('/reset-password', AuthController.resetPassword);
 
 // Rutas para Carrito
 router.route('/carrito')
   .get(CarritoController.getCarritos)      // Obtener todos los carritos
-  .post(CarritoController.createCarrito);  // Crear un nuevo carrito
+  .post(CarritoController.createCarrito) // Crear un nuevo carrito
+  ;  
 
 router.route('/carrito/:id')
   .get(CarritoController.getCarritoById)   // Obtener un carrito por ID
   .put(CarritoController.updateCarrito)    // Actualizar un carrito por ID
   .delete(CarritoController.deleteCarrito); // Eliminar un carrito por ID
 
+router.route('/carritoCliente')
+  .get(CarritoController.carritoUsuarioCliente); // traer los productos del carrito por ID del cliente
 
 // Rutas para las categorías
 router.route('/categorias')
@@ -92,16 +99,24 @@ router.route('/paginaVendedores/:id')
   .delete(PaginaVendedorController.deletePaginaVendedor); // Eliminar una página de vendedor por ID
 
 
-// Rutas para los productos
-router.route('/productos')
-  .get(ProductoController.getProductos)      // Obtener todos los productos
-  .post(ProductoController.createProducto);   // Crear un nuevo producto
+  router.route('/productos')
+  .get(ProductoController.getProductos) // Obtener todos los productos
+  .post(upload.single('nombre_imagen'), ProductoController.createProducto); // Procesar archivo antes de crear producto
+
+
+router.route('/LastProductos')
+  .get(ProductoController.getLastProductos) ;
 
 router.route('/productos/:id')
   .get(ProductoController.getProductoById)    // Obtener un producto por ID
   .put(ProductoController.updateProducto)     // Actualizar un producto por ID
   .delete(ProductoController.deleteProducto); // Eliminar un producto por ID
 
+router.route('/productos/Category/:idCategory')
+  .get(ProductoController.getProductoByCategory)    // Obtener un producto por ID de categoria
+
+router.route('/productos/:idVendedor')
+  .get(ProductoController.getProductosPorIdVendedor); // Obtener un producto por el ID del vendedor
 
 // Rutas para las reviews
 router.route('/reviews')
@@ -110,10 +125,11 @@ router.route('/reviews')
 
 router.route('/reviews/:id')
   .get(ReviewController.getReviewById)         // Obtener una review por ID
-  .get(ReviewController.getReviewsByIdPage) 
   .put(ReviewController.updateReview)           // Actualizar una review por ID
   .delete(ReviewController.deleteReview);       // Eliminar una review por ID
 
+router.route('/reviews/:idPage')
+  .get(ReviewController.getReviewsByIdPage);  // Obtener reviews por id Pagina 
 
 // Rutas para los tamaños
 router.route('/tamanos')

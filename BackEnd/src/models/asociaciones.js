@@ -11,13 +11,22 @@ const Direcciones = require('../models/direcciones');
 const DetalleUsuarioDirecciones = require('../models/detalle_usuarios_direcciones');
 const PaginaVendedor = require('../models/pagina_vendedor');
 const Review = require('../models/review');
-const PaginaVendedores =require('../models/pagina_vendedor')
-
+const PaginaVendedores = require('../models/pagina_vendedor');
+const comprasUsuarios = require('../models/comprasUsuarios');
+const ventasVendedores = require('../models/ventasVendedores');
 
 // Definir relaciones entre los modelos
+UsuarioVendedor.belongsTo(PaginaVendedores, {
+    foreignKey: 'fk_pagina_vendedor',
+});
+
+PaginaVendedores.hasOne(UsuarioVendedor, {
+    foreignKey: 'fk_pagina_vendedor',
+});
+
 
 Usuario.hasMany(UsuarioVendedor, { foreignKey: 'fk_id_usuario' });
-PaginaVendedores.hasMany(UsuarioVendedor, { foreignKey: 'fk_pagina_vendedor' });
+UsuarioVendedor.hasMany(PaginaVendedores, { foreignKey: 'fk_pagina_vendedor' });
 
 Usuario.hasOne(UsuarioCliente, { foreignKey: 'fk_id_usuario' });
 UsuarioCliente.belongsTo(Usuario, { foreignKey: 'fk_id_usuario' });
@@ -55,6 +64,23 @@ DetalleUsuarioDirecciones.belongsTo(Usuario, { foreignKey: 'pk_fk_id_usuario' })
 Direcciones.hasMany(DetalleUsuarioDirecciones, { foreignKey: 'pk_fk_id_direcciones' });
 DetalleUsuarioDirecciones.belongsTo(Direcciones, { foreignKey: 'pk_fk_id_direcciones' });
 
+UsuarioCliente.hasMany(comprasUsuarios, { foreignKey: 'pk_id_cliente' });
+comprasUsuarios.belongsTo(UsuarioCliente, { foreignKey: 'pk_id_cliente' });
+
+Carrito.hasMany(comprasUsuarios, { foreignKey: 'pk_id_carrito' });
+comprasUsuarios.belongsTo(Carrito, { foreignKey: 'pk_id_carrito' });
+
+UsuarioVendedor.hasMany(ventasVendedores, { foreignKey: 'pk_id_vendedor' });
+ventasVendedores.belongsTo(UsuarioVendedor, { foreignKey: 'pk_id_vendedor' });
+
+UsuarioCliente.hasMany(ventasVendedores, { foreignKey: 'pk_id_cliente' });
+ventasVendedores.belongsTo(UsuarioCliente, { foreignKey: 'pk_id_cliente' });
+
+Tamano.hasMany(ventasVendedores, { foreignKey: 'pk_id_tamano' });
+ventasVendedores.belongsTo(Tamano, { foreignKey: 'pk_id_tamano' });
+
+
+
 module.exports = {
     Usuario,
     UsuarioCliente,
@@ -67,5 +93,7 @@ module.exports = {
     Direcciones,
     DetalleUsuarioDirecciones,
     PaginaVendedor,
-    Review
+    Review,
+    ventasVendedores,
+    comprasUsuarios
 }

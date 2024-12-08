@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade" id="Registro/Login_Exitoso" tabindex="-1" aria-labelledby="RegistroExitosoLabel"
-        aria-hidden="true">
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
@@ -36,7 +36,7 @@ import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 export default {
     data() {
         return {
-            Actividad:null
+            Actividad: null
         }
     },
     methods: {
@@ -49,12 +49,12 @@ export default {
                 console.log("inicio de sesión")
                 //Con esto cambio de view por código 
                 this.$router.push("/home")
-            }else{
+            } else {
                 console.log("registro")
             }
         }
     },
-    
+
 }
 </script>
 

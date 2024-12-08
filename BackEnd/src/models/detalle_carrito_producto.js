@@ -17,7 +17,7 @@ const DetalleCarritoProducto = sequelize.define('DetalleCarritoProductos', {
     type: DataTypes.INTEGER,
     references: {
       model: Tamano,
-      key: 'pk_id_tamaño'
+      key: 'pk_id_tamano'
     },
     allowNull: false
   },

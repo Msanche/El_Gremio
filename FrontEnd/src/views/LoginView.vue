@@ -2,9 +2,9 @@
 
   <!-- Modales import-->
   <ModalRegistroCorrecto />
-
+  <ResetPass/>
   <header class="header">
-    <img src="@/images/logo.jpg" alt="El Gremio Logo - A shield with wings and a central emblem" class="logo">
+    <img src="/images/logo.jpg" alt="El Gremio Logo - A shield with wings and a central emblem" class="logo">
     <h1>El Gremio</h1>
     <p class="subtitle">Llevando la Tradición al Mundo Digital</p>
   </header>
@@ -25,7 +25,7 @@
             <span>Correo o contraseña incorrectos</span>
           </div>
           <p class="toggle-form" id="showRegister" @click="Toggle_form">¿No tienes cuenta? Regístrate aquí</p>
-          <p class="toggle-form" id="forgot_password">Olvidé mi contraseña</p>
+          <p class="toggle-form" id="forgot_password" @click="ResetPass">Olvidé mi contraseña</p>
 
         </div>
       </transition>
@@ -49,7 +49,7 @@
               <!-- Opciones para Vendedor -->
               <input type="text" name="nombre_marca" placeholder="Nombre de marca" v-model="nombre_marca" required>
               <div class="form-group">
-                <label for="productImage">Imagen del Producto:</label>
+                <label for="productImage">Logo de la marca:</label>
                 <div class="file-input-wrapper">
                   <button class="btn-file-input" type="button" @click="selectFile">Seleccionar Imagen</button>
                   <input type="file" id="productImage" ref="productImage" accept="image/*" required
@@ -83,6 +83,9 @@
             </div>
             <button type="submit">Registrarse</button>
           </form>
+          <div v-if="registrationError" class="error-message">
+            <span>{{ registrationErrorMsg }}</span>
+          </div>
           <p class="toggle-form" id="showLogin" @click="Toggle_form()">¿Ya tienes cuenta? Inicia sesión aquí</p>
 
         </div>
@@ -99,6 +102,8 @@
 import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 import ModalRegistroCorrecto from "@/components/ModalRegistroCorrecto.vue";
 import axios from "axios";
+import router from "@/router";
+import ResetPass from "@/components/ResetPass.vue";
 export default {
   name: 'LoginView',
   data() {
@@ -113,6 +118,8 @@ export default {
       nombre_marca: '',
       selectedType: 'cliente', // Valor inicial
       loginError: false,
+      registrationError: false,
+      registrationErrorMsg: '',
       fileName: '',
       imagePreview: '', // Para la vista previa de la imagen
       selectedFile: null,
@@ -120,9 +127,14 @@ export default {
     }
   },
   components: {
-    ModalRegistroCorrecto
+    ModalRegistroCorrecto,
+    ResetPass
   },
   methods: {
+    PassForgoten() {
+      console.log("entró")
+      router.push('/ResetPassword')
+    },
     selectType(type) {
       this.selectedType = type;
     },
@@ -179,7 +191,7 @@ export default {
         }
       } catch (error) {
         this.loginError = true
-        console.error("correo o contraseña incorrectos", login)
+        console.error("correo o contraseña incorrectos", login,error)
       }
 
 
@@ -190,7 +202,7 @@ export default {
 
       try {
         // Datos del usuario que quieres enviar en el body
-         const  usuario = {
+        const usuario = {
           correo: this.email,
           nombre: this.nombre,
           apellido: this.apellidos,
@@ -202,7 +214,7 @@ export default {
           formData.append('usuario', JSON.stringify(usuario));
           formData.append('nombre_marca', this.nombre_marca);
           formData.append('imagen', this.selectedFile); // `selectedFile` es el archivo de imagen seleccionado
-          
+
           // Hacer la solicitud POST
           respuesta = await axios.post('http://localhost:3000/usuarios-vendedores', formData, {
             headers: {
@@ -211,7 +223,7 @@ export default {
           });
 
         } else {
-          // Hacer la solicitud POST
+          // Hacer la solicitud POST 
           console.log(usuario)
           respuesta = await axios.post('http://localhost:3000/usuarios-clientes', usuario);
 
@@ -229,12 +241,11 @@ export default {
         console.log('Usuario creado:', respuesta.data);
       } catch (error) {
         // Manejo de errores
-        if (error.response) {
-          console.error('Error en la respuesta:', error.response.data);
-        } else if (error.request) {
-          console.error('Error en la solicitud:', error.request);
+        if (error.response && error.response.status === 500) { // Supongamos que el error de duplicado es 409
+          this.registrationError = true;
+          this.registrationErrorMsg = 'No puede usar este correo y/o teléfono.';
         } else {
-          console.error('Error:', error.message);
+          console.error('Error en la solicitud:', error.message);
         }
       }
 
@@ -244,6 +255,13 @@ export default {
     ModalExito() {
 
       const modalElement = document.getElementById("Registro/Login_Exitoso");
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    },
+
+    ResetPass() {
+
+      const modalElement = document.getElementById("ResetPass");
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
     },
@@ -266,7 +284,13 @@ export default {
       el.style.opacity = 0;
       el.style.transform = 'translateY(10px)';
       done();
+    },
+    LogOut() {
+      localStorage.clear();
     }
+  },
+  mounted() {
+    this.LogOut();
   }
 
 }
@@ -494,5 +518,11 @@ input {
 
 .toggle-icon:hover {
   color: #555;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-weight: bold;
 }
 </style>

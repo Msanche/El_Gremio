@@ -3,7 +3,7 @@
     <div class="cart-container">
         <h2 class="cart-title">Tu Carrito de Artesanías</h2>
         <div class="cart-item">
-            <img src="https://elgremio.com/productos/llavero-patricio.jpg" alt="Llavero Patricio artesanal">
+            <img src="/images/patricio.jpg" alt="Llavero Patricio artesanal">
             <div class="item-details">
                 <h3>Llavero Patricio</h3>
                 <p>Artesanía única hecha a mano</p>
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="cart-item">
-            <img src="https://elgremio.com/productos/madame-crochet.jpg" alt="Pedido Personalizado Madame Crochet">
+            <img src="/images/blackCat.jpg" alt="Pedido Personalizado Madame Crochet">
             <div class="item-details">
                 <h3>Pedido Personalizado Madame Crochet #1</h3>
                 <p>Creación exclusiva a medida</p>

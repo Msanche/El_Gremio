@@ -20,6 +20,11 @@ const Carrito = sequelize.define('Carritos', {
   total: {
     type: DataTypes.FLOAT,
     allowNull: false
+  },
+  //Este atributo definirá si este carrito es el actual u otro del pasado ya pagado
+  estado:{
+    type:DataTypes.BOOLEAN,
+    defaultValue: true
   }
 }, {
   tableName: 'Carritos',

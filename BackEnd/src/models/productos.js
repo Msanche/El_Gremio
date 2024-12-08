@@ -22,6 +22,10 @@ const Productos = sequelize.define('Productos', {
     type: DataTypes.STRING(255),
     allowNull: false
   },
+  descripcion: {
+    type: DataTypes.STRING(255),
+    allowNull: false
+  },
   fk_id_vendedor: {
     type: DataTypes.INTEGER,
     references: {

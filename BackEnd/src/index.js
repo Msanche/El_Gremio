@@ -25,6 +25,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 
+
 // Configuración de almacenamiento
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -38,6 +39,9 @@ const storage = multer.diskStorage({
   
   // Configuración de multer
   const upload = multer({ storage });
+
+// Configurar express para servir archivos estáticos desde la carpeta 'public'
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
   
 app.use(router); // Asegúrate de que este "use" está correctamente configurado
 
