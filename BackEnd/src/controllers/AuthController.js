@@ -29,6 +29,7 @@ exports.requestPasswordReset = async (req, res) => {
         pass: "contraseña_de_aplicación", // Si usas verificación en dos pasos
       },
     });
+    
 
     console.log(transporter);
 

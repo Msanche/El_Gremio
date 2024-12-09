@@ -1,34 +1,32 @@
 <template>
-    <NavBar isActiveA="True"/>
+    <NavBar />
     <body>
         <div class="main-content">
         <div class="product-images">
             <div class="main-image-container">
-                <img src="/images/patricio.jpg" alt="Llavero Patricio artesanal" class="main-image"/>
+                <img class="main-image" :src="`http://localhost:3000/uploads/${Producto.producto?.nombre_imagen}`" :alt="`${Producto.producto?.nombre}`">
             </div>
         </div>
         <div class="product-details">
-            <h2 class="product-title">Llavero Patricio</h2>
-            <p class="product-price">$150.00</p>
+            <h2 class="product-title">{{Producto.producto?.nombre}}</h2>
+            <p class="product-price" v-if="tamano.precio">${{ tamano.precio }}</p>
             <div class="product-options">
                 <label>Tamaño:</label>
-                <select>
-                    <option>Chico</option>
-                    <option>Mediano</option>
-                    <option>Grande</option>
+                <select v-model="tamano">
+                    <option value="" selected disabled>Seleccione un tamaño</option>
+                    <option v-for="item in Producto.tamanos" :key="item.id" :value="item">{{item.nombre_size}}</option>
                 </select>
             </div>
             <div class="product-options">
                 <label>Cantidad:</label>
-                <input type="number" value="1" min="1">
-                <span> 20 disponibles</span>
+                <input type="number" v-model="CantidadProductos" min="1" :max="Producto.producto?.stock">
+                <span> {{Producto.producto?.stock}} disponibles</span>
             </div>
-            <p class="subtotal">Subtotal: $150.00</p>
+            <p class="subtotal">Subtotal: {{(CantidadProductos * tamano.precio) || 0}}</p>
             <div class="buttons-container">
                 <button class="buy-button">COMPRAR AHORA</button>
                 <button class="cart-button">AÑADIR AL CARRITO</button>
             </div>
-            <p>Tiempo de Entrega: 20-21 marzo 2024</p>
         </div>
     </div>
     <div class="related-products">
@@ -36,55 +34,12 @@
         <div class="carousel-container">
             <button class="carousel-button prev">❮</button>
             <button class="carousel-button next">❯</button>
-            <div class="related-products-grid">
-                <div class="related-product">
-                    <svg viewBox="0 0 200 200">
-                        <rect width="100%" height="100%" fill="var(--background-color)"/>
-                        <circle cx="100" cy="100" r="60" fill="var(--secondary-color)"/>
-                        <text x="100" y="100" text-anchor="middle" dy=".3em" fill="white" font-size="24">Leoncito</text>
-                    </svg>
-                    <p>Peluche Leoncito TIMY</p>
+            <div class="related-products-grid" >
+                <div v-for="item in productosFiltered" :key="item.id" class="related-product" @click="DetallesProducto(item.id_producto)">
+                        <img :src="`http://localhost:3000/uploads/${item.nombre_imagen}`" :alt="`${item?.nombre}`">
+                    <p>{{item.nombre}}</p>
                 </div>
-                <div class="related-product">
-                    <svg viewBox="0 0 200 200">
-                        <rect width="100%" height="100%" fill="var(--background-color)"/>
-                        <circle cx="100" cy="100" r="60" fill="var(--secondary-color)"/>
-                        <text x="100" y="100" text-anchor="middle" dy=".3em" fill="white" font-size="24">Pollito</text>
-                    </svg>
-                    <p>Peluche Pollito</p>
-                </div>
-                <div class="related-product">
-                    <svg viewBox="0 0 200 200">
-                        <rect width="100%" height="100%" fill="var(--background-color)"/>
-                        <circle cx="100" cy="100" r="60" fill="var(--secondary-color)"/>
-                        <text x="100" y="100" text-anchor="middle" dy=".3em" fill="white" font-size="24">Aguacate</text>
-                    </svg>
-                    <p>Amigo y Frutabits de Aguacate</p>
-                </div>
-                <div class="related-product">
-                    <svg viewBox="0 0 200 200">
-                        <rect width="100%" height="100%" fill="var(--background-color)"/>
-                        <circle cx="100" cy="100" r="60" fill="var(--secondary-color)"/>
-                        <text x="100" y="100" text-anchor="middle" dy=".3em" fill="white" font-size="24">Mazapán</text>
-                    </svg>
-                    <p>Peluche Ramo Mazapán</p>
-                </div>
-                <div class="related-product">
-                    <svg viewBox="0 0 200 200">
-                        <rect width="100%" height="100%" fill="var(--background-color)"/>
-                        <circle cx="100" cy="100" r="60" fill="var(--secondary-color)"/>
-                        <text x="100" y="100" text-anchor="middle" dy=".3em" fill="white" font-size="24">Osito</text>
-                    </svg>
-                    <p>Peluche Osito Dormilón</p>
-                </div>
-                <div class="related-product">
-                    <svg viewBox="0 0 200 200">
-                        <rect width="100%" height="100%" fill="var(--background-color)"/>
-                        <circle cx="100" cy="100" r="60" fill="var(--secondary-color)"/>
-                        <text x="100" y="100" text-anchor="middle" dy=".3em" fill="white" font-size="24">Panda</text>
-                    </svg>
-                    <p>Peluche Panda Feliz</p>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -97,14 +52,52 @@
 <script>
 
 import NavBar from '@/components/NavBar.vue';
+import axios from 'axios';
 export default {
   data(){
     return{
-    
+        id_producto:0,
+        Producto:[],
+        CantidadProductos:0,
+        tamano:'',
+        productosFiltered:[]
     }
   },
+
   methods:{
-   
+    async DetallesProducto(id){ 
+        this.id_producto = id
+        await this.ProductoById(id);
+        await this.ProductosFiltered(id);
+        },
+
+    async ProductosFiltered(idLocal){
+        try {
+            this.id_producto = idLocal?idLocal:this.$route.params.id_producto;
+                 const response = await axios.get(`http://localhost:3000/productos`);
+                 this.productosFiltered = response.data.filter(e=>e.id_producto != this.id_producto)
+                 console.log("resultado",this.Producto)
+             } catch (err) {
+                 console.error('Error al obtener los productos:', err);
+             }
+       
+    },
+    
+    async ProductoById(idLocal){
+        try {
+
+            this.id_producto = idLocal?idLocal:this.$route.params.id_producto;
+                 const response = await axios.get(`http://localhost:3000/productos/${this.id_producto}`);
+                 this.Producto = response.data
+                 console.log(this.Producto)
+             } catch (err) {
+                 console.error('Error al obtener el producto:', err);
+             }
+    }
+  },
+  mounted(){
+    this.ProductoById();
+    this.ProductosFiltered();
   },
   components:{
     NavBar

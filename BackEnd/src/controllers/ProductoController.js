@@ -97,21 +97,23 @@ exports.getLastProductos = async (req, res) => {
 // Obtener un producto por ID
 exports.getProductoById = async (req, res) => {
   try {
-    const idProducto = req.query;
+    const {id} = req.params;
+    console.log(req.params)
     // const producto = await Producto.findByPk(req.params.id); deprecated
     const producto = await Producto.findOne({
       where: {
-        id_prodcuto: idProducto
+        id_producto: id
       },
-      include:[{
-        model:tamano,
-        attributes: ['nombre_size','precio']
-      }]
+    })
+    const tamanos = await tamano.findAll({
+      where:{
+        fk_id_producto:id
+      }
     })
     if (!producto) {
       return res.status(404).json({ message: 'Producto no encontrado' });
     }
-    res.status(200).json(producto);
+    res.status(200).json({producto,tamanos});
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener el producto', error });
   }
