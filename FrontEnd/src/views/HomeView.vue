@@ -47,7 +47,7 @@
 
         <h2 class="section-title">Artesanías Recientes</h2>
         <div class="product-grid">
-        <div class="product-card" v-for="item in LastProduct" :key="item.id_producto">
+        <div class="product-card" v-for="item in LastProduct" :key="item.id_producto"  @click="DetallesProducto(item.id_producto)">
             <img :src="`http://localhost:3000/uploads/${item?.nombre_imagen}`" :alt="`${item.nombre}`" class="product-image">
                 <div class="product-info">
                     <h3>{{ item?.nombre }}</h3>
@@ -66,17 +66,6 @@
         </div>
         </div>
 
-        <!-- <h2 class="section-title">Artesanos Visitados</h2>
-        <div v-for="(vendedor, index) in Vendedores" :key="index" class="product-grid">
-            <div class="product-card">
-                <img src="../images/test.png" alt="Retrato de artesano" width="250"
-                    height="250">
-                <div class="product-info">
-                    <h3>{{vendedor.nombre_marca}}</h3>
-                </div>
-            </div>
-
-        </div>  -->
     </main>
 
     <footer>
@@ -95,6 +84,9 @@ export default {
         }
     },
     methods: {
+        async DetallesProducto(id){ 
+            this.$router.push({ name: 'producto_vista', params: { id_producto: id } });
+        },
          async ConsultaLastProduct() {
              try {
                  const response = await axios.get('http://localhost:3000/LastProductos');

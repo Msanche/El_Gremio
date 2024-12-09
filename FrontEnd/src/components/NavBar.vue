@@ -31,10 +31,7 @@
                         <a class="nav-link "  :class="{ disable: isActiveP, 'active-nav': isActiveP }" @click="Perfil()"
                         type="button" style="margin-right: 20px;">Perfil 👤</a>
                     </li>
-                    <li class="nav-item">
-                        <input type="search" placeholder="Buscar productos artesanales..."
-                            style="flex-grow: 1; max-width: 400px;">
-                    </li>
+                   
                     <li class="nav-item">
                         <a class="nav-link "  @click="LogOut()"
                         type="button" style="margin-right: 20px;">Cerrar sesión ✖️</a>

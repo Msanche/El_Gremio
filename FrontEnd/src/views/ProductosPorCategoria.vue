@@ -6,7 +6,7 @@
       :key="index" 
       class="product-card"
     >
-    <div class="product-card">
+    <div class="product-card" @click="DetallesProducto(product.id_producto)">
       <img :src="`http://localhost:3000/uploads/${product.nombre_imagen}`" :alt="`${product.nombre}`" class="product-image">
       <div class="product-info">
         <div class="product-name">{{ product.nombre }}</div>
@@ -30,6 +30,9 @@ export default {
         NavBar
     },
     methods:{
+      async DetallesProducto(id){ 
+            this.$router.push({ name: 'producto_vista', params: { id_producto: id } });
+        },
         async GetProducts(){
             try {
                 const response = await axios.get(`http://localhost:3000/productos/Category/${1}`);

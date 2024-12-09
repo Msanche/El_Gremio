@@ -79,7 +79,7 @@ const routes = [
 
   },
   {
-    path: '/Producto/Vista',
+    path: '/Producto/Vista/:id_producto',
     name: 'producto_vista',
     component: VistaProductoView,
     meta: { requiresAuth: true }
