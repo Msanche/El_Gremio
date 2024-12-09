@@ -28,6 +28,12 @@ router.route('/carrito')
   .post(CarritoController.createCarrito) // Crear un nuevo carrito
   ;  
 
+// Agregar producto al carrito
+router.post('/carrito/agregar', CarritoController.agregarAlCarrito);
+
+// Eliminar producto del carrito
+router.delete('/carrito/eliminar', CarritoController.eliminarProductoDeCarrito);
+
 router.route('/carrito/:id')
   .get(CarritoController.getCarritoById)   // Obtener un carrito por ID
   .put(CarritoController.updateCarrito)    // Actualizar un carrito por ID
