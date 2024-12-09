@@ -24,22 +24,22 @@
                 <div class="contact-info">
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
-                        <a href="mailto:info@artesaniaunica.com">info@artesaniaunica.com</a>
+                        <a href="mailto:20460307@colima.tecnm.mx">20460307@colima.tecnm.mx</a>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
-                        <a href="tel:+523331234567">+52 (33) 1234-5678</a>
+                        <a href="tel:+52333123090046">+52 (33) 312 309 0046</a>
                     </div>
                     <div class="contact-item">
                         <i class="fab fa-facebook-f"></i>
-                        <a href="https://www.facebook.com/artesaniaunica" target="_blank">Facebook: @artesaniaunica</a>
+                        <a href="https://www.facebook.com/miguel.minion" target="_blank">Facebook: @Miguel Ureña</a>
                     </div>
                 </div>
             </section>
         </div>
     </div>
     <footer>
-        <p>© 2023 El Gremio - Conectando Tradición y Modernidad</p>
+        <p>© 2024 El Gremio - Conectando Tradición y Modernidad</p>
     </footer>
 </template>
 
