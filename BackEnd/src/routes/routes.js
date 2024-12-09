@@ -36,6 +36,9 @@ router.route('/carrito/:id')
 router.route('/carritoCliente')
   .get(CarritoController.carritoUsuarioCliente); // traer los productos del carrito por ID del cliente
 
+router.route('/carritoCliente/historico')
+  .get(CarritoController.historicoCarritoCliente); // traer los productos previamente comprados por el cliente
+
 // Rutas para las categorías
 router.route('/categorias')
   .get(CategoriaController.getCategorias)      // Obtener todas las categorías
