@@ -1,5 +1,5 @@
 <template>
-  <AgregarProducto />
+  <AgregarProducto @actualizar="ConsultaProducts()" />
 
   <NavBar isActiveP="True" />
   <div class="container">
@@ -48,7 +48,6 @@ export default {
                  const response = await axios.get(`http://localhost:3000/productos/vendedor/${idVendedor}`,{
                   idVendedor
                  });
-                 console.log(response.data.data.productos)
                  this.productos = response.data.data.productos
              } catch (err) {
                  console.error('Error al obtener los usuarios:', err);

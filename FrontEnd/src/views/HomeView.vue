@@ -90,7 +90,6 @@ export default {
          async ConsultaLastProduct() {
              try {
                  const response = await axios.get('http://localhost:3000/LastProductos');
-                 console.log(response.data)
                  this.LastProduct = response.data
              } catch (err) {
                  console.error('Error al obtener los usuarios:', err);
@@ -100,7 +99,6 @@ export default {
          async ConsultaArtesanos(){
             try {
                  const response = await axios.get('http://localhost:3000/usuarios-vendedores');
-                 console.log(response.data)
                  this.artesanos = response.data
              } catch (err) {
                  console.error('Error al obtener los usuarios:', err);

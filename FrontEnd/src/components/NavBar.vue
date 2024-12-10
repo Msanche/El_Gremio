@@ -79,7 +79,6 @@ export default {
             router.push('/')
         },
         Perfil(){
-            console.log(this.rol); // Esto mostrará el valor del token si existe, o null si no está presente.
             if (this.rol == 'Vendedor') {
                 router.push('/Vendedor')
 

@@ -153,10 +153,10 @@ export default {
             this.PriceProductChico = 0
             this.PriceProductMediano = 0
             this.PriceProductGrande = 0
+            this.imagePreview = ''
         },
 
         updateCharacterCount() {
-            console.log(this.description.length)
             if (this.description.length > 255) {
                 this.description = this.description.slice(0, 255);
             }
@@ -186,7 +186,6 @@ export default {
         async GetCategorys() {
             try {
                 const response = await axios.get(`http://localhost:3000/categorias`);
-                console.log(response.data)
                 this.category = response.data
             } catch (err) {
                 console.error('Error al obtener los usuarios:', err);
@@ -226,7 +225,8 @@ export default {
                             'Content-Type': 'multipart/form-data', // Axios lo maneja automáticamente, pero no está de más incluirlo
                         },
                     });
-
+                    this.$emit('actualizar')
+                    this.clearForm();
                     this.CloseModal();
                 } catch (error) {
                     console.error('Error en la solicitud:', error.response?.data || error.message);

@@ -36,7 +36,6 @@ export default {
         async GetProducts(){
             try {
                 const response = await axios.get(`http://localhost:3000/productos/Category/${1}`);
-                console.log(response.data)
                 this.productos = response.data
             } catch (err) {
                 console.error('Error al obtener los usuarios:', err);
