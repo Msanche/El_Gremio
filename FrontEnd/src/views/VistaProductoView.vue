@@ -24,7 +24,6 @@
             </div>
             <p class="subtotal">Subtotal: {{(CantidadProductos * tamano.precio) || 0}}</p>
             <div class="buttons-container">
-                <button class="buy-button">COMPRAR AHORA</button>
                 <button class="cart-button" @click="AgregarProductoCarrito()">AÑADIR AL CARRITO</button>
             </div>
         </div>
