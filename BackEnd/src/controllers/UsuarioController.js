@@ -55,17 +55,17 @@ exports.login = async (req, res) => {
       { idUsuario: usuario.pk_id_usuario, nombre: usuario.nombre, apellido: usuario.apellido },
        secretKey,
         { expiresIn: '2h' });
-    
     // Devolver el token en la respuesta
     res.status(200).json({ message: 'Autenticación exitosa', token,
       idUsuario: usuario.idUsuario,
       nombre: usuario.nombre,
-      role:role
+      role:role,
+      id:usuarioC?.pk_id_cliente || usuarioV.pk_id_vendedor
      });
   } catch (err) {
     // Manejo de errores más específico
     console.error('Error en el proceso de login:', err);
-    res.status(500).json({ message: 'Error del servidor', error: err.message });
+    res.status(500).json({ message: 'Error del servidor EN LOGIN', error: err.message });
   }
 };
 

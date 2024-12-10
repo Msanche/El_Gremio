@@ -3,8 +3,7 @@ const DetalleCarrito = require ('../models/detalle_carrito_producto');
 const Tamano = require ('../models/tamano');
 const Producto = require ('../models/productos');
 const UsuarioVendedor = require ('../models/usuario_vendedor');
-const Encargo = require ('../models/encargo');
-const { toDefaultValue } = require('sequelize/lib/utils');
+const  sequelize = require('../database/database');
 
 // Crear un nuevo carrito
 exports.createCarrito = async (req, res) => {
@@ -18,6 +17,7 @@ exports.createCarrito = async (req, res) => {
 
 exports.agregarAlCarrito = async (req, res) =>{
   const { idCliente, idTamaño, cantidad } = req.body;
+  console.log(req.body)
   let idCarrito;
   const transaction = await sequelize.transaction();
   try {
@@ -45,17 +45,39 @@ exports.agregarAlCarrito = async (req, res) =>{
       },transaction);
       idCarrito = carrito.dataValues.pk_id_carrito //Y se guarda el valor de su id
     }
+     //Se evalua si tenemos un carrito activo actualmente
+     const existenciaDetalle = await DetalleCarrito.findOne({
+      where:{
+        pk_fk_id_carrito:idCarrito,
+        pk_fk_id_tamano: idTamaño
+      }, transaction
+    });
+    if (existenciaDetalle) {
+      const resultado = await DetalleCarrito.update(
+        { 
+          cantidad_productos: cantidad // Valor actualizado
+        },
+        { 
+          where: { 
+            pk_fk_id_carrito: idCarrito, 
+            pk_fk_id_tamano: idTamaño 
+          },
+          transaction // Incluye la transacción si estás usando una
+        }
+      );
+      
+    }else{
+  // Se almacena dentro del detalle el producto agregado
+  const productoAgregado = await DetalleCarrito.create({
+    pk_fk_id_carrito: idCarrito,
+    pk_fk_id_tamano: idTamaño,
+    cantidad_productos: cantidad
+  }, transaction);
 
-    // Se almacena dentro del detalle el producto agregado
-    const productoAgregado = await DetalleCarrito.create({
-      pk_fk_id_carrito: idCarrito,
-      pk_fk_id_tamaño: idTamaño,
-      cantidad: cantidad
-    }, transaction);
-
+    }
+  
     //Se busca el precio del tamaño que se seleccionó
     const precio = await Tamano.findOne({
-      include:['precio'],
       where:{
         pk_id_tamano:idTamaño
       }, transaction
@@ -84,14 +106,16 @@ exports.agregarAlCarrito = async (req, res) =>{
     res.status(500).json({
       message:'Se ha producido un problema al agregar el producto: ', error
     });
-    await t.rollback();
+    await transaction.rollback();
   }
 }
 
 exports.eliminarProductoDeCarrito = async (req, res) => {
   const { idCliente, idTamaño } = req.body;
-
+  console.log(idCliente, idTamaño)
+  console.log(req.body)
   try {
+
     // Verificamos que exista un detalle con los valores proporcionados
     const detalle = await DetalleCarrito.findOne({
       include: [
@@ -104,7 +128,7 @@ exports.eliminarProductoDeCarrito = async (req, res) => {
         },
       ],
       where: {
-        pk_fk_id_tamaño: idTamaño, // Tamaño específico
+        pk_fk_id_tamano: idTamaño, // Tamaño específico
       },
     });
 
@@ -125,8 +149,8 @@ exports.eliminarProductoDeCarrito = async (req, res) => {
     }
 
     // Calculamos el valor a restar al total del carrito
-    const disminucion = precio.dataValues.precio * detalle.dataValues.cantidad;
-
+    const disminucion = precio.dataValues.precio * detalle.dataValues.cantidad_productos;
+    console.log(precio,detalle)
     // Actualizamos el total del carrito
     await Carrito.update(
       { total: sequelize.literal(`total - ${disminucion}`) },
@@ -137,7 +161,7 @@ exports.eliminarProductoDeCarrito = async (req, res) => {
     await DetalleCarrito.destroy({
       where: {
         pk_fk_id_carrito: detalle.pk_fk_id_carrito,
-        pk_fk_id_tamaño: idTamaño,
+        pk_fk_id_tamano: idTamaño,
       },
     });
 
@@ -203,11 +227,11 @@ exports.deleteCarrito = async (req, res) => {
 
 //Obtener todos los carritos por el idUsuarioCliente
 exports.carritoUsuarioCliente = async (req, res) =>{
-  const idUsuarioCliente = req.body;
+  const {idUsuarioCliente} = req.body;
   try {
     const carrito = await Carrito.findOne({
       where: {
-        idUsuarioCliente,
+        fk_id_cliente:idUsuarioCliente,
         estado:true
       }
     });
@@ -218,10 +242,8 @@ exports.carritoUsuarioCliente = async (req, res) =>{
       include:[
         {
           model:Tamano,
-          attributes: ['nombre_size','precio'],
           include: [{
             model:Producto,
-            attributes: ['nombre','nombre_imagen'],
             include:[{
               model:UsuarioVendedor,
               attributes: ['nombre_marca']

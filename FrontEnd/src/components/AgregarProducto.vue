@@ -221,16 +221,13 @@ export default {
 
                 // Hacer la solicitud POST
                 try {
-                    const respuesta = await axios.post('http://localhost:3000/productos', formData, {
+                   await axios.post('http://localhost:3000/productos', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data', // Axios lo maneja automáticamente, pero no está de más incluirlo
                         },
                     });
 
-                    console.log('Respuesta del servidor:', respuesta.data);
-                    let payload = "Registro"
-                    this.$store.commit('LoginRegistro', payload);
-                    this.ModalExito();
+                    this.CloseModal();
                 } catch (error) {
                     console.error('Error en la solicitud:', error.response?.data || error.message);
                 }

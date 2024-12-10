@@ -24,21 +24,7 @@
                 </li>
             </ul>
         </div>
-        <div class="profile-section">
-            <h3>Mis Comentarios</h3>
-            <ul class="comment-list">
-                <li>
-                    <h4>Llavero Patricio</h4>
-                    <p>Excelente calidad y diseño único. ¡Me encanta!</p>
-                    <span>Fecha: 18/05/2023</span>
-                </li>
-                <li>
-                    <h4>Taza artesanal</h4>
-                    <p>Hermosa taza, perfecta para mi colección.</p>
-                    <span>Fecha: 10/06/2023</span>
-                </li>
-            </ul>
-        </div>
+        
     </div>
 </template>
 <script>

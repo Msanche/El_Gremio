@@ -67,15 +67,18 @@ foreign key (fk_id_producto) references Productos(id_producto)
 create table Carritos (
 pk_id_carrito int primary key auto_increment,
 fk_id_cliente int not null,
-total float not null
+total float not null,
+estado boolean default true,
+foreign key (fk_id_cliente) REFERENCES Usuario_clientes(pk_id_cliente)
 );
-alter table Carritos add column estado boolean default true; -- True: carrito vigente. False: carrito ya pagado
 
 create table Detalle_carrito_productos (
 pk_fk_id_carrito int not null,
-pk_fk_id_tamaño int not null,
+pk_fk_id_tamano int not null,
 cantidad_productos int not null,
-primary key(pk_fk_id_carrito,pk_fk_id_tamaño)
+primary key(pk_fk_id_carrito,pk_fk_id_tamano),
+foreign key (pk_fk_id_carrito) references Carritos(pk_id_carrito),
+FOREIGN KEY(pk_fk_id_tamano) REFERENCES tamanos(pk_id_tamano)
 );
 
 create table Direcciones (
@@ -125,14 +128,15 @@ create table comprasUsuarios(
 	foreign key (fk_id_carrito) references Carritos (pk_id_carrito)
 );
 
-create table ventaVendedores(
-	pk_id_venta int primary key auto_increment,
+create table ventaVendedores (
+  pk_id_venta int primary key auto_increment,
   fk_id_vendedor int not null,
   fk_id_cliente int not null,
   fk_id_tamano int not null,
-  estado boolean default false, -- mientras de que el valor este como false, significa que la venta no se ha concretado o terminado
-    
+  estado TINYINT(1) DEFAULT 0, -- Usamos TINYINT(1) para el campo booleano
+  
   foreign key (fk_id_vendedor) references Usuario_vendedores(pk_id_vendedor),
-	foreign key (fk_id_cliente) references Usuario_clientes (pk_id_cliente),
+  foreign key (fk_id_cliente) references Usuario_clientes (pk_id_cliente),
   foreign key (fk_id_tamano) references tamanos (pk_id_tamano)
 );
+

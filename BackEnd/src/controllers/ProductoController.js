@@ -142,14 +142,15 @@ exports.getProductoByCategory = async (req, res) => {
 //Obtener un producto por el id del vendedor
 exports.getProductosPorIdVendedor = async (req, res) =>{
   try {
-    const vendedorId = req.query;
-    const productos = await Producto.findAll({
-      where:{
-        fk_id_vendedor:vendedorId
-      },
+    console.log("aqui")
+    const {idVendedor} = req.params;
+    const productos = await tamano.findAll({
+     
       include:[{
-        model:tamano,
-        attributes:['nombre_size','precio']
+        model:Producto,
+        where:{
+          fk_id_vendedor:idVendedor
+        },
       }]
     });
     res.status(201).json({
@@ -159,8 +160,8 @@ exports.getProductosPorIdVendedor = async (req, res) =>{
       }
     })
   } catch (error) {
-    console.log(`Error al recuperar los prodcutos del vendedor ${vendedorId} `,error)
-    res.status(500).json({ error: `Error al recuperar los prodcutos del vendedor ${vendedorId} ` }, error);
+    console.log(`Error al recuperar los prodcutos del vendedor ${idVendedor} `,error)
+    res.status(500).json({ error: `Error al recuperar los prodcutos del vendedor ${idVendedor} ` }, error);
   }
 }
 
