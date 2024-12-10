@@ -4,17 +4,17 @@
         <div class="content">
             <section class="section">
                 <h2>Nuestra Historia</h2>
-                <p>Bienvenido al corazón de nuestra empresa artesanal. Fundada en 2015 con una pasión ardiente por las artes tradicionales, hemos crecido hasta convertirnos en un puente entre los talentosos artesanos locales y los amantes de lo auténtico y lo bello. Cada pieza que ofrecemos es un testimonio de nuestra dedicación a la excelencia y la originalidad.</p>
+                <p>Desde nuestros inicios, "El Gremio" nació con el propósito de conectar a los artesanos con un mundo que valora la autenticidad y la creatividad. Inspirados por las historias, las manos y los corazones de quienes transforman materiales simples en obras únicas, creamos una plataforma que honra la herencia cultural y el talento artesanal. Nuestro recorrido está marcado por la pasión de empoderar a cada artesano para que sus productos trasciendan fronteras, llevando consigo una pieza de su esencia y tradición.</p>
             </section>
             
             <section class="section">
                 <h2>Nuestra Misión</h2>
-                <p>En el núcleo de nuestra existencia está el compromiso inquebrantable de preservar y promover las técnicas artesanales que han sido transmitidas de generación en generación. Nos esforzamos por crear un mundo donde cada hogar pueda albergar un pedazo de historia, una obra de arte única que cuente una historia y evoque emociones. Nuestro objetivo es no solo vender productos, sino cultivar una apreciación por la artesanía y apoyar a las comunidades que mantienen vivas estas tradiciones.</p>
+                <p>En "El Gremio", nuestra misión es construir un puente entre los artesanos y los amantes de la artesanía auténtica. Buscamos ofrecer un espacio donde el talento local pueda florecer, brindando herramientas digitales que permitan a los creadores compartir su arte y a los clientes descubrir productos únicos que cuenten una historia. Nos comprometemos a fomentar la sostenibilidad, la inclusión y el reconocimiento del trabajo artesanal como una expresión cultural invaluable.</p>
             </section>
             
             <section class="section">
                 <h2>Nuestros Artesanos</h2>
-                <p>Detrás de cada pieza hay manos expertas y corazones apasionados. Trabajamos con un grupo diverso de artesanos, cada uno un maestro en su oficio. Desde los ceramistas que dan forma a la arcilla con precisión meticulosa, hasta los tejedores que entrelazan historias en cada hilo, nuestros artesanos son el alma de nuestra empresa. Valoramos sus habilidades, respetamos sus tradiciones y nos esforzamos por ofrecerles una plataforma para compartir su arte con el mundo.</p>
+                <p>Detrás de cada producto de "El Gremio" hay manos que moldean, tejen y crean con dedicación y maestría. Nuestros artesanos son guardianes de tradiciones que han sido transmitidas de generación en generación, innovadores que encuentran en cada pieza una forma de expresar su identidad. Trabajamos con creadores de todas partes, celebrando su diversidad y apoyando su esfuerzo por preservar técnicas ancestrales mientras se adaptan a las demandas del mundo moderno.</p>
             </section>
             
 
