@@ -270,10 +270,12 @@ exports.carritoUsuarioCliente = async (req, res) =>{
 // Traer los carritos ya pagados (en false) de los clientes
 exports.historicoCarritoCliente = async (req, res) =>{
   const idUsuarioCliente = req.body;
+  console.log('Lo que nos llega del req.body ', req.body)
+  console.log('Lo que nos llega en idUsuario, ',idUsuarioCliente.pk_id_cliente); 
   try {
     const carrito = await Carrito.findOne({
       where: {
-        idUsuarioCliente,
+        fk_id_cliente:idUsuarioCliente.pk_id_cliente,
         estado:false
       }
     });
