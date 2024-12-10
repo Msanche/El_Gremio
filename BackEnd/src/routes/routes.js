@@ -32,7 +32,7 @@ router.route('/carrito')
 router.post('/carrito/agregar', CarritoController.agregarAlCarrito);
 
 // Eliminar producto del carrito
-router.delete('/carrito/eliminar', CarritoController.eliminarProductoDeCarrito);
+router.put('/carrito/eliminar', CarritoController.eliminarProductoDeCarrito);
 
 router.route('/carrito/:id')
   .get(CarritoController.getCarritoById)   // Obtener un carrito por ID
@@ -40,7 +40,7 @@ router.route('/carrito/:id')
   .delete(CarritoController.deleteCarrito); // Eliminar un carrito por ID
 
 router.route('/carritoCliente')
-  .get(CarritoController.carritoUsuarioCliente); // traer los productos del carrito por ID del cliente
+  .put(CarritoController.carritoUsuarioCliente); // traer los productos del carrito por ID del cliente
 
 router.route('/carritoCliente/historico')
   .get(CarritoController.historicoCarritoCliente); // traer los productos previamente comprados por el cliente
@@ -124,7 +124,7 @@ router.route('/productos/:id')
 router.route('/productos/Category/:idCategory')
   .get(ProductoController.getProductoByCategory)    // Obtener un producto por ID de categoria
 
-router.route('/productos/:idVendedor')
+router.route('/productos/vendedor/:idVendedor')
   .get(ProductoController.getProductosPorIdVendedor); // Obtener un producto por el ID del vendedor
 
 // Rutas para las reviews

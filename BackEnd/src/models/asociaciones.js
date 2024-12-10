@@ -14,6 +14,27 @@ const Review = require('../models/review');
 const PaginaVendedores = require('../models/pagina_vendedor');
 const comprasUsuarios = require('../models/comprasUsuarios');
 const ventasVendedores = require('../models/ventasVendedores');
+const DetalleCarritoProducto = require('../models/detalle_carrito_producto');
+
+// Relación Carrito -> DetalleCarritoProducto
+Carrito.hasMany(DetalleCarritoProducto, {
+    foreignKey: 'pk_fk_id_carrito',
+    sourceKey: 'pk_id_carrito',
+  });
+  DetalleCarritoProducto.belongsTo(Carrito, {
+    foreignKey: 'pk_fk_id_carrito',
+    targetKey: 'pk_id_carrito',
+  });
+  
+  // Relación Tamano -> DetalleCarritoProducto
+  Tamano.hasMany(DetalleCarritoProducto, {
+    foreignKey: 'pk_fk_id_tamano',
+    sourceKey: 'pk_id_tamano',
+  });
+  DetalleCarritoProducto.belongsTo(Tamano, {
+    foreignKey: 'pk_fk_id_tamano',
+    targetKey: 'pk_id_tamano',
+  });
 
 // Definir relaciones entre los modelos
 UsuarioVendedor.belongsTo(PaginaVendedores, {

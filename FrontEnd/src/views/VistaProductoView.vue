@@ -14,7 +14,7 @@
                 <label>Tamaño:</label>
                 <select v-model="tamano">
                     <option value="" selected disabled>Seleccione un tamaño</option>
-                    <option v-for="item in Producto.tamanos" :key="item.id" :value="item">{{item.nombre_size}}</option>
+                    <option v-for="item in Producto.tamanos" :key="item.pk_id_tamano" :value="item">{{item.nombre_size}}</option>
                 </select>
             </div>
             <div class="product-options">
@@ -25,7 +25,7 @@
             <p class="subtotal">Subtotal: {{(CantidadProductos * tamano.precio) || 0}}</p>
             <div class="buttons-container">
                 <button class="buy-button">COMPRAR AHORA</button>
-                <button class="cart-button">AÑADIR AL CARRITO</button>
+                <button class="cart-button" @click="AgregarProductoCarrito()">AÑADIR AL CARRITO</button>
             </div>
         </div>
     </div>
@@ -65,6 +65,24 @@ export default {
   },
 
   methods:{
+    async AgregarProductoCarrito(){
+        try {
+            if (this.CantidadProductos && this.tamano) {
+                const idCliente = parseInt(localStorage.getItem('id'));
+            const idTamaño = this.tamano.pk_id_tamano
+            const cantidad = this.CantidadProductos
+                 const response = await axios.post(`http://localhost:3000/carrito/agregar`,{
+                    idCliente,idTamaño,cantidad
+                 });
+                 console.log("resultado",response)
+                }
+             } catch (err) {
+                 console.error('Error al obtener los productos:', err);
+             }
+            
+            
+           
+    },
     async DetallesProducto(id){ 
         this.id_producto = id
         await this.ProductoById(id);

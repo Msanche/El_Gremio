@@ -180,8 +180,11 @@ export default {
             token: respuesta.data.token,
             correo: this.email,
             nombre: respuesta.data.nombre,
-            role: respuesta.data.role
+            role: respuesta.data.role,
+            id:respuesta.data.id
           };
+          console.log(respuesta)
+          localStorage.setItem('id', (usuario.id));
           localStorage.setItem('correo', (usuario.correo));
           localStorage.setItem('token', (usuario.token));
           localStorage.setItem('role', (usuario.role));

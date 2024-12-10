@@ -1,24 +1,20 @@
 <template>
-    <AgregarProducto/>
+  <AgregarProducto />
 
   <NavBar isActiveP="True" />
   <div class="container">
-    <h2 class="profile-title">Bienvenido {{ Username }}</h2>
-
-
-    <div class="reviews">
-      <h2>Lo Que Dicen Nuestros Clientes</h2>
-      <div class="review">
-        <p><strong>Antonio01</strong> <span class="stars">★★★★★</span></p>
-        <p>"Geniales trabajos y una atención al cliente excepcional. Madame Crochet hace que cada evento sea especial
-          con sus creaciones únicas. ¡Totalmente recomendado!"</p>
-      </div>
-    </div>
-
+    <h1 class="profile-title">Bienvenido {{ Username }}</h1>
     <h2>Galería de Artesanías</h2>
     <button class="add-product" id="addProductBtn" @click="AddProduct()">Agregar Nueva Creación</button>
-    <div class="products" id="productsContainer">
-      <!-- Products will be dynamically added here -->
+
+    <div class="products product-card" id="productsContainer" v-for="item in productos" :key="item.fk_id_producto">
+      <img :src="`http://localhost:3000/uploads/${item?.Producto.nombre_imagen}`" :alt="`${item.Producto.nombre}`" class="product-image">
+      <div class="product-info">
+        <h3>Nombre:{{ item?.Producto.nombre }}</h3>
+        <h3>Tamaño:{{ item?.nombre_size }}</h3>
+        <h3>Precio:{{ item?.precio }}</h3>
+
+      </div>
     </div>
   </div>
 </template>
@@ -27,32 +23,54 @@
 import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 import AgregarProducto from "@/components/AgregarProducto.vue";
 import NavBar from '@/components/NavBar.vue';
+import axios from "axios";
 export default {
   data() {
     return {
-      Username:''
+      Username: '',
+      productos:[]
     }
   },
   components: {
     NavBar,
     AgregarProducto
   },
-  methods:{
-    AddProduct(){
+  methods: {
+    AddProduct() {
       const modalElement = document.getElementById("AddProduct");
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
-    }
-  },
-  mounted(){
-    this.Username = localStorage.getItem('nombre');
+    },
+    async ConsultaProducts() {
+             try {
+              const idVendedor = parseInt(localStorage.getItem('id'));
 
+                 const response = await axios.get(`http://localhost:3000/productos/vendedor/${idVendedor}`,{
+                  idVendedor
+                 });
+                 console.log(response.data.data.productos)
+                 this.productos = response.data.data.productos
+             } catch (err) {
+                 console.error('Error al obtener los usuarios:', err);
+             }
+
+         },
+  },
+  mounted() {
+    this.Username = localStorage.getItem('nombre');
+    this.ConsultaProducts();
   }
 }
 </script>
 
 <style scoped>
 
+.product-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -60,10 +78,10 @@ export default {
 }
 
 h1 {
-  margin: 0;
-  font-family: 'Pacifico', cursive;
-  font-size: 3.5em;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  color: #8b4513;
+  padding-bottom: 10px;
+  margin-top: 0;
+  font-weight: 600;
 }
 
 .description,
