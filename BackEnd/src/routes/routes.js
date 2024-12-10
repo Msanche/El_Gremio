@@ -44,6 +44,9 @@ router.route('/carritoCliente')
 
 router.route('/carritoCliente/historico')
   .get(CarritoController.historicoCarritoCliente); // traer los productos previamente comprados por el cliente
+  
+router.route('/carritoVendedor/historico')
+.get(CarritoController.historicoCarritoVendedor); // traer los productos previamente comprados por el vendedor
 
 // Rutas para las categorías
 router.route('/categorias')

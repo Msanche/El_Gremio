@@ -4,6 +4,8 @@ const Tamano = require ('../models/tamano');
 const Producto = require ('../models/productos');
 const UsuarioVendedor = require ('../models/usuario_vendedor');
 const  sequelize = require('../database/database');
+const UsuarioCliente = require('../models/usuario_cliente');
+const Usuario = require('../models/usuario');
 
 // Crear un nuevo carrito
 exports.createCarrito = async (req, res) => {
@@ -312,3 +314,61 @@ exports.historicoCarritoCliente = async (req, res) =>{
     res.status(500).json({ message: "Error al realizar la consulta del carrito", error });
   }
 }
+
+exports.historicoCarritoVendedor = async (req, res) => {
+  const { idVendedor } = req.body;
+
+  if (!idVendedor) {
+    return res.status(400).json({ message: "El ID del vendedor es requerido." });
+  }
+
+  try {
+    const historico = await DetalleCarrito.findAll({
+      include: [
+        {
+          model: Carrito,
+          where: {
+            estado: false, // Solo carritos ya procesados
+          },
+          include: [
+            {
+              model: UsuarioCliente,
+              include: [
+                {
+                  model: Usuario, // Información del cliente asociado
+                },
+              ],
+            }
+          ],
+        },
+        {
+          model: Tamano,
+          attributes: ['precio'], // Solo queremos el precio
+          include: [
+            {
+              model: Producto,
+              where: {
+                fk_id_vendedor: idVendedor, // Filtramos productos del vendedor
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    if (historico.length === 0) {
+      return res.status(404).json({ message: "No se encontraron registros para este vendedor." });
+    }
+
+    res.status(200).json({
+      message: "Datos obtenidos exitosamente.",
+      data: historico,
+    });
+  } catch (error) {
+    console.error("Error al realizar la consulta del carrito:", error);
+    res.status(500).json({
+      message: "Error al realizar la consulta del carrito.",
+      error: error.message,
+    });
+  }
+};
