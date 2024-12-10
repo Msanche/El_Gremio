@@ -7,7 +7,7 @@
                 <img class="main-image" :src="`http://localhost:3000/uploads/${Producto.producto?.nombre_imagen}`" :alt="`${Producto.producto?.nombre}`">
             </div>
         </div>
-        <div class="product-details">
+        <form class="product-details" @submit.prevent="AgregarProductoCarrito()">
             <h2 class="product-title">{{Producto.producto?.nombre}}</h2>
             <p class="product-price" v-if="tamano.precio">${{ tamano.precio }}</p>
             <div class="product-options">
@@ -24,9 +24,12 @@
             </div>
             <p class="subtotal">Subtotal: {{(CantidadProductos * tamano.precio) || 0}}</p>
             <div class="buttons-container">
-                <button class="cart-button" @click="AgregarProductoCarrito()">AÑADIR AL CARRITO</button>
+                <button class="cart-button" type="submit">AÑADIR AL CARRITO</button>
+                <span v-if="text" style="color:red">{{text}}</span>
+                <span v-if="correct && !text" style="color:green">{{correct}}</span>
+
             </div>
-        </div>
+        </form>
     </div>
     <div class="related-products">
         <h3>Quizás te pueda interesar</h3>
@@ -51,6 +54,7 @@
 <script>
 
 import NavBar from '@/components/NavBar.vue';
+import router from '@/router';
 import axios from 'axios';
 export default {
   data(){
@@ -59,21 +63,42 @@ export default {
         Producto:[],
         CantidadProductos:0,
         tamano:'',
-        productosFiltered:[]
+        productosFiltered:[],
+        text:'',
+        correct:''
     }
   },
 
   methods:{
     async AgregarProductoCarrito(){
+        const idCliente = parseInt(localStorage.getItem('id'));
+
+        if(!idCliente){
+            router.push('/')
+        }
         try {
             if (this.CantidadProductos && this.tamano) {
+                
                 const idCliente = parseInt(localStorage.getItem('id'));
             const idTamaño = this.tamano.pk_id_tamano
             const cantidad = this.CantidadProductos
-                 const response = await axios.post(`http://localhost:3000/carrito/agregar`,{
+                  const response = await axios.post(`http://localhost:3000/carrito/agregar`,{
                     idCliente,idTamaño,cantidad
                  });
-                 console.log("resultado",response)
+                 if(response.data){
+                    this.text=''
+                 this.correct = response.data.message
+                 this.tamano = ''
+                 this.CantidadProductos = 0
+                 setTimeout(() => {
+                    this.correct = ''
+                   
+                 }, 5000);
+                 }
+                 
+                }
+                else{
+                    this.text = 'Selecciona un tamaño y la cantidad de productos que deseas'
                 }
              } catch (err) {
                  console.error('Error al obtener los productos:', err);
@@ -93,7 +118,6 @@ export default {
             this.id_producto = idLocal?idLocal:this.$route.params.id_producto;
                  const response = await axios.get(`http://localhost:3000/productos`);
                  this.productosFiltered = response.data.filter(e=>e.id_producto != this.id_producto)
-                 console.log("resultado",this.Producto)
              } catch (err) {
                  console.error('Error al obtener los productos:', err);
              }
@@ -106,7 +130,6 @@ export default {
             this.id_producto = idLocal?idLocal:this.$route.params.id_producto;
                  const response = await axios.get(`http://localhost:3000/productos/${this.id_producto}`);
                  this.Producto = response.data
-                 console.log(this.Producto)
              } catch (err) {
                  console.error('Error al obtener el producto:', err);
              }

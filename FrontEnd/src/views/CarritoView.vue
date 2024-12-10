@@ -74,7 +74,6 @@ export default {
                 const response = await axios.put('http://localhost:3000/carritoCliente', {
                     idUsuarioCliente
                 });
-                console.log(response.data.data)
                 this.carrito = response.data.data
                 for (let index = 0; index < this.carrito.length; index++) {
                     const element = this.carrito[index];
@@ -88,19 +87,17 @@ export default {
         async DeleteProductCarrito(idTamaño) {
             try {
                 const idCliente = parseInt(localStorage.getItem('id'));
-                const response = await axios.put('http://localhost:3000/carrito/eliminar', {
+                 await axios.put('http://localhost:3000/carrito/eliminar', {
                     idCliente, idTamaño
                 });
-                console.log(response.data.data)
                 await this.getCarrito();
+                this.total = 0
                 if (this.carrito.length != 0) {
                     for (let index = 0; index < this.carrito.length; index++) {
                         const element = this.carrito[index];
                         this.total = this.total + (element.cantidad_productos * element.tamano.precio)
                     }
-                } else {
-                    this.total = 0
-                }
+                } 
 
             } catch (err) {
                 console.error('Error al obtener los usuarios:', err);

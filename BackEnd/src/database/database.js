@@ -11,6 +11,7 @@ const sequelize = new Sequelize(dbName, dbUser, dbPswd, {
   dialect: 'mysql',
 });
 
+
 sequelize.authenticate()
   .then(() => {
     console.log('Conexión a la base de datos OK');

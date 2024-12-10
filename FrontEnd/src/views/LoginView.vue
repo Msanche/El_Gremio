@@ -132,7 +132,6 @@ export default {
   },
   methods: {
     PassForgoten() {
-      console.log("entró")
       router.push('/ResetPassword')
     },
     selectType(type) {
@@ -160,7 +159,6 @@ export default {
       }
     },
     async Iniciar_sesion() {
-      console.log("Iniciando sesión ");
       let login, respuesta
       try {
         login = {
@@ -183,7 +181,6 @@ export default {
             role: respuesta.data.role,
             id:respuesta.data.id
           };
-          console.log(respuesta)
           localStorage.setItem('id', (usuario.id));
           localStorage.setItem('correo', (usuario.correo));
           localStorage.setItem('token', (usuario.token));
@@ -227,7 +224,6 @@ export default {
 
         } else {
           // Hacer la solicitud POST 
-          console.log(usuario)
           respuesta = await axios.post('http://localhost:3000/usuarios-clientes', usuario);
 
         }
@@ -241,7 +237,6 @@ export default {
 
 
         // Manejo de la respuesta
-        console.log('Usuario creado:', respuesta.data);
       } catch (error) {
         // Manejo de errores
         if (error.response && error.response.status === 500) { // Supongamos que el error de duplicado es 409
