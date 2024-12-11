@@ -6,6 +6,8 @@ const UsuarioVendedor = require ('../models/usuario_vendedor');
 const  sequelize = require('../database/database');
 const UsuarioCliente = require('../models/usuario_cliente');
 const Usuario = require('../models/usuario');
+const { Op } = require('sequelize');
+const DetalleCarritoProducto = require('../models/detalle_carrito_producto');
 
 // Crear un nuevo carrito
 exports.createCarrito = async (req, res) => {
@@ -243,39 +245,57 @@ exports.historicoCarritoCliente = async (req, res) =>{
   console.log('Lo que nos llega del req.body ', req.body); 
   console.log('Lo que nos llega en idUsuario, ',idUsuarioCliente.pk_id_cliente); 
   try {
-    const carrito = await Carrito.findOne({
+
+    // Obtener todos los carritos del cliente
+    const carritos = await Carrito.findAll({
       where: {
-        fk_id_cliente:idUsuarioCliente.pk_id_cliente,
-        estado:false
+        fk_id_cliente: idUsuarioCliente.pk_id_cliente,
+        estado: false
       }
     });
-
-    //Se obtienen los productos que formaron parte de los carritos del cliente
-    const detalle = await DetalleCarrito.findAll({
-      attributes:['cantidad_productos'],
-      include:[
-        {
-          model:Tamano,
-          attributes: ['nombre_size','precio'],
-          include: [{
-            model:Producto,
-            attributes: ['nombre','nombre_imagen'],
-            include:[{
-              model:UsuarioVendedor,
-              attributes: ['nombre_marca']
-            }]
-          }]
+    
+    // Extraer los IDs de los carritos
+    const carritoIds = carritos.map(carrito => carrito.pk_id_carrito);
+    let detalles
+    // Verificar que hay carritos antes de ejecutar la consulta de detalles
+    if (carritoIds.length > 0) {
+      // Obtener los productos de los carritos
+      detalles = await DetalleCarrito.findAll({
+        attributes: ['cantidad_productos'],
+        include: [
+          {
+            model: Tamano,
+            attributes: ['nombre_size', 'precio'],
+            include: [
+              {
+                model: Producto,
+                attributes: ['nombre', 'nombre_imagen'],
+                include: [
+                  {
+                    model: UsuarioVendedor,
+                    attributes: ['nombre_marca']
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        where: {
+          pk_fk_id_carrito: {
+            [Op.in]: carritoIds // Filtrar por todos los IDs de los carritos
+          }
         }
-      ],
-      where:{
-        pk_fk_id_carrito:carrito.pk_id_carrito
-      }
-    });
-
+      });
+    
+      console.log(detalles);
+    } else {
+      console.log('No hay carritos activos para este cliente.');
+    }
+    
     console.log('Los datos del historico son los siguientes: ', );
   res.status(201).json({
     message:'Se han obtenido exitosamente los datos de los carritos en histotial',
-    data: detalle
+    data: detalles
   })
   
   } catch (error) {
@@ -344,33 +364,103 @@ exports.historicoCarritoVendedor = async (req, res) => {
 exports.pagarCarrito = async (req, res) => {
   console.log('lo que viene del idUsuarioCliente ');
 
+  const transaction = await sequelize.transaction(); // Iniciar una transacción
+
   try {
     const { idUsuarioCliente } = req.body;
+
     // Verificar si se envió el idUsuarioCliente
     if (!idUsuarioCliente) {
       return res.status(400).json({ message: "El ID del usuario cliente es requerido." });
     }
 
+    // Obtener el carrito activo del cliente
+    const carritos = await Carrito.findAll({
+      where: {
+        fk_id_cliente: idUsuarioCliente,
+        estado: true, // Solo carritos activos
+      },
+      transaction
+    });
+
+    if (carritos.length === 0) {
+      return res.status(404).json({ message: "No se encontró un carrito activo para este usuario." });
+    }
+
+    // Extraer los IDs de los carritos
+    const carritoIds = carritos.map(carrito => carrito.pk_id_carrito);
+
+    // Obtener los productos y las cantidades del carrito
+    const detalles = await DetalleCarritoProducto.findAll({
+      attributes: ['cantidad_productos'],
+      include: [
+        {
+          model: Tamano,
+          attributes: ['fk_id_producto'],
+          include: [
+            {
+              model: Producto,
+              attributes: ['id_producto', 'stock'],
+            }
+          ]
+        }
+      ],
+      where: { pk_fk_id_carrito: carritoIds }, // Filtrar por todos los IDs de los carritos
+      transaction
+    });
+
+    // Actualizar el stock de los productos
+    for (const detalle of detalles) {
+      console.log(detalle.tamano)
+      const cantidad = detalle.cantidad_productos; // Cantidad a descontar
+      const producto = detalle.tamano.Producto; // Información del producto
+
+      if (!producto) {
+        throw new Error('Producto no encontrado para el detalle del carrito.');
+      }
+
+      const nuevoStock = producto.stock - cantidad; // Calcular el nuevo stock
+
+      if (nuevoStock < 0) {
+        throw new Error(`Stock insuficiente para el producto con ID ${producto.id_producto}.`);
+      }
+
+      // Actualizar el stock en la base de datos
+      await Producto.update(
+        { stock: nuevoStock },
+        {
+          where: { id_producto: producto.id_producto },
+          transaction
+        }
+      );
+    }
+
     // Actualizar el estado del carrito
     const [filasActualizadas] = await Carrito.update(
-      { estado: false }, // Valores a actualizar
+      { estado: false }, // Cambiar el estado del carrito
       {
         where: {
-          fk_id_cliente: idUsuarioCliente, // Condición
+          fk_id_cliente: idUsuarioCliente,
         },
+        transaction
       }
     );
 
-    // Verificar si se realizó alguna actualización
     if (filasActualizadas === 0) {
-      return res.status(404).json({ message: "No se encontró un carrito para este usuario." });
+      throw new Error("No se encontró un carrito para actualizar.");
     }
 
-    res.status(200).json({ message: "El estado del carrito se actualizó correctamente." });
+    // Confirmar la transacción
+    await transaction.commit();
+
+    res.status(200).json({ message: "El pago se procesó correctamente y el stock se actualizó." });
+
   } catch (error) {
-    console.error("Error al realizar la actualización del carrito:", error);
+    // Revertir la transacción en caso de error
+    await transaction.rollback();
+    console.error("Error al procesar el pago del carrito:", error);
     res.status(500).json({
-      message: "Error al realizar la actualización del carrito.",
+      message: "Error al procesar el pago del carrito.",
       error: error.message,
     });
   }
