@@ -17,23 +17,20 @@
     </div>
 
     <h2>Historial de Artesanías Vendidas</h2>
-    
-
-
     <ul class="purchase-list">
-      <li v-if="carritoDetalles.length">
-          <div v-for="carrito in carritoDetalles" :key="carrito.id">
-              <img :src="`http://localhost:3000/uploads/${carrito?.tamano.Producto.nombre_imagen}`">
-              <h4>Producto: {{ carrito.tamano.Producto.nombre }}</h4>
-              <p>Cantidad: {{ carrito.cantidad_productos }}</p>
-              <p>Tamaño: {{ carrito.tamano.nombre_size }}</p>
-              <p>Precio:  $ {{ carrito.tamano.precio }}</p>
-              <p>Artesano Vendedor: {{ carrito.tamano.Producto.usuario_vendedore.nombre_marca }}</p>
-              <p>Cliente Comprador: {{ carrito.usuarios.nombre }}</p>
-              <p>Estado: Compra Realizada</p>
-          </div>
-      </li>
-  </ul>
+      <div v-for="detalle in detalleVentas" :key="detalle.id">
+        <img :src="`http://localhost:3000/uploads/${detalle?.tamano.Producto.nombre_imagen}`">
+        <h4>Producto: {{ detalle.tamano.Producto.nombre }}</h4>
+        <p>Cantidad: {{ detalle.cantidad_productos }}</p>
+        <p>Tamaño: {{ detalle.tamano.nombre_size }}</p>
+        <p>Precio:  $ {{ detalle.tamano.precio }}</p>
+        <p>Vendido a: {{ detalle.Carrito.Usuario_cliente.Usuario.nombre }} {{ detalle.Carrito.Usuario_cliente.Usuario.apellido }}</p>
+        <p>Datos de contacto: </p>
+        <p>Email: {{ detalle.Carrito.Usuario_cliente.Usuario.correo }} </p>
+        <p>celular: {{ detalle.Carrito.Usuario_cliente.Usuario.numeroCelular }} </p>
+      </div>
+    </ul>
+
   </div>
 </template>
 
@@ -46,7 +43,8 @@ export default {
   data() {
     return {
       Username: '',
-      productos:[]
+      productos:[] ,
+      detalleVentas: []
     }
   },
   components: {
@@ -78,7 +76,9 @@ export default {
         const response = await axios.post('http://localhost:3000/carritoVendedor/historico',{
           idVendedor
         });
-        console.log('Lo que nos llega de respuesta: ', response)  
+        console.log('Lo que nos llega de respuesta: ', response) 
+        this.detalleVentas = response.data.data 
+        console.log('Lo que viene en el detalle: ', this.detalleVentas);
       } catch (err) {
         console.error('Error al obtener los usuarios:', err);
       }
@@ -276,5 +276,27 @@ form button:hover {
   .products {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
+}
+
+.purchase-list, .comment-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.purchase-list li, .comment-list li {
+    background-color: #F0E6D2;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.purchase-list img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 1rem;
+    border-radius: 5px;
 }
 </style>

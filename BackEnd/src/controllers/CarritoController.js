@@ -312,7 +312,6 @@ exports.historicoCarritoVendedor = async (req, res) => {
         },
         {
           model: Tamano,
-          attributes: ['precio'], // Solo queremos el precio
           include: [
             {
               model: Producto,
