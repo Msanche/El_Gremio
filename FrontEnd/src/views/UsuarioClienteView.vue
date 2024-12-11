@@ -6,37 +6,57 @@
         <div class="profile-section">
             <h3>Mis Compras</h3>
             <ul class="purchase-list">
-                <li>
-                    <img src="https://elgremio.com/productos/llavero-patricio.jpg" alt="Llavero Patricio">
-                    <div>
-                        <h4>Llavero Patricio</h4>
-                        <p>Fecha: 15/05/2023</p>
-                        <p>Estado: Entregado</p>
-                    </div>
-                </li>
+                
                 <li>
                     <img src="https://elgremio.com/productos/madame-crochet.jpg" alt="Pedido Personalizado Madame Crochet">
-                    <div>
+                    <div v-if="carritoDetalles.length">
+                        <div v-for="carrito in carritoDetalles" :key="carrito.id">
+                            <h4>Producto: {{ carrito.tamano }}</h4>
+                        </div>
                         <h4>Pedido Personalizado Madame Crochet #1</h4>
                         <p>Fecha: 20/06/2023</p>
                         <p>Estado: En proceso</p>
                     </div>
                 </li>
+
             </ul>
         </div>
         
     </div>
 </template>
 <script>
+
 import NavBar from '@/components/NavBar.vue';
+import axios from "axios";
+
 export default {
     data(){
         return{
-            Username:''
+            Username:'',
+            carritoDetalles: [],
         }
+    },
+    methods:{
+        async fetchCarritoDetalles() {
+    try {
+        const idUsuarioCliente = {
+            pk_id_cliente: parseInt(localStorage.getItem('id'))
+        };
+        console.log('Lo que tenemos en el id: ', idUsuarioCliente);
+
+        const response = await axios.post('http://localhost:3000/carritoCliente/historico', idUsuarioCliente);
+        console.log('Lo que llega de respuesta', response);
+        this.carritoDetalles = response.data.data
+        console.log('Lo que nos lelga en carritoDetalles: ',this.carritoDetalles);
+    } catch (error) {
+        console.error('Error al obtener los carritos del historial:', error);
+    }
+}
+
     },
     mounted(){
         this.Username = localStorage.getItem('nombre');
+        this.fetchCarritoDetalles();
     },
     components:{
         NavBar

@@ -185,94 +185,62 @@ exports.getCarritos = async (req, res) => {
   }
 };
 
-// Obtener un carrito por ID
-exports.getCarritoById = async (req, res) => {
-  try {
-    const carrito = await Carrito.findByPk(req.params.id);
-    if (!carrito) {
-      return res.status(404).json({ message: 'Carrito no encontrado' });
-    }
-    res.status(200).json(carrito);
-  } catch (error) {
-    res.status(500).json({ message: 'Error al obtener el carrito', error });
-  }
-};
 
-// Actualizar un carrito
-exports.updateCarrito = async (req, res) => {
-  try {
-    const carrito = await Carrito.findByPk(req.params.id);
-    if (!carrito) {
-      return res.status(404).json({ message: 'Carrito no encontrado' });
-    }
-    await carrito.update(req.body);
-    res.status(200).json(carrito);
-  } catch (error) {
-    res.status(500).json({ message: 'Error al actualizar el carrito', error });
-  }
-};
 
-// Eliminar un carrito
-exports.deleteCarrito = async (req, res) => {
-  try {
-    const carrito = await Carrito.findByPk(req.params.id);
-    if (!carrito) {
-      return res.status(404).json({ message: 'Carrito no encontrado' });
-    }
-    await carrito.destroy();
-    res.status(200).json({ message: 'Carrito eliminado correctamente' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error al eliminar el carrito', error });
-  }
-};
+
 
 
 //Obtener todos los carritos por el idUsuarioCliente
 exports.carritoUsuarioCliente = async (req, res) =>{
   const {idUsuarioCliente} = req.body;
-  try {
-    const carrito = await Carrito.findOne({
-      where: {
-        fk_id_cliente:idUsuarioCliente,
-        estado:true
-      }
-    });
-
-    //Se obtienen los productos en Stock que formen parte del carrito del cliente
-    const detalle = await DetalleCarrito.findAll({
-      attributes:['cantidad_productos'],
-      include:[
-        {
-          model:Tamano,
-          include: [{
-            model:Producto,
-            include:[{
-              model:UsuarioVendedor,
-              attributes: ['nombre_marca']
-            }]
-          }]
+  console.log
+  if (idUsuarioCliente) {
+    try {
+      const carrito = await Carrito.findOne({
+        where: {
+          fk_id_cliente:idUsuarioCliente,
+          estado:true
         }
-      ],
-      where:{
-        pk_fk_id_carrito:carrito.pk_id_carrito
-      }
-    });
-
-  res.status(201).json({
-    message:'Se han obtenido exitosamente los datos del carrito',
-    data: detalle
-  })
+      });
   
-  } catch (error) {
-    console.error("Error al realizar la consulta del carrito: ", error);
-    res.status(500).json({ message: "Error al realizar la consulta del carrito", error });
+      //Se obtienen los productos en Stock que formen parte del carrito del cliente
+      const detalle = await DetalleCarrito.findAll({
+        attributes:['cantidad_productos'],
+        include:[
+          {
+            model:Tamano,
+            include: [{
+              model:Producto,
+              include:[{
+                model:UsuarioVendedor,
+                attributes: ['nombre_marca']
+              }]
+            }]
+          }
+        ],
+        where:{
+          pk_fk_id_carrito:carrito.pk_id_carrito
+        }
+      });
+  
+    res.status(201).json({
+      message:'Se han obtenido exitosamente los datos del carrito',
+      data: detalle
+    })
+    
+    } catch (error) {
+      console.error("Error al realizar la consulta del carrito: ", error);
+      res.status(500).json({ message: "Error al realizar la consulta del carrito", error });
+    }
   }
+  
 }
 
 // Traer los carritos ya pagados (en false) de los clientes
 exports.historicoCarritoCliente = async (req, res) =>{
   const idUsuarioCliente = req.body;
-  console.log('Lo que nos llega del req.body ', req.body)
+
+  console.log('Lo que nos llega del req.body ', req.body); 
   console.log('Lo que nos llega en idUsuario, ',idUsuarioCliente.pk_id_cliente); 
   try {
     const carrito = await Carrito.findOne({
@@ -304,6 +272,7 @@ exports.historicoCarritoCliente = async (req, res) =>{
       }
     });
 
+    console.log('Los datos del historico son los siguientes: ', );
   res.status(201).json({
     message:'Se han obtenido exitosamente los datos de los carritos en histotial',
     data: detalle
@@ -368,6 +337,41 @@ exports.historicoCarritoVendedor = async (req, res) => {
     console.error("Error al realizar la consulta del carrito:", error);
     res.status(500).json({
       message: "Error al realizar la consulta del carrito.",
+      error: error.message,
+    });
+  }
+};
+
+exports.pagarCarrito = async (req, res) => {
+  console.log('lo que viene del idUsuarioCliente ');
+
+  try {
+    const { idUsuarioCliente } = req.body;
+    // Verificar si se envió el idUsuarioCliente
+    if (!idUsuarioCliente) {
+      return res.status(400).json({ message: "El ID del usuario cliente es requerido." });
+    }
+
+    // Actualizar el estado del carrito
+    const [filasActualizadas] = await Carrito.update(
+      { estado: false }, // Valores a actualizar
+      {
+        where: {
+          fk_id_cliente: idUsuarioCliente, // Condición
+        },
+      }
+    );
+
+    // Verificar si se realizó alguna actualización
+    if (filasActualizadas === 0) {
+      return res.status(404).json({ message: "No se encontró un carrito para este usuario." });
+    }
+
+    res.status(200).json({ message: "El estado del carrito se actualizó correctamente." });
+  } catch (error) {
+    console.error("Error al realizar la actualización del carrito:", error);
+    res.status(500).json({
+      message: "Error al realizar la actualización del carrito.",
       error: error.message,
     });
   }

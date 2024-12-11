@@ -13,9 +13,11 @@
         <h3>Nombre:{{ item?.Producto.nombre }}</h3>
         <h3>Tamaño:{{ item?.nombre_size }}</h3>
         <h3>Precio:{{ item?.precio }}</h3>
-
       </div>
     </div>
+
+    <h2>Historial de Artesanías Vendidas</h2>
+
   </div>
 </template>
 

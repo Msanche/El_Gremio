@@ -34,19 +34,17 @@ router.post('/carrito/agregar', CarritoController.agregarAlCarrito);
 // Eliminar producto del carrito
 router.put('/carrito/eliminar', CarritoController.eliminarProductoDeCarrito);
 
-router.route('/carrito/:id')
-  .get(CarritoController.getCarritoById)   // Obtener un carrito por ID
-  .put(CarritoController.updateCarrito)    // Actualizar un carrito por ID
-  .delete(CarritoController.deleteCarrito); // Eliminar un carrito por ID
-
 router.route('/carritoCliente')
   .put(CarritoController.carritoUsuarioCliente); // traer los productos del carrito por ID del cliente
 
 router.route('/carritoCliente/historico')
-  .get(CarritoController.historicoCarritoCliente); // traer los productos previamente comprados por el cliente
+  .post(CarritoController.historicoCarritoCliente); // traer los productos previamente comprados por el cliente
   
 router.route('/carritoVendedor/historico')
-.get(CarritoController.historicoCarritoVendedor); // traer los productos previamente comprados por el vendedor
+  .get(CarritoController.historicoCarritoVendedor); // traer los productos previamente comprados por el vendedor
+
+router.route('/carrito/updateEstado')
+.put(CarritoController.pagarCarrito); 
 
 // Rutas para las categorías
 router.route('/categorias')

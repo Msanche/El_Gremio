@@ -47,7 +47,7 @@
                         </tr>
                     </tfoot>
                 </table>
-                <button class="checkout-btn">Proceder al Pago</button>
+                <button class="checkout-btn" @click="ActualizarEstado()" >Proceder al Pago</button>
             </div>
 
         </div>
@@ -82,7 +82,35 @@ export default {
             } catch (err) {
                 console.error('Error al obtener los usuarios:', err);
             }
+        }, 
+
+        async ActualizarEstado() {
+            try {
+                const idUsuarioCliente = parseInt(localStorage.getItem('id'));
+                
+                if (!idUsuarioCliente) {
+                    alert('Error: No se encontró un ID válido de usuario.');
+                    return;
+                }
+            
+                const respuesta = await axios.put('http://localhost:3000/carrito/updateEstado', {
+                    idUsuarioCliente
+                });
+
+                if (respuesta.status === 200) {
+                    this.carrito = []
+                    this.total = 0
+
+                    alert('Se ha realizado el pago de su carrito. Estado del carrito actualizado.');
+                } else {
+                    alert('Hubo un problema al actualizar el estado del carrito.');
+                }
+            } catch (error) {
+                console.error('Error al actualizar el estado del carrito:', error);
+                alert('No se pudo realizar la actualización del estado. Inténtelo más tarde.');
+            }
         },
+
 
         async DeleteProductCarrito(idTamaño) {
             try {

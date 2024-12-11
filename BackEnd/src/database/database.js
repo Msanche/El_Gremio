@@ -21,14 +21,14 @@ sequelize.authenticate()
   });
 
 
-// // Sincronizar los modelos con la base de datos
-// sequelize.sync({ force: false })
-//   .then(() => {
-//     console.log('Sincronización de la base de datos completa');
-//   })
-//   .catch(error => {
-//     console.error('Error al sincronizar la base de datos:', error);
-//   });
+// Sincronizar los modelos con la base de datos
+sequelize.sync({ force: false })
+   .then(() => {
+     console.log('Sincronización de la base de datos completa');
+   })
+   .catch(error => {
+     console.error('Error al sincronizar la base de datos:', error);
+   });
 
 
 // Exportar conexión y modelos para usarlos en otras partes de la aplicación
