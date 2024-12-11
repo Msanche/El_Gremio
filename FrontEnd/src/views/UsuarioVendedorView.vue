@@ -20,6 +20,20 @@
     
 
 
+    <ul class="purchase-list">
+      <li v-if="carritoDetalles.length">
+          <div v-for="carrito in carritoDetalles" :key="carrito.id">
+              <img :src="`http://localhost:3000/uploads/${carrito?.tamano.Producto.nombre_imagen}`">
+              <h4>Producto: {{ carrito.tamano.Producto.nombre }}</h4>
+              <p>Cantidad: {{ carrito.cantidad_productos }}</p>
+              <p>Tamaño: {{ carrito.tamano.nombre_size }}</p>
+              <p>Precio:  $ {{ carrito.tamano.precio }}</p>
+              <p>Artesano Vendedor: {{ carrito.tamano.Producto.usuario_vendedore.nombre_marca }}</p>
+              <p>Cliente Comprador: {{ carrito.usuarios.nombre }}</p>
+              <p>Estado: Compra Realizada</p>
+          </div>
+      </li>
+  </ul>
   </div>
 </template>
 

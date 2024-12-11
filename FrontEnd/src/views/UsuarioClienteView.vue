@@ -17,9 +17,7 @@
                         <p>Artesano Vendedor: {{ carrito.tamano.Producto.usuario_vendedore.nombre_marca }}</p>
                         <p>Estado: Compra Realizada</p>
                     </div>
-                    
                 </li>
-
             </ul>
         </div>
         
