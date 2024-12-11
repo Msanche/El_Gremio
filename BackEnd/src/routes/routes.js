@@ -41,7 +41,7 @@ router.route('/carritoCliente/historico')
   .post(CarritoController.historicoCarritoCliente); // traer los productos previamente comprados por el cliente
   
 router.route('/carritoVendedor/historico')
-  .get(CarritoController.historicoCarritoVendedor); // traer los productos previamente comprados por el vendedor
+  .post(CarritoController.historicoCarritoVendedor); // traer los productos previamente comprados por el vendedor
 
 router.route('/carrito/updateEstado')
 .put(CarritoController.pagarCarrito); 

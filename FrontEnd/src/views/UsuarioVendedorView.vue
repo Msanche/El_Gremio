@@ -17,6 +17,9 @@
     </div>
 
     <h2>Historial de Artesanías Vendidas</h2>
+    
+
+
     <ul class="purchase-list">
       <li v-if="carritoDetalles.length">
           <div v-for="carrito in carritoDetalles" :key="carrito.id">
@@ -57,22 +60,34 @@ export default {
       modal.show();
     },
     async ConsultaProducts() {
-             try {
-              const idVendedor = parseInt(localStorage.getItem('id'));
+      try {
+      const idVendedor = parseInt(localStorage.getItem('id'));
 
-                 const response = await axios.get(`http://localhost:3000/productos/vendedor/${idVendedor}`,{
-                  idVendedor
-                 });
-                 this.productos = response.data.data.productos
-             } catch (err) {
-                 console.error('Error al obtener los usuarios:', err);
-             }
+          const response = await axios.get(`http://localhost:3000/productos/vendedor/${idVendedor}`,{
+          idVendedor
+          });
+          this.productos = response.data.data.productos
+      } catch (err) {
+          console.error('Error al obtener los usuarios:', err);
+      }
+    },
 
-         },
+    async fetchVentas(){
+      try {
+        const idVendedor =  parseInt(localStorage.getItem('id'));
+        const response = await axios.post('http://localhost:3000/carritoVendedor/historico',{
+          idVendedor
+        });
+        console.log('Lo que nos llega de respuesta: ', response)  
+      } catch (err) {
+        console.error('Error al obtener los usuarios:', err);
+      }
+    }
   },
   mounted() {
     this.Username = localStorage.getItem('nombre');
     this.ConsultaProducts();
+    this.fetchVentas();
   }
 }
 </script>
